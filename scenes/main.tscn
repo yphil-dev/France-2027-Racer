@@ -4,16 +4,23 @@
 [ext_resource type="Script" uid="uid://b24bstassw26s" path="res://scripts/view.gd" id="5_0lrhn"]
 [ext_resource type="PackedScene" uid="uid://badoy1c127yhf" path="res://scenes/vehicle.tscn" id="7_o6xl0"]
 [ext_resource type="MeshLibrary" uid="uid://b6myd2b7l2o2j" path="res://models/Library/mesh-library.tres" id="8_eg7gk"]
+[ext_resource type="PackedScene" uid="uid://cvxh8c1e1dio2" path="res://models/city/trafficlight_C.gltf" id="8_tipki"]
+[ext_resource type="PackedScene" uid="uid://cawjsdr1dhpuh" path="res://models/city/road_straight_crossing.gltf" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c44tfiddyjjm1" path="res://models/vehicle-truck-green.glb" id="9_cmq2j"]
 [ext_resource type="PackedScene" uid="uid://c5e64mpylh1ge" path="res://models/vehicle-truck-purple.glb" id="10_p3c1o"]
 [ext_resource type="PackedScene" uid="uid://b34e2pvbemfac" path="res://models/vehicle-truck-red.glb" id="11_wocnk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e85i1"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_85g3d"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tipki"]
 friction = 0.0
 bounce = 0.1
 
 [sub_resource type="BoxMesh" id="BoxMesh_amcpy"]
-size = Vector3(7.4393005, 1.2355957, 0.09539795)
+size = Vector3(7.4393005, 1.0828857, 0.09539795)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_o6xl0"]
 data = PackedVector3Array(-3.7196999, 0.6178, 0.0477, 3.7196999, 0.6178, 0.0477, -3.7196999, -0.6178, 0.0477, 3.7196999, 0.6178, 0.0477, 3.7196999, -0.6178, 0.0477, -3.7196999, -0.6178, 0.0477, 3.7196999, 0.6178, -0.0477, -3.7196999, 0.6178, -0.0477, 3.7196999, -0.6178, -0.0477, -3.7196999, 0.6178, -0.0477, -3.7196999, -0.6178, -0.0477, 3.7196999, -0.6178, -0.0477, 3.7196999, 0.6178, 0.0477, 3.7196999, 0.6178, -0.0477, 3.7196999, -0.6178, 0.0477, 3.7196999, 0.6178, -0.0477, 3.7196999, -0.6178, -0.0477, 3.7196999, -0.6178, 0.0477, -3.7196999, 0.6178, -0.0477, -3.7196999, 0.6178, 0.0477, -3.7196999, -0.6178, -0.0477, -3.7196999, 0.6178, 0.0477, -3.7196999, -0.6178, 0.0477, -3.7196999, -0.6178, -0.0477, 3.7196999, 0.6178, 0.0477, -3.7196999, 0.6178, 0.0477, 3.7196999, 0.6178, -0.0477, -3.7196999, 0.6178, 0.0477, -3.7196999, 0.6178, -0.0477, 3.7196999, 0.6178, -0.0477, -3.7196999, -0.6178, 0.0477, 3.7196999, -0.6178, 0.0477, -3.7196999, -0.6178, -0.0477, 3.7196999, -0.6178, 0.0477, 3.7196999, -0.6178, -0.0477, -3.7196999, -0.6178, -0.0477)
@@ -29,7 +36,7 @@ script = ExtResource("5_0lrhn")
 target = NodePath("../Vehicle")
 
 [node name="Camera" type="Camera3D" parent="View" unique_id=1079798936]
-transform = Transform3D(0.91862905, -0.29151797, 0.26671523, 0.26238543, 0.9547757, 0.1398468, -0.2954211, -0.05848442, 0.95357543, 10.742479, 11.668997, 41.568947)
+transform = Transform3D(0.99893194, -0.028729796, -0.036179006, 0.03262794, 0.9931469, 0.112224326, 0.032706976, -0.11328429, 0.99302447, -4.1120524, 8.518898, 46.06776)
 current = true
 fov = 40.0
 far = 101.95
@@ -46,13 +53,23 @@ directional_shadow_max_distance = 30.0
 directional_shadow_pancake_size = 2.0
 sky_mode = 1
 
+[node name="Plane" type="StaticBody3D" parent="." unique_id=1620956840]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Plane" unique_id=1617014915]
+transform = Transform3D(50.127007, 0, 0, 0, 1, 0, 0, 0, 50.127007, 0, -0.6290946, 0)
+mesh = SubResource("BoxMesh_e85i1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plane" unique_id=815872636]
+transform = Transform3D(50.127007, 0, 0, 0, 1, 0, 0, 0, 50.127007, 0, -0.6290946, 0)
+shape = SubResource("ConcavePolygonShape3D_85g3d")
+
 [node name="GridMap" type="GridMap" parent="." unique_id=746223562]
 transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, -0.5, 0)
 mesh_library = ExtResource("8_eg7gk")
 physics_material = SubResource("PhysicsMaterial_tipki")
 cell_size = Vector3(9.99, 1, 9.99)
 data = {
-"cells": PackedInt32Array(65532, 65534, 655362, 65532, 65532, 655361, 65532, 65533, 1048577, 65533, 65532, 655361, 65534, 65532, 655361, 65535, 65532, 1441794, 65531, 65533, 1048576, 65531, 65532, 0, 65535, 65535, 1441793, 65535, 65534, 1441793, 65534, 65534, 1441793, 65535, 1, 1441794, 0, 2, 1441795, 65535, 0, 1441793, 65534, 1, 655365, 65534, 0, 655365, 0, 65534, 655365, 0, 65535, 655365, 65535, 2, 1048581, 65534, 65533, 1048581, 65535, 65533, 1048581, 65533, 65534, 5, 0, 0, 4, 65534, 65535, 3, 65533, 65535, 655363, 65533, 65533, 1048579, 0, 65533, 3, 0, 1, 8, 1, 1, 7, 65534, 2, 655363)
+"cells": PackedInt32Array(65532, 65534, 655362, 65532, 65532, 655361, 65532, 65533, 1048577, 65533, 65532, 655361, 65534, 65532, 655361, 65535, 65532, 1441794, 65531, 65533, 1048576, 65531, 65532, 0, 65535, 65535, 1441793, 65535, 65534, 1441793, 65534, 65534, 1441793, 65535, 1, 1441794, 0, 2, 1441795, 65535, 0, 1441793, 65534, 1, 655365, 65534, 0, 655365, 0, 65534, 655365, 0, 65535, 655365, 65535, 2, 1048581, 65534, 65533, 1048581, 65535, 65533, 1048581, 65533, 65534, 5, 65534, 65535, 3, 65533, 65535, 655363, 65533, 65533, 1048579, 0, 65533, 3, 0, 1, 8, 1, 1, 7, 65534, 2, 655363, 0, 0, 5)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
@@ -68,12 +85,18 @@ transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034
 [node name="Vehicle" parent="." unique_id=1867641805 instance=ExtResource("7_o6xl0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 5)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1680593542]
+[node name="RampSupport" type="StaticBody3D" parent="." unique_id=1680593542]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1861091313]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7208767, 0.46276855, 14.933587)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RampSupport" unique_id=1861091313]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7208767, 0.42512476, 14.864722)
 mesh = SubResource("BoxMesh_amcpy")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1542456280]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7208767, 0.46276855, 14.933587)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RampSupport" unique_id=1542456280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7208767, 0.35306466, 14.933587)
 shape = SubResource("ConcavePolygonShape3D_o6xl0")
+
+[node name="trafficlight_C2" parent="." unique_id=536095388 instance=ExtResource("8_tipki")]
+transform = Transform3D(4.08, 0, 0, 0, 4.08, 0, 0, 0, 4.08, 6.194926, 0, 4.0923443)
+
+[node name="road_straight_crossing2" parent="." unique_id=1648012944 instance=ExtResource("9_85g3d")]
+transform = Transform3D(2.240331, 0, 0, 0, 1, 0, 0, 0, 3.792224, 3.7465644, -0.1217041, 3.7361956)
