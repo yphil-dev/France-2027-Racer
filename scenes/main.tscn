@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://clq7nox1juh3a"]
 
-[ext_resource type="Script" uid="uid://c5d0oxajff85h" path="res://scenes/track.gd" id="1_eb6dy"]
+[ext_resource type="Script" uid="uid://c5d0oxajff85h" path="res://scripts/track.gd" id="1_eb6dy"]
 [ext_resource type="Environment" uid="uid://c3bs0wfxpri8g" path="res://scenes/main-environment.tres" id="1_q4t1r"]
 [ext_resource type="Script" uid="uid://b24bstassw26s" path="res://scripts/view.gd" id="5_0lrhn"]
 [ext_resource type="PackedScene" uid="uid://badoy1c127yhf" path="res://scenes/vehicle.tscn" id="7_o6xl0"]
@@ -607,7 +607,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
 [node name="Finish" type="Area3D" parent="." unique_id=989885447]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.850459, 0, 6.1827154)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.850459, 0, 3.3290129)
 collision_layer = 0
 collision_mask = 9
 

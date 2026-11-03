@@ -3,7 +3,7 @@ class_name Vehicle extends Node3D
 # Nodes
 
 # ─── KEY CHANGE: Explicitly typed as your new VehicleSphere class ───
-@onready var sphere: VehicleSphere = $Sphere 
+@onready var sphere: VehicleSphere = $Sphere
 @onready var raycast: RayCast3D = $Ground
 
 # Vehicle elements
@@ -28,6 +28,14 @@ class_name Vehicle extends Node3D
 @onready var screech_sound: AudioStreamPlayer3D = $Container/ScreechSound
 @onready var engine_sound: AudioStreamPlayer3D = $Container/EngineSound
 @onready var impact_sound: AudioStreamPlayer3D = $Container/ImpactSound
+
+# Verif
+
+var _verification_count: int = 0
+var _verified: bool = false
+
+# Time
+
 
 var input: Vector3
 var normal: Vector3
@@ -101,7 +109,7 @@ func _physics_process(delta):
 
 	linear_velocity = (vehicle_model.position - prev_position) / delta
 	prev_position = vehicle_model.position
-	
+
 	effect_engine(delta)
 	effect_body(delta)
 	effect_wheels(delta)
@@ -120,18 +128,18 @@ func handle_input(delta):
 		input = input.lerp(Vector3.ZERO, delta * 2.0)
 
 func effect_body(delta):
-	
+
 	calculated_lean = lerp_angle(calculated_lean, -input.x / 5 * linear_speed, delta * 5)
-	
+
 	# Slightly tilt (and move) body based on acceleration and steering
-	
+
 	if vehicle_body != null:
-		
+
 		vehicle_body.rotation.x = lerp_angle(vehicle_body.rotation.x, -(linear_speed - acceleration) / 6, delta * 10)
 		vehicle_body.rotation.z = calculated_lean
-		
+
 		vehicle_body.position = vehicle_body.position.lerp(Vector3(0, 0.2, 0), delta * 5)
-	
+
 func effect_wheels(delta):
 
 	# Rotate wheels based on acceleration
@@ -192,9 +200,9 @@ func align_with_y(xform, new_y):
 # Detect collisions and play impact sound
 
 func _on_sphere_body_entered(_body: Node) -> void:
-	
+
 	if vehicle_body == null: return
-	
+
 	if not impact_sound.playing:
 		var impact_velocity := absf(linear_velocity.dot(vehicle_body.global_basis.z))
 		impact_sound.volume_db = clampf(remap(impact_velocity, 0.0, 6.0, -20.0, 0.0), -20.0, 0.0)

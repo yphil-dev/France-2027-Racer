@@ -1,33 +1,43 @@
 extends Node3D
 
+@export var target_laps: int = 1
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	print ("START!")
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-# Add these variables at the top of your script if you haven't already
 var _verification_count: int = 0
 var _verified: bool = false
+var _laps_completed: int = 0
+
+func _ready() -> void:
+	print("START! Target laps set to: ", target_laps)
 
 func _on_verif_body_entered(body: Node3D) -> void:
-	# Ignore checking if we are already verified
 	if _verified:
 		return
 
-	# Only count it if the entering object is actually our Vehicle class
 	if body is VehicleSphere:
 		_verification_count += 1
-		print("Verification step: %d/3" % _verification_count)
+		print("Verification step: %d/1" % _verification_count)
 
-		if _verification_count >= 2: _verified = true
-
+		# CHANGED TO 1: Validates instantly after passing your single checkpoint
+		if _verification_count >= 1:
+			_verified = true
+			print("Lap verification complete! Head to the finish line.")
 
 func _on_finish_body_entered(body: Node3D) -> void:
-	print ("Plop!")
-	print(body.name)
-	if body is VehicleSphere and _verified: body.race_completed()
+	if body is VehicleSphere:
+		print("Finish entered by: ", body.name)
+
+		if _verified:
+			_laps_completed += 1
+			print("Lap completed! Total laps: %d" % _laps_completed)
+
+			body.lap_completed(_laps_completed)
+
+			# Check for immediate race completion
+			if _laps_completed >= target_laps:
+				body.race_completed(_laps_completed)
+
+			# Reset tracking variables ONLY if you decide to increase target_laps later
+			_verification_count = 0
+			_verified = false
+		else:
+			print("Passed finish line, but lap not verified yet!")
