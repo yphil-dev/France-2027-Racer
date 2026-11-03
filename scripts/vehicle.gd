@@ -2,7 +2,8 @@ class_name Vehicle extends Node3D
 
 # Nodes
 
-@onready var sphere: RigidBody3D = $Sphere
+# ─── KEY CHANGE: Explicitly typed as your new VehicleSphere class ───
+@onready var sphere: VehicleSphere = $Sphere 
 @onready var raycast: RayCast3D = $Ground
 
 # Vehicle elements
@@ -100,13 +101,6 @@ func _physics_process(delta):
 
 	linear_velocity = (vehicle_model.position - prev_position) / delta
 	prev_position = vehicle_model.position
-
-	# Visual and audio effects
-	print("sphere Y: %.3f  model Y: %.3f  grounded: %s" % [
-   		sphere.global_position.y,
-	   	vehicle_model.global_position.y,
-	   	raycast.is_colliding()
-	])	
 	
 	effect_engine(delta)
 	effect_body(delta)
@@ -120,8 +114,10 @@ func handle_input(delta):
 	if raycast.is_colliding():
 		input.x = Input.get_axis("left", "right")
 		input.z = Input.get_axis("back", "forward")
-
-	sphere.angular_velocity += vehicle_model.get_global_transform().basis.x * (linear_speed * 100) * delta
+		sphere.angular_velocity += vehicle_model.get_global_transform().basis.x * (linear_speed * 100) * delta
+	else:
+		# Gradually clear inputs in the air so physics calculation doesn't skyrocket
+		input = input.lerp(Vector3.ZERO, delta * 2.0)
 
 func effect_body(delta):
 	
@@ -164,9 +160,13 @@ func effect_engine(delta):
 
 	engine_sound.pitch_scale = lerp(engine_sound.pitch_scale, target_pitch, delta * 2.0)
 
-# Show trails (and play skid sound)
-
+# Fix: Turn off trails entirely when airborne, otherwise trace on ground slip
 func effect_trails():
+	if not raycast.is_colliding():
+		if trail_left != null: trail_left.emitting = false
+		if trail_right != null: trail_right.emitting = false
+		screech_sound.volume_db = -80.0
+		return
 
 	var drift_intensity = abs(linear_speed - acceleration) + (abs(calculated_lean) * 2.0)
 	var should_emit = drift_intensity > 0.25

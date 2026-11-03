@@ -179,7 +179,7 @@ skeleton = NodePath("")
 shape = SubResource("ConcavePolygonShape3D_oxy43")
 
 [node name="track-ramp" type="MeshInstance3D" parent="." unique_id=2048030841]
-transform = Transform3D(1, 0, 0, 0, 0.98873305, 0.14968967, 0, -0.14968967, 0.98873305, 0, 0.7370937, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9596154, 0.28131545, 0, -0.28131545, 0.9596154, 0, 1.3992083, -0.1168437)
 mesh = SubResource("ArrayMesh_xukl4")
 skeleton = NodePath("")
 
