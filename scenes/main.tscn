@@ -29,10 +29,10 @@ script = ExtResource("5_0lrhn")
 target = NodePath("../Vehicle")
 
 [node name="Camera" type="Camera3D" parent="View" unique_id=1079798936]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
+transform = Transform3D(0.91862905, -0.29151797, 0.26671523, 0.26238543, 0.9547757, 0.1398468, -0.2954211, -0.05848442, 0.95357543, 10.742479, 11.668997, 41.568947)
 current = true
 fov = 40.0
-far = 60.0
+far = 101.95
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=385873465]
 transform = Transform3D(-0.422618, -0.694272, 0.582564, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 0, 0)
