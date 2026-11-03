@@ -3,9 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dffh13ujx0tmi" path="res://models/decoration-empty.glb" id="1_8k04h"]
 [ext_resource type="PackedScene" uid="uid://dnonb1wl5fs0h" path="res://models/decoration-forest.glb" id="2_dlvak"]
 [ext_resource type="PackedScene" uid="uid://ch83y7b822ibm" path="res://models/decoration-tents.glb" id="3_6wkmy"]
-[ext_resource type="PackedScene" uid="uid://qjl7bunrccss" path="res://models/city/Ba.gltf" id="5_oxy43"]
 [ext_resource type="Texture2D" uid="uid://cn1tfklahvwc0" path="res://models/Textures/colormap.png" id="5_qst2b"]
-[ext_resource type="PackedScene" uid="uid://bwl0veoewpbcn" path="res://models/city/Bb.gltf" id="6_ftcqc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vqi4y"]
 resource_name = "colormap"
@@ -178,12 +176,6 @@ skeleton = NodePath("")
 
 [node name="Walls" type="CollisionShape3D" parent="track-straight/collision" unique_id=2141188762]
 shape = SubResource("ConcavePolygonShape3D_oxy43")
-
-[node name="Ba" parent="." unique_id=1030827182 instance=ExtResource("5_oxy43")]
-visible = false
-
-[node name="Bb" parent="." unique_id=12147590 instance=ExtResource("6_ftcqc")]
-visible = false
 
 [node name="track-ramp" type="MeshInstance3D" parent="." unique_id=2048030841]
 transform = Transform3D(1, 0, 0, 0, 0.98873305, 0.14968967, 0, -0.14968967, 0.98873305, 0, 0.7370937, 0)
