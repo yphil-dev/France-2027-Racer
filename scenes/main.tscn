@@ -72,13 +72,14 @@ directional_shadow_pancake_size = 2.0
 sky_mode = 1
 
 [node name="Plane" type="StaticBody3D" parent="." unique_id=1620956840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.080482244, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Plane" unique_id=1617014915]
-transform = Transform3D(50.127007, 0, 0, 0, 1, 0, 0, 0, 50.127007, 0, -0.6290946, 0)
+transform = Transform3D(50.127007, 0, 0, 0, 1, 0, 0, 0, 50.127007, 0, -1.0496186, 0)
 mesh = SubResource("BoxMesh_e85i1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plane" unique_id=815872636]
-transform = Transform3D(50.127007, 0, 0, 0, 1, 0, 0, 0, 50.127007, 0, -0.6290946, 0)
+transform = Transform3D(50.127007, 0, 0, 0, 1, 0, 0, 0, 50.127007, 0, -0.652518, 0)
 shape = SubResource("ConcavePolygonShape3D_85g3d")
 
 [node name="GridMap" type="GridMap" parent="." unique_id=746223562]
@@ -119,7 +120,7 @@ shape = SubResource("ConcavePolygonShape3D_choun")
 transform = Transform3D(4.08, 0, 0, 0, 4.08, 0, 0, 0, 4.08, 6.194926, 0, 4.0923443)
 
 [node name="road_straight_crossing2" parent="." unique_id=1648012944 instance=ExtResource("9_85g3d")]
-transform = Transform3D(2.240331, 0, 0, 0, 1, 0, 0, 0, 3.792224, 3.7465644, -0.1217041, 3.7361956)
+transform = Transform3D(2.240331, 0, 0, 0, 1, 0, 0, 0, 3.792224, 3.7465644, -0.39468217, 3.7361956)
 
 [node name="Block02" parent="." unique_id=1961050755 instance=ExtResource("10_choun")]
 transform = Transform3D(-3.4750556e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -3.4750556e-07, -19.479633, -0.7561102, 11.333579)
