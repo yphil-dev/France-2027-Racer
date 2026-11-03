@@ -606,13 +606,24 @@ mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Area3D" type="Area3D" parent="." unique_id=989885447]
+[node name="Finish" type="Area3D" parent="." unique_id=989885447]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.850459, 0, 6.1827154)
 collision_layer = 0
 collision_mask = 9
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=551114254]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Finish" unique_id=551114254]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38812256, 0.24408382, 0.3239746)
 shape = SubResource("BoxShape3D_6xfsa")
 
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[node name="Verif" type="Area3D" parent="." unique_id=1020220827]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.166649, 0, 17.601187)
+collision_layer = 0
+collision_mask = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Verif" unique_id=290017500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38812256, 0.24408382, 0.3239746)
+shape = SubResource("BoxShape3D_6xfsa")
+
+[connection signal="body_entered" from="Finish" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]
+[connection signal="body_entered" from="Verif" to="." method="_on_verif_body_entered"]
