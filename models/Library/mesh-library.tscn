@@ -133,6 +133,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_yn5hr")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_6xfsa"]
+size = Vector3(9.024811, 0.0087890625, 10.000351)
+
 [node name="Mesh-library" type="Node3D" unique_id=1987002224]
 
 [node name="decoration-empty" parent="." unique_id=1275800567 instance=ExtResource("1_8k04h")]
@@ -170,19 +173,12 @@ skeleton = NodePath("")
 
 [node name="collision" type="StaticBody3D" parent="track-straight" unique_id=294755911]
 
-[node name="collision-shape" type="CollisionShape3D" parent="track-straight/collision" unique_id=2141188762]
+[node name="Walls" type="CollisionShape3D" parent="track-straight/collision" unique_id=2141188762]
 shape = SubResource("ConcavePolygonShape3D_oxy43")
 
-[node name="track-jump" type="MeshInstance3D" parent="." unique_id=951034495]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3072722, 0)
-visible = false
-mesh = SubResource("ArrayMesh_xukl4")
-skeleton = NodePath("")
-
-[node name="collision" type="StaticBody3D" parent="track-jump" unique_id=1436094490]
-
-[node name="collision-shape" type="CollisionShape3D" parent="track-jump/collision" unique_id=182134743]
-shape = SubResource("ConcavePolygonShape3D_oxy43")
+[node name="Floor" type="CollisionShape3D" parent="track-straight/collision" unique_id=1758834481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009536743, 0, -0.00019073486)
+shape = SubResource("BoxShape3D_6xfsa")
 
 [node name="Ba" parent="." unique_id=1030827182 instance=ExtResource("5_oxy43")]
 visible = false

@@ -8,9 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://c5e64mpylh1ge" path="res://models/vehicle-truck-purple.glb" id="10_p3c1o"]
 [ext_resource type="PackedScene" uid="uid://b34e2pvbemfac" path="res://models/vehicle-truck-red.glb" id="11_wocnk"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ya4ey"]
-size = Vector3(60, 0, 60)
-
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tipki"]
 friction = 0.0
 bounce = 0.1
@@ -19,11 +16,6 @@ bounce = 0.1
 
 [node name="Environment" type="WorldEnvironment" parent="." unique_id=1097254880]
 environment = ExtResource("1_q4t1r")
-
-[node name="Plane" type="StaticBody3D" parent="." unique_id=697578616]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Plane" unique_id=1840952651]
-shape = SubResource("BoxShape3D_ya4ey")
 
 [node name="View" type="Node3D" parent="." unique_id=1807530472 node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
@@ -54,7 +46,7 @@ mesh_library = ExtResource("8_eg7gk")
 physics_material = SubResource("PhysicsMaterial_tipki")
 cell_size = Vector3(9.99, 1, 9.99)
 data = {
-"cells": PackedInt32Array(65532, 65534, 655362, 65532, 65532, 655361, 65532, 65533, 1048577, 65533, 65532, 655361, 65534, 65532, 655361, 65535, 65532, 1441794, 65531, 65533, 1048576, 65531, 65532, 0, 65535, 65535, 1441793, 65535, 65534, 1441793, 65534, 65534, 1441793, 65535, 1, 1441794, 0, 0, 4, 65533, 65533, 1048579, 65533, 65535, 655363, 65534, 65535, 3, 0, 65533, 3, 0, 2, 1441795, 65534, 2, 1310723, 65535, 0, 1441793, 65534, 1, 655365, 65534, 0, 655365, 0, 65534, 655365, 0, 65535, 655365, 65535, 2, 1048581, 65534, 65533, 1048581, 65535, 65533, 1048581, 65533, 65534, 5, 1, 1, 7, 0, 1, 5)
+"cells": PackedInt32Array(65532, 65534, 655362, 65532, 65532, 655361, 65532, 65533, 1048577, 65533, 65532, 655361, 65534, 65532, 655361, 65535, 65532, 1441794, 65531, 65533, 1048576, 65531, 65532, 0, 65535, 65535, 1441793, 65535, 65534, 1441793, 65534, 65534, 1441793, 65535, 1, 1441794, 65533, 65533, 1048579, 65533, 65535, 655363, 65534, 65535, 3, 0, 65533, 3, 0, 2, 1441795, 65534, 2, 1310723, 65535, 0, 1441793, 65534, 1, 655365, 65534, 0, 655365, 0, 65534, 655365, 0, 65535, 655365, 65535, 2, 1048581, 65534, 65533, 1048581, 65535, 65533, 1048581, 65533, 65534, 5, 1, 1, 7, 0, 1, 5, 0, 0, 5)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
