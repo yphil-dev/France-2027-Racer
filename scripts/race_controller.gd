@@ -35,9 +35,6 @@ var _start_offset: float = 0.0
 var _orange_enabled: bool = true
 var _blink_timer: Timer
 
-func _enter_tree() -> void:
-	EventHub.onLapCompleted.connect(onLapCompleted)
-
 func _ready() -> void:
 	race_track.connect("lap_completed", _on_track_lap_completed)
 	race_track.connect("car_finished", _on_track_car_finished)
@@ -204,7 +201,6 @@ func _finalize_race() -> void:
 
 	_update_standings(true)
 	race_finished.emit(standings.duplicate())
-	print("Race classification complete.")
 
 func _toggle_orange() -> void:
 	_orange_enabled = not _orange_enabled
@@ -214,6 +210,3 @@ func _set_vehicles_enabled(enabled: bool) -> void:
 	for node in get_tree().get_nodes_in_group("race_vehicles"):
 		if node is Vehicle:
 			node.set_driving_enabled(enabled)
-
-func onLapCompleted(info: LapCompleteData) -> void:
-	print("RaceController onLapCompleted:", info)
