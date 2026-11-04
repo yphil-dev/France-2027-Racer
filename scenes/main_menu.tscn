@@ -295,7 +295,7 @@ vertical_alignment = 1
 [node name="Options" type="Button" parent="."]
 clip_contents = true
 layout_mode = 0
-offset_right = 180.0
+offset_right = 240.0
 offset_bottom = 56.0
 focus_neighbor_left = NodePath("../TrackGrid/Limoges")
 focus_neighbor_top = NodePath("../TrackGrid/Lyon")
@@ -312,11 +312,23 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.55)
 
+[node name="Portrait" type="TextureRect" parent="Options"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 48.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Label" type="Label" parent="Options"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 52.0
+offset_right = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -324,7 +336,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 22
-text = "OPTIONS"
+text = "CHANGE DRIVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 

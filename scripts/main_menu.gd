@@ -1,5 +1,7 @@
 extends Control
 
+const DRIVER_SELECTION_SCENE := "res://scenes/driver_selection.tscn"
+
 const TRACK_SCENES: Array[String] = [
 	"res://scenes/tracks/paris.tscn",
 	"res://scenes/tracks/marseille.tscn",
@@ -15,11 +17,12 @@ const SELECTED_LABEL_COLOR := Color(1, 0.88, 0.2, 1)
 const NORMAL_LABEL_COLOR := Color.WHITE
 const INTRO_DURATION: float = 0.8
 const INTRO_STAGGER: float = 0.14
-const OPTIONS_SIZE := Vector2(180, 56)
+const OPTIONS_SIZE := Vector2(240, 56)
 const OPTIONS_MARGIN := Vector2(32, 28)
 
 @onready var track_grid: GridContainer = $TrackGrid
 @onready var options_button: Button = $Options
+@onready var selected_driver_portrait: TextureRect = $Options/Portrait
 @onready var preview_viewport: SubViewport = $PreviewViewport
 @onready var track_buttons: Array[Button] = [
 	$TrackGrid/Paris,
@@ -67,7 +70,7 @@ var _startup_hover_locked: bool = true
 var _launching: bool = false
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and not SceneTransition.is_active():
+	if event.is_action_pressed("ui_cancel") and not _launching and not SceneTransition.is_active():
 		get_viewport().set_input_as_handled()
 		SceneTransition.quit_game()
 
@@ -92,6 +95,9 @@ func _initialize_selection() -> void:
 	for index in selectable_buttons.size():
 		selectable_buttons[index].modulate = Color(1, 1, 1, 0)
 		_update_button_pivot(index)
+
+	var selected_profile := DriverRoster.get_profile(RaceSelection.selected_driver_id)
+	selected_driver_portrait.texture = selected_profile["portrait"]
 
 	_select_button(0)
 	selectable_buttons[0].grab_focus()
@@ -262,6 +268,10 @@ func _open_options() -> void:
 	if _launching:
 		return
 
+	_launching = true
+	for button in selectable_buttons:
+		button.disabled = true
+
 	var index := selectable_buttons.size() - 1
 	var previous_tween := _button_tweens.get(index) as Tween
 	if previous_tween != null and previous_tween.is_valid():
@@ -273,3 +283,5 @@ func _open_options() -> void:
 	tween.tween_property(selection_shades[index], "color", Color(1, 0.65, 0.1, 0.4), 0.08)
 	tween.tween_property(selection_shades[index], "color", Color(0, 0, 0, 0.1), 0.14)
 	_button_tweens[index] = tween
+	await tween.finished
+	SceneTransition.transition_to_scene(DRIVER_SELECTION_SCENE)

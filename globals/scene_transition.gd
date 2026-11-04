@@ -87,6 +87,9 @@ func transition_to_track(
 	_reset()
 
 func transition_to_menu() -> void:
+	transition_to_scene(MAIN_MENU_SCENE)
+
+func transition_to_scene(scene_path: String) -> void:
 	if _active:
 		return
 
@@ -105,9 +108,9 @@ func transition_to_menu() -> void:
 	cover_tween.tween_property(_preview, "modulate", Color.WHITE, MENU_COVER_DURATION)
 	await cover_tween.finished
 
-	var error := get_tree().change_scene_to_file(MAIN_MENU_SCENE)
+	var error := get_tree().change_scene_to_file(scene_path)
 	if error != OK:
-		push_error("Could not return to main menu: error %d" % error)
+		push_error("Could not open scene %s: error %d" % [scene_path, error])
 		_reset()
 		return
 
