@@ -5,7 +5,3 @@
 
 [node name="CpuCar" instance=ExtResource("1_vehicle")]
 script = ExtResource("2_cpu")
-
-[node name="Sphere" parent="." index="2"]
-car_name = "Maisy"
-car_number = 1

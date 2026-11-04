@@ -1,0 +1,86 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2jtmsipqxjfw"]
+
+[ext_resource type="Script" path="res://scenes/CarUI/car_ui.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.025, 0.03, 0.045, 0.7)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.18)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="CarUI" type="PanelContainer"]
+custom_minimum_size = Vector2(150, 88)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_script")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Accent" type="ColorRect" parent="Margin/HBox"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0, 0, 1)
+
+[node name="Portrait" type="TextureRect" parent="Margin/HBox"]
+custom_minimum_size = Vector2(42, 72)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Info" type="VBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Header" type="HBoxContainer" parent="Margin/HBox/Info"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="RankLabel" type="Label" parent="Margin/HBox/Info/Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "1."
+
+[node name="NameLabel" type="Label" parent="Margin/HBox/Info/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Soral"
+clip_text = true
+
+[node name="TimeLabel" type="Label" parent="Margin/HBox/Info"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.25, 1)
+theme_override_font_sizes/font_size = 16
+text = "00:00.00"
+
+[node name="StatusLabel" type="Label" parent="Margin/HBox/Info"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.85, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+text = "Lap 0"
+clip_text = true
+
+[node name="BestLabel" type="Label" parent="Margin/HBox/Info"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.67, 0.76, 1)
+theme_override_font_sizes/font_size = 10
+text = "Best: --"
+clip_text = true

@@ -12,9 +12,18 @@ class_name Vehicle extends Node3D
 @export var drive_torque: float = 100.0
 @export var air_input_decay: float = 2.0
 
+@export_category("Driver")
+@export var driver_id: String = "driver"
+@export var driver_name: String = "Driver"
+@export var car_number: int = 0
+@export var portrait: Texture2D
+
 @export_category("Appearance")
 @export var car_color: Color = Color(1.0, 0.752941, 0.266667, 1.0)
 @export var body_material: Material
+
+@export_category("Race")
+@export var driving_enabled: bool = false
 
 # Nodes
 
@@ -71,9 +80,22 @@ var calculated_lean: float
 
 func get_vehicle_position() -> Vector3: return vehicle_model.global_position
 
+func set_driving_enabled(enabled: bool) -> void:
+	driving_enabled = enabled
+	if not driving_enabled:
+		input = Vector3.ZERO
+		linear_speed = 0.0
+		angular_speed = 0.0
+
 # Functions
 
+func _enter_tree() -> void:
+	add_to_group("race_vehicles")
+
 func _ready() -> void:
+	sphere.car_name = driver_name
+	sphere.car_number = car_number
+
 	if vehicle_body is GeometryInstance3D and body_material != null:
 		vehicle_body.material_override = body_material
 		vehicle_body.set_instance_shader_parameter("car_color", car_color)
@@ -142,6 +164,17 @@ func get_control_input() -> Vector2:
 
 # Apply controls when the vehicle is colliding with the ground.
 func handle_input(delta):
+
+	if not driving_enabled:
+		input = Vector3.ZERO
+		linear_speed = 0.0
+		angular_speed = 0.0
+		sphere.angular_velocity = Vector3.ZERO
+		var locked_velocity := sphere.linear_velocity
+		locked_velocity.x = 0.0
+		locked_velocity.z = 0.0
+		sphere.linear_velocity = locked_velocity
+		return
 
 	if raycast.is_colliding():
 		var controls := get_control_input()

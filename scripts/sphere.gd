@@ -6,20 +6,15 @@ class_name VehicleSphere extends RigidBody3D
 @export var car_name: String = "Soral"
 @export var car_number: int = 0
 
-var _lap_time: float = 0.0
-
 func _ready() -> void:
 	# Ensure contact monitor is on if you still rely on _on_sphere_body_entered
 	contact_monitor = true
 	max_contacts_reported = 4
 
-func _process(delta: float) -> void:
-	_lap_time += delta
+func race_completed(num_laps: int, race_time: float) -> void:
+	print("Race completed by %s! %d laps in %.2f" % [car_name, num_laps, race_time])
 
-func race_completed(numLaps) -> void:
-	print("Race completed by %s! %s laps" % [car_name, numLaps])
-
-func lap_completed(numLap) -> void:
-	var lcd: LapCompleteData = LapCompleteData.new(self, _lap_time)
-	print("Lap completed! ", lcd)
-	EventHub.emitOnLapCompleted(lcd)
+func lap_completed(num_lap: int, lap_time: float, race_time: float) -> void:
+	var info := LapCompleteData.new(self, num_lap, lap_time, race_time)
+	print("Lap completed! ", info)
+	EventHub.emitOnLapCompleted(info)

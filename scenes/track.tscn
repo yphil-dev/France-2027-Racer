@@ -1,21 +1,26 @@
 [gd_scene format=3 uid="uid://clq7nox1juh3a"]
 
 [ext_resource type="Script" uid="uid://c5d0oxajff85h" path="res://scripts/track.gd" id="1_eb6dy"]
-[ext_resource type="Script" path="res://scripts/ai_boundary_builder.gd" id="2_boundaries"]
-[ext_resource type="Script" path="res://scripts/ai_waypoint_generator.gd" id="3_waypoints"]
 [ext_resource type="Environment" uid="uid://c3bs0wfxpri8g" path="res://scenes/main-environment.tres" id="1_q4t1r"]
+[ext_resource type="Script" uid="uid://b5n3pjjngyieg" path="res://scripts/ai_boundary_builder.gd" id="2_boundaries"]
 [ext_resource type="PackedScene" uid="uid://dxa23770km15t" path="res://scenes/race_controller.tscn" id="2_trceg"]
+[ext_resource type="Script" uid="uid://8sg1ayu44brh" path="res://scripts/ai_waypoint_generator.gd" id="3_waypoints"]
 [ext_resource type="Script" uid="uid://b24bstassw26s" path="res://scripts/view.gd" id="5_0lrhn"]
-[ext_resource type="PackedScene" path="res://scenes/player_car.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" path="res://scenes/cpu_car.tscn" id="7_cpu"]
+[ext_resource type="PackedScene" path="res://scenes/player_car.tscn" id="7_o6xl0"]
 [ext_resource type="MeshLibrary" uid="uid://b6myd2b7l2o2j" path="res://models/Library/mesh-library.tres" id="8_eg7gk"]
-[ext_resource type="PackedScene" uid="uid://cvxh8c1e1dio2" path="res://models/city/trafficlight_C.gltf" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://cawjsdr1dhpuh" path="res://models/city/road_straight_crossing.gltf" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c44tfiddyjjm1" path="res://models/vehicle-truck-green.glb" id="9_cmq2j"]
 [ext_resource type="PackedScene" uid="uid://0my40c2l2y42" path="res://scenes/block_01.tscn" id="10_choun"]
 [ext_resource type="PackedScene" uid="uid://c5e64mpylh1ge" path="res://models/vehicle-truck-purple.glb" id="10_p3c1o"]
 [ext_resource type="PackedScene" uid="uid://b34e2pvbemfac" path="res://models/vehicle-truck-red.glb" id="11_wocnk"]
 [ext_resource type="PackedScene" uid="uid://b3q38jkp02je8" path="res://scenes/block_02.tscn" id="11_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://dn24yd7sv8g0w" path="res://scenes/traffic_light.tscn" id="16_ws3xf"]
+[ext_resource type="AudioStream" uid="uid://77d1clswvsf7" path="res://audio/race-start.ogg" id="17_race_start"]
+[ext_resource type="PackedScene" uid="uid://ca6fwu6qha84s" path="res://scenes/GameUI/game_ui.tscn" id="18_qycdi"]
+[ext_resource type="Texture2D" path="res://sprites/Lepen.jpg" id="19_lepen"]
+[ext_resource type="Texture2D" path="res://sprites/Glux.jpg" id="20_glux"]
+[ext_resource type="Texture2D" path="res://sprites/Melenchon.jpg" id="21_melenchon"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_a8y0u"]
 
@@ -80,15 +85,93 @@ point_count = 12
 [node name="TRACK" type="Node3D" unique_id=1145999287]
 script = ExtResource("1_eb6dy")
 
+[node name="TrafficLight" parent="." unique_id=536095388 instance=ExtResource("16_ws3xf")]
+transform = Transform3D(4.2459884, 0, 0, 0, 4.2459884, 0, 0, 0, 4.2459884, 14.475473, 0, 4.113555)
+
+[node name="RaceStartAudio" type="AudioStreamPlayer3D" parent="." unique_id=383598524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.475473, 3.4, 4.113555)
+stream = ExtResource("17_race_start")
+volume_db = 3.0
+unit_size = 1.5
+max_distance = 60.0
+attenuation_filter_db = -8.0
+
 [node name="RaceController" parent="." unique_id=1837278698 instance=ExtResource("2_trceg")]
+traffic_light_path = NodePath("../TrafficLight")
+start_audio_path = NodePath("../RaceStartAudio")
 
 [node name="Environment" type="WorldEnvironment" parent="." unique_id=1097254880]
 environment = ExtResource("1_q4t1r")
 
+[node name="CARS" type="Node3D" parent="." unique_id=1656375288]
+
+[node name="PlayerCar" parent="CARS" unique_id=1867641805 instance=ExtResource("7_o6xl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.719608, 0, 5)
+
+[node name="LePen" parent="CARS" unique_id=834696391 instance=ExtResource("7_cpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.469608, 0, 5)
+driver_id = "lepen"
+driver_name = "LePen"
+car_number = 1
+portrait = ExtResource("19_lepen")
+car_color = Color(1, 0.752941, 0.266667, 1)
+waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
+waypoint_look_ahead = 2
+lane_offset = -0.45
+cpu_steering_gain = 1.5
+cruise_throttle = 0.85
+corner_throttle = 0.5
+full_corner_angle = 0.8
+avoidance_distance = 3.0
+avoidance_spread_degrees = 25.0
+avoidance_strength = 1.25
+blocked_throttle_multiplier = 0.35
+prefer_right_pass = true
+
+[node name="Glux" parent="CARS" instance=ExtResource("7_cpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.969608, 0, 5)
+driver_id = "glux"
+driver_name = "Glux"
+car_number = 2
+portrait = ExtResource("20_glux")
+car_color = Color(0.380392, 0.796078, 0.545098, 1)
+waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
+waypoint_look_ahead = 2
+lane_offset = 0.0
+cpu_steering_gain = 1.6
+cruise_throttle = 0.92
+corner_throttle = 0.55
+full_corner_angle = 0.8
+avoidance_distance = 3.25
+avoidance_spread_degrees = 25.0
+avoidance_strength = 1.3
+blocked_throttle_multiplier = 0.35
+prefer_right_pass = false
+
+[node name="Melenchon" parent="CARS" instance=ExtResource("7_cpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.219608, 0, 5)
+driver_id = "melenchon"
+driver_name = "Melenchon"
+car_number = 3
+portrait = ExtResource("21_melenchon")
+car_color = Color(0.658824, 0.470588, 0.909804, 1)
+waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
+waypoint_look_ahead = 3
+lane_offset = 0.45
+cpu_steering_gain = 1.35
+cruise_throttle = 0.78
+corner_throttle = 0.45
+full_corner_angle = 0.75
+avoidance_distance = 3.0
+avoidance_spread_degrees = 28.0
+avoidance_strength = 1.2
+blocked_throttle_multiplier = 0.3
+prefer_right_pass = true
+
 [node name="View" type="Node3D" parent="." unique_id=1807530472 node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
 script = ExtResource("5_0lrhn")
-target = NodePath("../PlayerCar")
+target = NodePath("../CARS/PlayerCar")
 
 [node name="Camera" type="Camera3D" parent="View" unique_id=1079798936]
 transform = Transform3D(0.9907036, -0.093486965, -0.098822445, 0.111520365, 0.9741522, 0.19644465, 0.07790327, -0.20563862, 0.97552264, -5.3638825, 9.236919, 45.04232)
@@ -139,25 +222,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.7772, -0.143123, -13.5596
 [node name="vehicle-truck-red" parent="." unique_id=1524379599 instance=ExtResource("11_wocnk")]
 transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034, -1.36138, -0.49090827, -23.486576)
 
-[node name="PlayerCar" parent="." unique_id=1867641805 instance=ExtResource("7_o6xl0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.719608, 0, 5)
-
-[node name="Maisy" parent="." instance=ExtResource("7_cpu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.469608, 0, 5)
-
-[node name="START_GRID" type="Node3D" parent="."]
+[node name="START_GRID" type="Node3D" parent="." unique_id=515674292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.344608, 0, 5)
 
-[node name="CpuSpawn1" type="Marker3D" parent="START_GRID"]
+[node name="CpuSpawn1" type="Marker3D" parent="START_GRID" unique_id=1827936175]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.875, 0, 0)
 
-[node name="PlayerSpawn" type="Marker3D" parent="START_GRID"]
+[node name="PlayerSpawn" type="Marker3D" parent="START_GRID" unique_id=1622328316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625, 0, 0)
 
-[node name="CpuSpawn2" type="Marker3D" parent="START_GRID"]
+[node name="CpuSpawn2" type="Marker3D" parent="START_GRID" unique_id=48391389]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.625, 0, 0)
 
-[node name="CpuSpawn3" type="Marker3D" parent="START_GRID"]
+[node name="CpuSpawn3" type="Marker3D" parent="START_GRID" unique_id=761714149]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.875, 0, 0)
 
 [node name="RampSupport" type="StaticBody3D" parent="." unique_id=1680593542]
@@ -171,9 +248,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_85g3d")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RampSupport" unique_id=386256561]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7208767, 0.38039124, 14.864722)
 shape = SubResource("ConcavePolygonShape3D_choun")
-
-[node name="trafficlight_C2" parent="." unique_id=536095388 instance=ExtResource("8_tipki")]
-transform = Transform3D(4.08, 0, 0, 0, 4.08, 0, 0, 0, 4.08, 14.414534, 0, 4.0923443)
 
 [node name="road_straight_crossing2" parent="." unique_id=1648012944 instance=ExtResource("9_85g3d")]
 transform = Transform3D(2.240331, 0, 0, 0, 1, 0, 0, 0, 3.792224, 11.43203, -0.19066334, 3.7361956)
@@ -679,7 +753,7 @@ script = ExtResource("2_boundaries")
 segment_spacing = 2.0
 wall_height = 6.0
 
-[node name="WaypointGenerator" type="Node3D" parent="PATH"]
+[node name="WaypointGenerator" type="Node3D" parent="PATH" unique_id=522382213]
 script = ExtResource("3_waypoints")
 
 [node name="TrackPath" type="Path3D" parent="PATH" unique_id=1448145123]
@@ -692,6 +766,10 @@ curve = SubResource("Curve3D_ns2mt")
 
 [node name="ExteriorWall" type="Path3D" parent="PATH" unique_id=740667162]
 curve = SubResource("Curve3D_mdjv0")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2062290784]
+
+[node name="GameUI" parent="UI" unique_id=239267494 instance=ExtResource("18_qycdi")]
 
 [connection signal="body_entered" from="Finish" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]

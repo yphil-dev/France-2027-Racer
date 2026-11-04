@@ -10,6 +10,13 @@ extends Vehicle
 @export_range(0.0, 1.0, 0.05) var corner_throttle: float = 0.5
 @export_range(0.1, 3.14, 0.05) var full_corner_angle: float = 0.8
 
+@export_category("CPU Avoidance")
+@export_range(0.5, 10.0, 0.25) var avoidance_distance: float = 3.0
+@export_range(5.0, 60.0, 1.0) var avoidance_spread_degrees: float = 25.0
+@export_range(0.0, 3.0, 0.05) var avoidance_strength: float = 1.25
+@export_range(0.0, 1.0, 0.05) var blocked_throttle_multiplier: float = 0.35
+@export var prefer_right_pass: bool = true
+
 var waypoint_generator: AIWaypointGenerator
 var _current_waypoint_index: int = -1
 var _can_drive: bool = false
@@ -58,7 +65,57 @@ func get_control_input() -> Vector2:
 	var corner_amount := clampf(absf(angle) / full_corner_angle, 0.0, 1.0)
 	var throttle := lerpf(cruise_throttle, corner_throttle, corner_amount)
 
+	var avoidance := _get_avoidance(current_forward)
+	steering = clampf(steering + avoidance.x * avoidance_strength, -1.0, 1.0)
+	throttle *= lerpf(1.0, blocked_throttle_multiplier, avoidance.y)
+
 	return Vector2(steering, throttle)
+
+func _get_avoidance(current_forward: Vector3) -> Vector2:
+	var spread := deg_to_rad(avoidance_spread_degrees)
+	var left_direction := current_forward.rotated(Vector3.UP, spread)
+	var right_direction := current_forward.rotated(Vector3.UP, -spread)
+
+	var center_hit := _cast_for_vehicle(current_forward)
+	var left_hit := _cast_for_vehicle(left_direction)
+	var right_hit := _cast_for_vehicle(right_direction)
+
+	var center_threat := _threat_from_hit(center_hit)
+	var left_threat := _threat_from_hit(left_hit)
+	var right_threat := _threat_from_hit(right_hit)
+	var strongest_threat := maxf(center_threat, maxf(left_threat, right_threat))
+
+	var avoidance_steering := left_threat - right_threat
+	if center_threat > 0.0:
+		var passing_steering := 1.0 if prefer_right_pass else -1.0
+		var hit_position: Vector3 = center_hit.position
+		var vehicle_right: Vector3 = -vehicle_model.global_basis.x.normalized()
+		var obstacle_side := (hit_position - sphere.global_position).dot(vehicle_right)
+		if absf(obstacle_side) > 0.05:
+			passing_steering = -signf(obstacle_side)
+		avoidance_steering += passing_steering * center_threat
+
+	return Vector2(clampf(avoidance_steering, -1.0, 1.0), strongest_threat)
+
+func _cast_for_vehicle(direction: Vector3) -> Dictionary:
+	var origin := sphere.global_position
+	var query := PhysicsRayQueryParameters3D.create(
+		origin,
+		origin + direction * avoidance_distance,
+		1 << 3
+	)
+	query.exclude = [sphere.get_rid()]
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	return get_world_3d().direct_space_state.intersect_ray(query)
+
+func _threat_from_hit(hit: Dictionary) -> float:
+	if hit.is_empty():
+		return 0.0
+
+	var hit_position: Vector3 = hit.position
+	var distance := sphere.global_position.distance_to(hit_position)
+	return 1.0 - clampf(distance / avoidance_distance, 0.0, 1.0)
 
 func _find_nearest_waypoint() -> int:
 	var nearest_index := 0
