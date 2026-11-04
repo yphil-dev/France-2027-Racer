@@ -50,6 +50,14 @@ albedo_color = Color(0.2592937, 0.2592937, 0.2592937, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_6xfsa"]
 size = Vector3(6.6290283, 0.55810547, 0.35205078)
 
+[sub_resource type="Curve3D" id="Curve3D_ns2mt"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.181076, -0.072021484, -19.192492, 0, 0, 0, 0, 0, 0, 8.726228, 1.7283306, -19.3806, 0, 0, 0, 0, 0, 0, 15.575447, -0.072021484, -19.340126, -0.14764023, 0, -3.3955936, 0.14764023, 0, 3.3955936, 18.601955, -0.072021484, -15.353994, 3.0265121, 0, -1.8454313, -3.0265121, 0, 1.8454313, 12.548935, -0.072021484, -10.85114, 0, 0, 0, 0, 0, 0, 11.441415, 2.5912514, 15.2926445, 2.9526901, 0, -1.8454323, -2.9526901, 0, 1.8454323, 9.12172, -0.072021484, 18.435053, 1.6239796, 0, 2.362153, -1.6239796, 0, -2.362153, -10.334417, -0.072021484, 17.34706, 1.2548943, 0, 1.1072593, -1.2548943, 0, -1.1072593, -11.958397, -0.072021484, -3.2479608, 1.8454304, 0, 1.9930668, -1.8454304, 0, -1.9930668, -17.642326, -0.072021484, -4.5766706, -0.73817253, 0, 1.9192486, 0.73817253, 0, -1.9192486, -17.78996, -0.072021484, -18.232866),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 11
+
 [node name="TRACK" type="Node3D" unique_id=1145999287]
 script = ExtResource("1_eb6dy")
 
@@ -628,6 +636,9 @@ collision_mask = 9
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Verif" unique_id=290017500]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38812256, 0.24408382, 0.3239746)
 shape = SubResource("BoxShape3D_6xfsa")
+
+[node name="TrackPath" type="Path3D" parent="." unique_id=1085867361]
+curve = SubResource("Curve3D_ns2mt")
 
 [connection signal="body_entered" from="Finish" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]
