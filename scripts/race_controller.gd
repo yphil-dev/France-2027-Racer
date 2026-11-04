@@ -13,6 +13,7 @@ signal race_finished(standings: Array)
 @export_node_path("RaceTrafficLight") var traffic_light_path: NodePath
 @export_node_path("AudioStreamPlayer3D") var start_audio_path: NodePath
 
+
 @onready var traffic_light: RaceTrafficLight = get_node(traffic_light_path)
 @onready var start_audio: AudioStreamPlayer3D = get_node(start_audio_path)
 @onready var cars: Node3D = get_node("../CARS")

@@ -18,9 +18,9 @@
 [ext_resource type="PackedScene" uid="uid://dn24yd7sv8g0w" path="res://scenes/traffic_light.tscn" id="16_ws3xf"]
 [ext_resource type="AudioStream" uid="uid://77d1clswvsf7" path="res://audio/race-start.ogg" id="17_race_start"]
 [ext_resource type="PackedScene" uid="uid://ca6fwu6qha84s" path="res://scenes/GameUI/game_ui.tscn" id="18_qycdi"]
-[ext_resource type="Texture2D" path="res://sprites/Lepen.jpg" id="19_lepen"]
-[ext_resource type="Texture2D" path="res://sprites/Glux.jpg" id="20_glux"]
-[ext_resource type="Texture2D" path="res://sprites/Melenchon.jpg" id="21_melenchon"]
+[ext_resource type="Texture2D" uid="uid://cht6vw8k22pyd" path="res://sprites/Lepen.jpg" id="19_lepen"]
+[ext_resource type="Texture2D" uid="uid://bcrmvmwt7rg6k" path="res://sprites/Glux.jpg" id="20_glux"]
+[ext_resource type="Texture2D" uid="uid://bfxgr53wjcmlx" path="res://sprites/Melenchon.jpg" id="21_melenchon"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_a8y0u"]
 
@@ -110,11 +110,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.719608, 0, 5)
 
 [node name="LePen" parent="CARS" unique_id=834696391 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.469608, 0, 5)
-driver_id = "lepen"
-driver_name = "LePen"
-car_number = 1
-portrait = ExtResource("19_lepen")
-car_color = Color(1, 0.752941, 0.266667, 1)
 waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
 waypoint_look_ahead = 2
 lane_offset = -0.45
@@ -127,14 +122,13 @@ avoidance_spread_degrees = 25.0
 avoidance_strength = 1.25
 blocked_throttle_multiplier = 0.35
 prefer_right_pass = true
+driver_id = "lepen"
+driver_name = "LePen"
+car_number = 1
+portrait = ExtResource("19_lepen")
 
-[node name="Glux" parent="CARS" instance=ExtResource("7_cpu")]
+[node name="Glux" parent="CARS" unique_id=253328537 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.969608, 0, 5)
-driver_id = "glux"
-driver_name = "Glux"
-car_number = 2
-portrait = ExtResource("20_glux")
-car_color = Color(0.380392, 0.796078, 0.545098, 1)
 waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
 waypoint_look_ahead = 2
 lane_offset = 0.0
@@ -147,14 +141,14 @@ avoidance_spread_degrees = 25.0
 avoidance_strength = 1.3
 blocked_throttle_multiplier = 0.35
 prefer_right_pass = false
+driver_id = "glux"
+driver_name = "Glux"
+car_number = 2
+portrait = ExtResource("20_glux")
+car_color = Color(0.380392, 0.796078, 0.545098, 1)
 
-[node name="Melenchon" parent="CARS" instance=ExtResource("7_cpu")]
+[node name="Melenchon" parent="CARS" unique_id=432373778 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.219608, 0, 5)
-driver_id = "melenchon"
-driver_name = "Melenchon"
-car_number = 3
-portrait = ExtResource("21_melenchon")
-car_color = Color(0.658824, 0.470588, 0.909804, 1)
 waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
 waypoint_look_ahead = 3
 lane_offset = 0.45
@@ -167,6 +161,11 @@ avoidance_spread_degrees = 28.0
 avoidance_strength = 1.2
 blocked_throttle_multiplier = 0.3
 prefer_right_pass = true
+driver_id = "melenchon"
+driver_name = "Melenchon"
+car_number = 3
+portrait = ExtResource("21_melenchon")
+car_color = Color(0.658824, 0.470588, 0.909804, 1)
 
 [node name="View" type="Node3D" parent="." unique_id=1807530472 node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
