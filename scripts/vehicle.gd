@@ -20,9 +20,6 @@ var car_number: int = -1
 var portrait: Texture2D
 var car_color: Color = Color.WHITE
 
-@export_category("Appearance")
-@export var body_material: Material
-
 @export_category("Race")
 @export var driving_enabled: bool = false
 
@@ -104,13 +101,16 @@ func _ready() -> void:
 	sphere.car_name = driver_name
 	sphere.car_number = car_number
 
-	if vehicle_body is GeometryInstance3D and body_material != null:
-		# Clone the material unique to this vehicle node container instance
-		var unique_material = body_material.duplicate()
-		vehicle_body.material_override = unique_material
-
-		# Update the shader parameters safely
-		unique_material.set_shader_parameter("car_color", car_color)
+	if vehicle_body is MeshInstance3D:
+		var body_mesh := vehicle_body as MeshInstance3D
+		var imported_material := body_mesh.get_active_material(0) as StandardMaterial3D
+		if imported_material != null:
+			var unique_material := imported_material.duplicate() as StandardMaterial3D
+			unique_material.albedo_texture = VehiclePaletteTextures.get_texture(car_color)
+			unique_material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+			unique_material.metallic = 0.05
+			unique_material.roughness = 0.48
+			body_mesh.set_surface_override_material(0, unique_material)
 
 func _physics_process(delta):
 

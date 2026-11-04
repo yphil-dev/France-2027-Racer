@@ -16,21 +16,21 @@ const PROFILES: Dictionary = {
 		"car_number": 1,
 		"portrait": preload("res://sprites/Lepen.jpg"),
 		"selection_portrait": preload("res://sprites/Lepen-no-glasses.jpg"),
-		"car_color": Color(0, 0.25, 1, 1), # Vivid Neon Blue
+		"car_color": Color(0.04, 0.12, 0.48, 1), # Dark Royal Blue
 	},
 	"glux": {
 		"display_name": "A. Glucksman",
 		"car_number": 2,
 		"portrait": preload("res://sprites/Glux.jpg"),
 		"selection_portrait": preload("res://sprites/Glux-no-glasses.jpg"),
-		"car_color": Color(1, 0.078, 0.576, 1), # Hot Vibrant Pink
+		"car_color": Color(0.62, 0.04, 0.3, 1), # Dark Pink
 	},
 	"melenchon": {
 		"display_name": "JL. Mélenchon",
 		"car_number": 3,
 		"portrait": preload("res://sprites/Melenchon.jpg"),
 		"selection_portrait": preload("res://sprites/Melenchon-no-glasses.jpg"),
-		"car_color": Color(0.5, 0, 1, 1), # Saturated Royal Purple
+		"car_color": Color(0.28, 0.03, 0.48, 1), # Dark Purple
 	},
 }
 
