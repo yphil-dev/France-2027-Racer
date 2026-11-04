@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" uid="uid://badoy1c127yhf" path="res://scenes/vehicle.tscn" id="1_vehicle"]
+[ext_resource type="Script" path="res://scripts/cpu_car.gd" id="2_cpu"]
+
+[node name="CpuCar" instance=ExtResource("1_vehicle")]
+script = ExtResource("2_cpu")
+
+[node name="Sphere" parent="." index="2"]
+car_name = "Maisy"
+car_number = 1
