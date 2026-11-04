@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dn24yd7sv8g0w"]
+
+[ext_resource type="PackedScene" uid="uid://cvxh8c1e1dio2" path="res://models/city/trafficlight_C.gltf" id="1_uttgq"]
+[ext_resource type="Script" path="res://scripts/traffic_light.gd" id="2_script"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_green"]
+albedo_color = Color(0.02, 1, 0.05, 1)
+emission_enabled = true
+emission = Color(0.02, 1, 0.05, 1)
+emission_energy_multiplier = 12.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_orange"]
+albedo_color = Color(1, 0.3, 0.01, 1)
+emission_enabled = true
+emission = Color(1, 0.3, 0.01, 1)
+emission_energy_multiplier = 12.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_red"]
+albedo_color = Color(1, 0.01, 0.01, 1)
+emission_enabled = true
+emission = Color(1, 0.01, 0.01, 1)
+emission_energy_multiplier = 12.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6xfsa"]
+height = 0.23925781
+radial_segments = 12
+
+[node name="TrafficLight" unique_id=536095388 instance=ExtResource("1_uttgq")]
+script = ExtResource("2_script")
+
+[node name="GreenLight" type="MeshInstance3D" parent="." index="1" unique_id=1976058945]
+transform = Transform3D(0.046727844, 0, 0, 0, 0, 0.04672785, 0, -0.04672785, 0, -0.66435176, 0.7961276, 0.078385144)
+visible = false
+material_override = SubResource("StandardMaterial3D_green")
+mesh = SubResource("CylinderMesh_6xfsa")
+
+[node name="OrangeLight" type="MeshInstance3D" parent="." index="2" unique_id=1247199184]
+transform = Transform3D(0.046727844, 0, 0, 0, 0, 0.04672785, 0, -0.04672785, 0, -0.66435176, 0.86282647, 0.078385144)
+visible = false
+material_override = SubResource("StandardMaterial3D_orange")
+mesh = SubResource("CylinderMesh_6xfsa")
+
+[node name="RedLight" type="MeshInstance3D" parent="." index="3" unique_id=840860244]
+transform = Transform3D(0.046727844, 0, 0, 0, 0, 0.04672785, 0, -0.04672785, 0, -0.66435176, 0.92630535, 0.078385144)
+visible = false
+material_override = SubResource("StandardMaterial3D_red")
+mesh = SubResource("CylinderMesh_6xfsa")
