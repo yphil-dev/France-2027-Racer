@@ -13,14 +13,26 @@ const SELECTED_SHADE := Color(0, 0, 0, 0.04)
 const NORMAL_SHADE := Color(0, 0, 0, 0.28)
 const SELECTED_LABEL_COLOR := Color(1, 0.88, 0.2, 1)
 const NORMAL_LABEL_COLOR := Color.WHITE
+const INTRO_DURATION: float = 0.8
+const INTRO_STAGGER: float = 0.14
+const OPTIONS_SIZE := Vector2(180, 56)
+const OPTIONS_MARGIN := Vector2(32, 28)
 
+@onready var track_grid: GridContainer = $TrackGrid
+@onready var options_button: Button = $Options
 @onready var preview_viewport: SubViewport = $PreviewViewport
-@onready var transition: ColorRect = $Transition
-@onready var buttons: Array[Button] = [
+@onready var track_buttons: Array[Button] = [
 	$TrackGrid/Paris,
 	$TrackGrid/Marseille,
 	$TrackGrid/Limoges,
 	$TrackGrid/Lyon,
+]
+@onready var selectable_buttons: Array[Button] = [
+	$TrackGrid/Paris,
+	$TrackGrid/Marseille,
+	$TrackGrid/Limoges,
+	$TrackGrid/Lyon,
+	$Options,
 ]
 @onready var previews: Array[TextureRect] = [
 	$TrackGrid/Paris/Preview,
@@ -28,17 +40,19 @@ const NORMAL_LABEL_COLOR := Color.WHITE
 	$TrackGrid/Limoges/Preview,
 	$TrackGrid/Lyon/Preview,
 ]
-@onready var shades: Array[ColorRect] = [
+@onready var selection_shades: Array[ColorRect] = [
 	$TrackGrid/Paris/Shade,
 	$TrackGrid/Marseille/Shade,
 	$TrackGrid/Limoges/Shade,
 	$TrackGrid/Lyon/Shade,
+	$Options/Shade,
 ]
-@onready var city_labels: Array[Label] = [
+@onready var selection_labels: Array[Label] = [
 	$TrackGrid/Paris/CityLabel,
 	$TrackGrid/Marseille/CityLabel,
 	$TrackGrid/Limoges/CityLabel,
 	$TrackGrid/Lyon/CityLabel,
+	$Options/Label,
 ]
 @onready var loading_labels: Array[Label] = [
 	$TrackGrid/Paris/LoadingLabel,
@@ -49,37 +63,84 @@ const NORMAL_LABEL_COLOR := Color.WHITE
 
 var _button_tweens: Dictionary = {}
 var _selected_index: int = 0
+var _startup_hover_locked: bool = true
 var _launching: bool = false
 
-func _ready() -> void:
-	for index in buttons.size():
-		buttons[index].pressed.connect(_launch_track.bind(index))
-		buttons[index].focus_entered.connect(_select_button.bind(index))
-		buttons[index].mouse_entered.connect(_hover_button.bind(index))
-		buttons[index].resized.connect(_update_button_pivot.bind(index))
-		buttons[index].mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") and not SceneTransition.is_active():
+		get_viewport().set_input_as_handled()
+		SceneTransition.quit_game()
 
+func _ready() -> void:
+	for index in track_buttons.size():
+		track_buttons[index].pressed.connect(_launch_track.bind(index))
+
+	options_button.pressed.connect(_open_options)
+	for index in selectable_buttons.size():
+		selectable_buttons[index].focus_entered.connect(_select_button.bind(index))
+		selectable_buttons[index].mouse_entered.connect(_hover_button.bind(index))
+		selectable_buttons[index].resized.connect(_update_button_pivot.bind(index))
+		selectable_buttons[index].mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+	resized.connect(_layout_menu)
 	_initialize_selection.call_deferred()
 	_generate_previews.call_deferred()
 
 func _initialize_selection() -> void:
 	await get_tree().process_frame
-	for index in buttons.size():
+	_layout_menu()
+	for index in selectable_buttons.size():
+		selectable_buttons[index].modulate = Color(1, 1, 1, 0)
 		_update_button_pivot(index)
+
 	_select_button(0)
-	buttons[0].grab_focus()
+	selectable_buttons[0].grab_focus()
+	_play_intro()
+	_unlock_startup_hover.call_deferred()
+
+func _layout_menu() -> void:
+	if not is_node_ready():
+		return
+
+	var card_size := QuadrantLayout.get_card_size(size)
+	var grid_size := QuadrantLayout.get_grid_size(size)
+	track_grid.position = (size - grid_size) * 0.5
+	track_grid.size = grid_size
+	track_grid.custom_minimum_size = grid_size
+
+	for button in track_buttons:
+		button.custom_minimum_size = card_size
+
+	options_button.position = size - OPTIONS_SIZE - OPTIONS_MARGIN
+	options_button.size = OPTIONS_SIZE
+	options_button.custom_minimum_size = OPTIONS_SIZE
+
+func _play_intro() -> void:
+	for index in selectable_buttons.size():
+		var tween := create_tween()
+		tween.tween_interval(index * INTRO_STAGGER)
+		tween.tween_property(
+			selectable_buttons[index],
+			"modulate",
+			Color.WHITE,
+			INTRO_DURATION
+		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+
+func _unlock_startup_hover() -> void:
+	await get_tree().create_timer(0.8).timeout
+	_startup_hover_locked = false
 
 func _hover_button(index: int) -> void:
-	if _launching:
+	if _launching or _startup_hover_locked:
 		return
-	buttons[index].grab_focus()
+	selectable_buttons[index].grab_focus()
 
 func _select_button(index: int) -> void:
 	if _launching:
 		return
 
 	_selected_index = index
-	for button_index in buttons.size():
+	for button_index in selectable_buttons.size():
 		_animate_button(button_index, button_index == _selected_index)
 
 func _animate_button(index: int, selected: bool) -> void:
@@ -87,27 +148,25 @@ func _animate_button(index: int, selected: bool) -> void:
 	if previous_tween != null and previous_tween.is_valid():
 		previous_tween.kill()
 
-	var button := buttons[index]
+	var button := selectable_buttons[index]
 	button.z_index = 1 if selected else 0
+	var target_scale := NORMAL_SCALE
+	if selected and index < track_buttons.size():
+		target_scale = SELECTED_SCALE
 
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.set_trans(Tween.TRANS_QUART)
 	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(button, "scale", target_scale, 0.14)
 	tween.tween_property(
-		button,
-		"scale",
-		SELECTED_SCALE if selected else NORMAL_SCALE,
-		0.14
-	)
-	tween.tween_property(
-		shades[index],
+		selection_shades[index],
 		"color",
 		SELECTED_SHADE if selected else NORMAL_SHADE,
 		0.14
 	)
 	tween.tween_property(
-		city_labels[index],
+		selection_labels[index],
 		"modulate",
 		SELECTED_LABEL_COLOR if selected else NORMAL_LABEL_COLOR,
 		0.14
@@ -115,7 +174,7 @@ func _animate_button(index: int, selected: bool) -> void:
 	_button_tweens[index] = tween
 
 func _update_button_pivot(index: int) -> void:
-	buttons[index].pivot_offset = buttons[index].size * 0.5
+	selectable_buttons[index].pivot_offset = selectable_buttons[index].size * 0.5
 
 func _generate_previews() -> void:
 	await get_tree().process_frame
@@ -171,30 +230,46 @@ func _launch_track(index: int) -> void:
 
 	_launching = true
 	_selected_index = index
-	for button in buttons:
+	for button in selectable_buttons:
 		button.disabled = true
 
 	loading_labels[index].text = "STARTING..."
 	loading_labels[index].show()
-	transition.mouse_filter = Control.MOUSE_FILTER_STOP
 
-	var button := buttons[index]
+	var button := track_buttons[index]
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_QUART)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(button, "scale", Vector2(0.97, 0.97), 0.08)
 	tween.tween_property(button, "scale", Vector2(1.04, 1.04), 0.1)
-	tween.parallel().tween_property(transition, "color", Color.BLACK, 0.24)
 	await tween.finished
 
-	var scene_path := TRACK_SCENES[index]
-	var error := get_tree().change_scene_to_file(scene_path)
-	if error != OK:
-		push_error("Could not open track scene %s: error %d" % [scene_path, error])
-		_launching = false
-		transition.color = Color(0, 0, 0, 0)
-		transition.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		loading_labels[index].hide()
-		for menu_button in buttons:
-			menu_button.disabled = false
-		buttons[index].grab_focus()
+	button.scale = SELECTED_SCALE
+	var start_rect := _get_control_global_rect(button)
+	SceneTransition.transition_to_track(
+		TRACK_SCENES[index],
+		previews[index].texture,
+		start_rect
+	)
+
+func _get_control_global_rect(control: Control) -> Rect2:
+	var global_transform := control.get_global_transform()
+	var top_left := global_transform * Vector2.ZERO
+	var bottom_right := global_transform * control.size
+	return Rect2(top_left, bottom_right - top_left)
+
+func _open_options() -> void:
+	if _launching:
+		return
+
+	var index := selectable_buttons.size() - 1
+	var previous_tween := _button_tweens.get(index) as Tween
+	if previous_tween != null and previous_tween.is_valid():
+		previous_tween.kill()
+
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_QUART)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(selection_shades[index], "color", Color(1, 0.65, 0.1, 0.4), 0.08)
+	tween.tween_property(selection_shades[index], "color", Color(0, 0, 0, 0.1), 0.14)
+	_button_tweens[index] = tween

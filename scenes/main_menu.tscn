@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://splash-screen.png" id="2_background"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,17 +20,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.015, 0.02, 0.03, 1)
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="TrackGrid" type="GridContainer" parent="."]
+[node name="BackgroundShade" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
+mouse_filter = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="TrackGrid" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_constants/h_separation = 32
+theme_override_constants/v_separation = 24
 columns = 2
 
 [node name="Paris" type="Button" parent="TrackGrid"]
@@ -163,6 +173,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../Paris")
 focus_neighbor_right = NodePath("../Lyon")
+focus_neighbor_bottom = NodePath("../../Options")
 focus_mode = 2
 flat = true
 
@@ -225,6 +236,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Limoges")
 focus_neighbor_top = NodePath("../Marseille")
+focus_neighbor_bottom = NodePath("../../Options")
 focus_mode = 2
 flat = true
 
@@ -280,7 +292,17 @@ text = "GENERATING PREVIEW..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Transition" type="ColorRect" parent="."]
+[node name="Options" type="Button" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 56.0
+focus_neighbor_left = NodePath("../TrackGrid/Limoges")
+focus_neighbor_top = NodePath("../TrackGrid/Lyon")
+focus_mode = 2
+flat = true
+
+[node name="Shade" type="ColorRect" parent="Options"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -288,7 +310,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0)
+color = Color(0, 0, 0, 0.55)
+
+[node name="Label" type="Label" parent="Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 22
+text = "OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PreviewViewport" type="SubViewport" parent="."]
 size = Vector2i(640, 360)

@@ -36,6 +36,13 @@ var _start_offset: float = 0.0
 var _orange_enabled: bool = true
 var _blink_timer: Timer
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") and not SceneTransition.is_active():
+		get_viewport().set_input_as_handled()
+		_race_running = false
+		_set_vehicles_enabled(false)
+		SceneTransition.transition_to_menu()
+
 func _ready() -> void:
 	race_track.connect("lap_completed", _on_track_lap_completed)
 	race_track.connect("car_finished", _on_track_car_finished)

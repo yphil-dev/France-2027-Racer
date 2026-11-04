@@ -18,6 +18,7 @@ var race_state: CarRaceState
 
 func setup(state: CarRaceState) -> void:
 	race_state = state
+	rank_label.hide()
 	portrait.texture = state.vehicle.portrait
 	accent.color = state.vehicle.car_color
 	name_label.text = state.vehicle.driver_name
@@ -47,27 +48,28 @@ func update_state(state: CarRaceState) -> void:
 	)
 
 func show_final_result() -> void:
+	rank_label.show()
 	custom_minimum_size = Vector2.ZERO
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 
-	margin.add_theme_constant_override("margin_left", 24)
-	margin.add_theme_constant_override("margin_top", 24)
-	margin.add_theme_constant_override("margin_right", 24)
-	margin.add_theme_constant_override("margin_bottom", 24)
-	hbox.add_theme_constant_override("separation", 16)
-	accent.custom_minimum_size = Vector2(12, 0)
-	portrait.custom_minimum_size = Vector2(220, 0)
+	margin.add_theme_constant_override("margin_left", 16)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_right", 16)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	hbox.add_theme_constant_override("separation", 12)
+	accent.custom_minimum_size = Vector2(10, 0)
+	portrait.custom_minimum_size = Vector2(160, 0)
 	portrait.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	info.alignment = BoxContainer.ALIGNMENT_CENTER
-	info.add_theme_constant_override("separation", 8)
-	header.add_theme_constant_override("separation", 8)
+	info.add_theme_constant_override("separation", 5)
+	header.add_theme_constant_override("separation", 5)
 
-	rank_label.add_theme_font_size_override("font_size", 28)
-	name_label.add_theme_font_size_override("font_size", 34)
-	time_label.add_theme_font_size_override("font_size", 40)
-	status_label.add_theme_font_size_override("font_size", 24)
-	best_label.add_theme_font_size_override("font_size", 20)
+	rank_label.add_theme_font_size_override("font_size", 22)
+	name_label.add_theme_font_size_override("font_size", 26)
+	time_label.add_theme_font_size_override("font_size", 30)
+	status_label.add_theme_font_size_override("font_size", 18)
+	best_label.add_theme_font_size_override("font_size", 16)
 
 func format_time(seconds: float) -> String:
 	var safe_seconds := maxf(0.0, seconds)

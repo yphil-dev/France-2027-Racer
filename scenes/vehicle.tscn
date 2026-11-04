@@ -107,6 +107,7 @@ autoplay = true
 
 [node name="EngineSound" type="AudioStreamPlayer3D" parent="Container" unique_id=397905471]
 stream = ExtResource("5_kcati")
+volume_db = -80.0
 autoplay = true
 
 [node name="ImpactSound" type="AudioStreamPlayer3D" parent="Container" unique_id=1542612165]

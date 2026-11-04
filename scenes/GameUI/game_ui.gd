@@ -2,13 +2,27 @@ extends Control
 
 class_name GameUI
 
+@onready var result_background: TextureRect = $ResultBackground
+@onready var result_shade: ColorRect = $ResultShade
 @onready var live_container: MarginContainer = $MarginContainer
 @onready var list: VBoxContainer = $MarginContainer/VBoxContainer
+@onready var race_again: Button = $RaceAgain
+@onready var race_again_shade: ColorRect = $RaceAgain/Shade
+@onready var race_again_label: Label = $RaceAgain/Label
 
-const RESULT_GAP: float = 4.0
-const RESULT_TWEEN_DURATION: float = 0.8
+const RESULT_TWEEN_DURATION: float = 1.1
+const BACKGROUND_FADE_DURATION: float = 0.8
+const ACTION_SIZE := Vector2(180, 56)
+const ACTION_MARGIN := Vector2(32, 28)
+const ACTION_COLOR := Color(1, 0.88, 0.2, 1)
+const REORDER_DURATION: float = 0.22
 
 var _cards_by_vehicle: Dictionary = {}
+var _action_tween: Tween
+var _pending_standings: Array = []
+var _reorder_running: bool = false
+var _results_active: bool = false
+var _restarting: bool = false
 
 func setup(controller: RaceController, initial_standings: Array[CarRaceState]) -> void:
 	_cards_by_vehicle.clear()
@@ -27,10 +41,19 @@ func setup(controller: RaceController, initial_standings: Array[CarRaceState]) -
 		controller.standings_updated.connect(_on_standings_updated)
 	if not controller.race_finished.is_connected(_on_race_finished):
 		controller.race_finished.connect(_on_race_finished)
+	if not race_again.pressed.is_connected(_restart_race):
+		race_again.pressed.connect(_restart_race)
+	if not race_again.focus_entered.is_connected(_highlight_race_again):
+		race_again.focus_entered.connect(_highlight_race_again)
+	if not race_again.mouse_entered.is_connected(_focus_race_again):
+		race_again.mouse_entered.connect(_focus_race_again)
+	if not resized.is_connected(_layout_race_again):
+		resized.connect(_layout_race_again)
 
-	_on_standings_updated(initial_standings)
+	race_again.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_apply_initial_standings(initial_standings)
 
-func _on_standings_updated(current_standings: Array) -> void:
+func _apply_initial_standings(current_standings: Array) -> void:
 	for index in current_standings.size():
 		var state := current_standings[index] as CarRaceState
 		var card := _cards_by_vehicle.get(state.vehicle) as CarUI
@@ -40,11 +63,95 @@ func _on_standings_updated(current_standings: Array) -> void:
 		card.update_state(state)
 		list.move_child(card, index)
 
+func _on_standings_updated(current_standings: Array) -> void:
+	if _results_active:
+		return
+
+	for state_value in current_standings:
+		var state := state_value as CarRaceState
+		var card := _cards_by_vehicle.get(state.vehicle) as CarUI
+		if card != null:
+			card.update_state(state)
+
+	if not _order_changed(current_standings):
+		return
+
+	if _reorder_running:
+		_pending_standings = current_standings.duplicate()
+		return
+
+	_animate_reorder(current_standings.duplicate())
+
+func _order_changed(current_standings: Array) -> bool:
+	for index in current_standings.size():
+		var state := current_standings[index] as CarRaceState
+		var desired_card := _cards_by_vehicle.get(state.vehicle) as CarUI
+		if list.get_child(index) != desired_card:
+			return true
+	return false
+
+func _animate_reorder(current_standings: Array) -> void:
+	_reorder_running = true
+	var old_positions: Dictionary = {}
+
+	for child in list.get_children():
+		old_positions[child] = (child as Control).global_position
+
+	for index in current_standings.size():
+		var state := current_standings[index] as CarRaceState
+		var card := _cards_by_vehicle.get(state.vehicle) as CarUI
+		if card != null:
+			list.move_child(card, index)
+
+	await get_tree().process_frame
+	if _results_active:
+		_reorder_running = false
+		_pending_standings.clear()
+		return
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_QUART)
+	tween.set_ease(Tween.EASE_OUT)
+
+	for child in list.get_children():
+		var card := child as CarUI
+		var target_position := card.global_position
+		card.global_position = old_positions[card]
+		tween.tween_property(card, "global_position", target_position, REORDER_DURATION)
+
+	await tween.finished
+	_reorder_running = false
+
+	if not _pending_standings.is_empty():
+		var pending := _pending_standings.duplicate()
+		_pending_standings.clear()
+		_on_standings_updated(pending)
+
 func _on_race_finished(final_standings: Array) -> void:
-	var quadrant_size := Vector2(
-		(size.x - RESULT_GAP) * 0.5,
-		(size.y - RESULT_GAP) * 0.5
+	_results_active = true
+	var result_rects := QuadrantLayout.get_rects(size)
+	result_background.show()
+	result_shade.show()
+
+	var background_tween := create_tween()
+	background_tween.set_parallel(true)
+	background_tween.set_trans(Tween.TRANS_QUART)
+	background_tween.set_ease(Tween.EASE_OUT)
+	background_tween.tween_property(
+		result_background,
+		"modulate",
+		Color.WHITE,
+		BACKGROUND_FADE_DURATION
 	)
+	background_tween.tween_property(
+		result_shade,
+		"modulate",
+		Color.WHITE,
+		BACKGROUND_FADE_DURATION
+	)
+
+	_show_race_again()
 
 	for index in final_standings.size():
 		var state := final_standings[index] as CarRaceState
@@ -54,12 +161,7 @@ func _on_race_finished(final_standings: Array) -> void:
 
 		var start_position: Vector2 = card.global_position - global_position
 		var start_size := card.size
-		var column := index % 2
-		var row := int(index / 2)
-		var target_position := Vector2(
-			column * (quadrant_size.x + RESULT_GAP),
-			row * (quadrant_size.y + RESULT_GAP)
-		)
+		var target_rect := result_rects[index]
 
 		card.update_state(state)
 		card.reparent(self, false)
@@ -71,8 +173,63 @@ func _on_race_finished(final_standings: Array) -> void:
 		tween.set_trans(Tween.TRANS_QUART)
 		tween.set_ease(Tween.EASE_IN_OUT)
 		tween.set_parallel(true)
-		tween.tween_property(card, "position", target_position, RESULT_TWEEN_DURATION)
-		tween.tween_property(card, "size", quadrant_size, RESULT_TWEEN_DURATION)
+		tween.tween_property(card, "position", target_rect.position, RESULT_TWEEN_DURATION)
+		tween.tween_property(card, "size", target_rect.size, RESULT_TWEEN_DURATION)
 		tween.chain().tween_callback(card.show_final_result)
 
 	live_container.hide()
+
+func _show_race_again() -> void:
+	_layout_race_again()
+	race_again.modulate = Color(1, 1, 1, 0)
+	race_again.show()
+	race_again.grab_focus()
+	_highlight_race_again()
+
+	var intro_tween := create_tween()
+	intro_tween.tween_interval(0.6)
+	intro_tween.tween_property(race_again, "modulate", Color.WHITE, 0.6).set_trans(
+		Tween.TRANS_QUART
+	).set_ease(Tween.EASE_OUT)
+
+func _layout_race_again() -> void:
+	if not is_node_ready():
+		return
+
+	race_again.position = size - ACTION_SIZE - ACTION_MARGIN
+	race_again.size = ACTION_SIZE
+	race_again.pivot_offset = ACTION_SIZE * 0.5
+
+func _focus_race_again() -> void:
+	race_again.grab_focus()
+
+func _highlight_race_again() -> void:
+	if _action_tween != null and _action_tween.is_valid():
+		_action_tween.kill()
+
+	_action_tween = create_tween()
+	_action_tween.set_parallel(true)
+	race_again.scale = Vector2.ONE
+	_action_tween.set_trans(Tween.TRANS_QUART)
+	_action_tween.set_ease(Tween.EASE_OUT)
+	_action_tween.tween_property(race_again_shade, "color", Color(0, 0, 0, 0.1), 0.14)
+	_action_tween.tween_property(race_again_label, "modulate", ACTION_COLOR, 0.14)
+
+func _restart_race() -> void:
+	if _restarting:
+		return
+
+	_restarting = true
+	race_again.disabled = true
+
+	if _action_tween != null and _action_tween.is_valid():
+		_action_tween.kill()
+
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_QUART)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(race_again_shade, "color", Color(1, 0.65, 0.1, 0.4), 0.08)
+	tween.tween_property(race_again_shade, "color", Color(0, 0, 0, 0.1), 0.14)
+	await tween.finished
+
+	SceneTransition.transition_to_menu()
