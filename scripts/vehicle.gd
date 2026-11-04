@@ -1,5 +1,17 @@
 class_name Vehicle extends Node3D
 
+@export_category("Handling")
+@export var max_forward_speed: float = 1.0
+@export var max_reverse_speed: float = 0.5
+@export var forward_acceleration: float = 6.0
+@export var reverse_acceleration: float = 2.0
+@export var braking: float = 8.0
+@export var steering_strength: float = 4.0
+@export var steering_response: float = 4.0
+@export var minimum_steering_grip: float = 0.2
+@export var drive_torque: float = 100.0
+@export var air_input_decay: float = 2.0
+
 # Nodes
 
 # ─── KEY CHANGE: Explicitly typed as your new VehicleSphere class ───
@@ -64,10 +76,10 @@ func _physics_process(delta):
 	var direction = sign(linear_speed)
 	if direction == 0: direction = sign(input.z) if abs(input.z) > 0.1 else 1
 
-	var steering_grip = clamp(abs(linear_speed), 0.2, 1.0)
+	var steering_grip = clamp(abs(linear_speed), minimum_steering_grip, 1.0)
 
-	var target_angular = -input.x * steering_grip * 4 * direction
-	angular_speed = lerp(angular_speed, target_angular, delta * 4)
+	var target_angular = -input.x * steering_grip * steering_strength * direction
+	angular_speed = lerp(angular_speed, target_angular, delta * steering_response)
 
 	vehicle_model.rotate_y(angular_speed * delta)
 
@@ -88,15 +100,15 @@ func _physics_process(delta):
 
 	colliding = raycast.is_colliding()
 
-	var target_speed = input.z
+	var target_speed = input.z * (max_forward_speed if input.z >= 0.0 else max_reverse_speed)
 
 	if (target_speed < 0 and linear_speed > 0.01):
-		linear_speed = lerp(linear_speed, 0.0, delta * 8)
+		linear_speed = lerp(linear_speed, 0.0, delta * braking)
 	else:
 		if (target_speed < 0):
-			linear_speed = lerp(linear_speed, target_speed / 2, delta * 2)
+			linear_speed = lerp(linear_speed, target_speed, delta * reverse_acceleration)
 		else:
-			linear_speed = lerp(linear_speed, target_speed, delta * 6)
+			linear_speed = lerp(linear_speed, target_speed, delta * forward_acceleration)
 
 	acceleration = lerpf(acceleration, linear_speed + (abs(sphere.angular_velocity.length() * linear_speed) / 100), delta * 1)
 
@@ -115,17 +127,24 @@ func _physics_process(delta):
 	effect_wheels(delta)
 	effect_trails()
 
-# Handle input when vehicle is colliding with ground
+# Override this in player/CPU subclasses to provide steering and throttle.
+func get_control_input() -> Vector2:
+	return Vector2(
+		Input.get_axis("left", "right"),
+		Input.get_axis("back", "forward")
+	)
 
+# Apply controls when the vehicle is colliding with the ground.
 func handle_input(delta):
 
 	if raycast.is_colliding():
-		input.x = Input.get_axis("left", "right")
-		input.z = Input.get_axis("back", "forward")
-		sphere.angular_velocity += vehicle_model.get_global_transform().basis.x * (linear_speed * 100) * delta
+		var controls := get_control_input()
+		input.x = controls.x
+		input.z = controls.y
+		sphere.angular_velocity += vehicle_model.get_global_transform().basis.x * (linear_speed * drive_torque) * delta
 	else:
 		# Gradually clear inputs in the air so physics calculation doesn't skyrocket
-		input = input.lerp(Vector3.ZERO, delta * 2.0)
+		input = input.lerp(Vector3.ZERO, delta * air_input_decay)
 
 func effect_body(delta):
 
@@ -168,7 +187,6 @@ func effect_engine(delta):
 
 	engine_sound.pitch_scale = lerp(engine_sound.pitch_scale, target_pitch, delta * 2.0)
 
-# Fix: Turn off trails entirely when airborne, otherwise trace on ground slip
 func effect_trails():
 	if not raycast.is_colliding():
 		# if trail_left != null: trail_left.emitting = false

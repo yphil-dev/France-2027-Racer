@@ -3,8 +3,8 @@ class_name VehicleSphere extends RigidBody3D
 @export var max_angular_velocity: float = 50.0
 
 # Car
-@onready var car_name: String = "Soral"
-@onready var car_number: int = 0
+@export var car_name: String = "Soral"
+@export var car_number: int = 0
 
 var _lap_time: float = 0.0
 
