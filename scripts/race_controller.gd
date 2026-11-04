@@ -16,12 +16,12 @@ signal race_finished(standings: Array)
 
 @onready var traffic_light: RaceTrafficLight = get_node(traffic_light_path)
 @onready var start_audio: AudioStreamPlayer3D = get_node(start_audio_path)
-@onready var cars: Node3D = get_node("../CARS")
 @onready var game_ui: GameUI = get_node("../UI/GameUI")
 @onready var track_path: Path3D = get_node("../PATH/TrackPath")
-@onready var player_spawn: Marker3D = get_node("../START_GRID/PlayerSpawn")
+@onready var player_spawn: Marker3D = get_node("../START_GRID/GridSlot2")
 @onready var race_track = get_parent()
 
+var cars: Node3D
 var standings: Array[CarRaceState] = []
 var race_elapsed: float = 0.0
 var classification_time_remaining: float = 0.0
@@ -41,6 +41,10 @@ func _ready() -> void:
 	race_track.connect("car_finished", _on_track_car_finished)
 
 	await get_tree().process_frame
+	cars = RaceGridSpawner.spawn(race_track, RaceSelection.selected_driver_id)
+	var player_car := cars.get_node("PlayerCar") as PlayerCar
+	get_node("../View").set("target", player_car)
+
 	_setup_race_states()
 	game_ui.setup(self, standings)
 	_set_vehicles_enabled(false)

@@ -6,8 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dxa23770km15t" path="res://scenes/race_controller.tscn" id="2_trceg"]
 [ext_resource type="Script" uid="uid://8sg1ayu44brh" path="res://scripts/ai_waypoint_generator.gd" id="3_waypoints"]
 [ext_resource type="Script" uid="uid://b24bstassw26s" path="res://scripts/view.gd" id="5_0lrhn"]
-[ext_resource type="PackedScene" path="res://scenes/cpu_car.tscn" id="7_cpu"]
-[ext_resource type="PackedScene" uid="uid://82tw144cyqlb" path="res://scenes/player_car.tscn" id="7_o6xl0"]
 [ext_resource type="MeshLibrary" uid="uid://b6myd2b7l2o2j" path="res://models/Library/mesh-library.tres" id="8_eg7gk"]
 [ext_resource type="PackedScene" uid="uid://cawjsdr1dhpuh" path="res://models/city/road_straight_crossing.gltf" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c44tfiddyjjm1" path="res://models/vehicle-truck-green.glb" id="9_cmq2j"]
@@ -100,63 +98,9 @@ start_audio_path = NodePath("../RaceStartAudio")
 [node name="Environment" type="WorldEnvironment" parent="." unique_id=1097254880]
 environment = ExtResource("1_q4t1r")
 
-[node name="CARS" type="Node3D" parent="." unique_id=1656375288]
-
-[node name="PlayerCar" parent="CARS" unique_id=1867641805 instance=ExtResource("7_o6xl0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.719608, 0, 5)
-
-[node name="LePen" parent="CARS" unique_id=834696391 instance=ExtResource("7_cpu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.469608, 0, 5)
-waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
-waypoint_look_ahead = 2
-lane_offset = -0.45
-cpu_steering_gain = 1.5
-cruise_throttle = 0.85
-corner_throttle = 0.5
-full_corner_angle = 0.8
-avoidance_distance = 3.0
-avoidance_spread_degrees = 25.0
-avoidance_strength = 1.25
-blocked_throttle_multiplier = 0.35
-prefer_right_pass = true
-driver_id = "lepen"
-
-[node name="Glux" parent="CARS" unique_id=253328537 instance=ExtResource("7_cpu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.969608, 0, 5)
-waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
-waypoint_look_ahead = 2
-lane_offset = 0.0
-cpu_steering_gain = 1.6
-cruise_throttle = 0.92
-corner_throttle = 0.55
-full_corner_angle = 0.8
-avoidance_distance = 3.25
-avoidance_spread_degrees = 25.0
-avoidance_strength = 1.3
-blocked_throttle_multiplier = 0.35
-prefer_right_pass = false
-driver_id = "glux"
-
-[node name="Melenchon" parent="CARS" unique_id=432373778 instance=ExtResource("7_cpu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.219608, 0, 5)
-waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
-waypoint_look_ahead = 3
-lane_offset = 0.45
-cpu_steering_gain = 1.35
-cruise_throttle = 0.78
-corner_throttle = 0.45
-full_corner_angle = 0.75
-avoidance_distance = 3.0
-avoidance_spread_degrees = 28.0
-avoidance_strength = 1.2
-blocked_throttle_multiplier = 0.3
-prefer_right_pass = true
-driver_id = "melenchon"
-
-[node name="View" type="Node3D" parent="." unique_id=1807530472 node_paths=PackedStringArray("target")]
+[node name="View" type="Node3D" parent="." unique_id=1807530472]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
 script = ExtResource("5_0lrhn")
-target = NodePath("../CARS/PlayerCar")
 
 [node name="Camera" type="Camera3D" parent="View" unique_id=1079798936]
 transform = Transform3D(0.9907036, -0.093486965, -0.098822445, 0.111520365, 0.9741522, 0.19644465, 0.07790327, -0.20563862, 0.97552264, -5.3638825, 9.236919, 45.04232)
@@ -210,17 +154,17 @@ transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034
 [node name="START_GRID" type="Node3D" parent="." unique_id=515674292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.344608, 0, 5)
 
-[node name="CpuSpawn1" type="Marker3D" parent="START_GRID" unique_id=1827936175]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -502.8237915, 0, 0)
+[node name="GridSlot1" type="Marker3D" parent="START_GRID" unique_id=1827936175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7575684, 0, 0)
 
-[node name="PlayerSpawn" type="Marker3D" parent="START_GRID" unique_id=1622328316]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -501.2460327, 0, 0)
+[node name="GridSlot2" type="Marker3D" parent="START_GRID" unique_id=1622328316]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5075684, 0, 0)
 
-[node name="CpuSpawn2" type="Marker3D" parent="START_GRID" unique_id=48391389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -500.3861084, 0, 0)
+[node name="GridSlot3" type="Marker3D" parent="START_GRID" unique_id=48391389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25756836, 0, 0)
 
-[node name="CpuSpawn3" type="Marker3D" parent="START_GRID" unique_id=761714149]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -498.8078003, 0, 0)
+[node name="GridSlot4" type="Marker3D" parent="START_GRID" unique_id=761714149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.99243164, 0, 0)
 
 [node name="RampSupport" type="StaticBody3D" parent="." unique_id=1680593542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511998, 0, 0)

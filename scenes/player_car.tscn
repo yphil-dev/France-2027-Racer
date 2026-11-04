@@ -5,4 +5,3 @@
 
 [node name="PlayerCar" unique_id=983648407 instance=ExtResource("1_vehicle")]
 script = ExtResource("2_player")
-driver_id = "soral"

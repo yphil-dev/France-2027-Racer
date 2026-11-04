@@ -1,6 +1,8 @@
 class_name DriverRoster
 extends RefCounted
 
+const DRIVER_IDS: Array[String] = ["soral", "lepen", "glux", "melenchon"]
+
 const PROFILES: Dictionary = {
 	"soral": {
 		"display_name": "A. Soral",
@@ -27,6 +29,9 @@ const PROFILES: Dictionary = {
 		"car_color": Color(0.5, 0, 1, 1), # Saturated Royal Purple
 	},
 }
+
+static func has_driver(driver_id: String) -> bool:
+	return PROFILES.has(driver_id)
 
 static func get_profile(driver_id: String) -> Dictionary:
 	if PROFILES.has(driver_id):

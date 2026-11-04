@@ -17,9 +17,28 @@ extends Vehicle
 @export_range(0.0, 1.0, 0.05) var blocked_throttle_multiplier: float = 0.35
 @export var prefer_right_pass: bool = true
 
+var behavior_id: String = ""
 var waypoint_generator: AIWaypointGenerator
 var _current_waypoint_index: int = -1
 var _can_drive: bool = false
+
+func configure_behavior(p_behavior_id: String) -> void:
+	var profile := CpuBehaviorRoster.get_profile(p_behavior_id)
+	if profile.is_empty():
+		return
+
+	behavior_id = p_behavior_id
+	waypoint_look_ahead = int(profile["waypoint_look_ahead"])
+	lane_offset = float(profile["lane_offset"])
+	cpu_steering_gain = float(profile["cpu_steering_gain"])
+	cruise_throttle = float(profile["cruise_throttle"])
+	corner_throttle = float(profile["corner_throttle"])
+	full_corner_angle = float(profile["full_corner_angle"])
+	avoidance_distance = float(profile["avoidance_distance"])
+	avoidance_spread_degrees = float(profile["avoidance_spread_degrees"])
+	avoidance_strength = float(profile["avoidance_strength"])
+	blocked_throttle_multiplier = float(profile["blocked_throttle_multiplier"])
+	prefer_right_pass = bool(profile["prefer_right_pass"])
 
 func _ready() -> void:
 	super._ready()
