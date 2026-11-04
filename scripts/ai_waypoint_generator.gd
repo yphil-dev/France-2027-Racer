@@ -9,7 +9,7 @@ const AI_BOUNDARY_MASK: int = 1 << 4
 @export_range(1.0, 100.0, 0.5, "or_greater") var ray_length: float = 20.0
 @export_range(0.0, 5.0, 0.1, "or_greater") var ray_height: float = 0.5
 @export_range(0.5, 20.0, 0.5, "or_greater") var fallback_half_width: float = 3.0
-@export var show_debug_lines: bool = false
+@export var show_debug_lines: bool = true
 
 @onready var boundary_builder: AIBoundaryBuilder = get_parent()
 @onready var track_path: Path3D = $"../TrackPath"
