@@ -1,13 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://82tw144cyqlb"]
 
 [ext_resource type="PackedScene" uid="uid://badoy1c127yhf" path="res://scenes/vehicle.tscn" id="1_vehicle"]
-[ext_resource type="Script" path="res://scripts/player_car.gd" id="2_player"]
-[ext_resource type="Texture2D" path="res://sprites/Soral.jpg" id="3_portrait"]
+[ext_resource type="Script" uid="uid://cm6avi3sxa8au" path="res://scripts/player_car.gd" id="2_player"]
 
-[node name="PlayerCar" instance=ExtResource("1_vehicle")]
+[node name="PlayerCar" unique_id=983648407 instance=ExtResource("1_vehicle")]
 script = ExtResource("2_player")
 driver_id = "soral"
-driver_name = "Soral"
-car_number = 0
-portrait = ExtResource("3_portrait")
-car_color = Color(1, 0, 0, 1)

@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://8sg1ayu44brh" path="res://scripts/ai_waypoint_generator.gd" id="3_waypoints"]
 [ext_resource type="Script" uid="uid://b24bstassw26s" path="res://scripts/view.gd" id="5_0lrhn"]
 [ext_resource type="PackedScene" path="res://scenes/cpu_car.tscn" id="7_cpu"]
-[ext_resource type="PackedScene" path="res://scenes/player_car.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://82tw144cyqlb" path="res://scenes/player_car.tscn" id="7_o6xl0"]
 [ext_resource type="MeshLibrary" uid="uid://b6myd2b7l2o2j" path="res://models/Library/mesh-library.tres" id="8_eg7gk"]
 [ext_resource type="PackedScene" uid="uid://cawjsdr1dhpuh" path="res://models/city/road_straight_crossing.gltf" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c44tfiddyjjm1" path="res://models/vehicle-truck-green.glb" id="9_cmq2j"]
@@ -18,9 +18,6 @@
 [ext_resource type="PackedScene" uid="uid://dn24yd7sv8g0w" path="res://scenes/traffic_light.tscn" id="16_ws3xf"]
 [ext_resource type="AudioStream" uid="uid://77d1clswvsf7" path="res://audio/race-start.ogg" id="17_race_start"]
 [ext_resource type="PackedScene" uid="uid://ca6fwu6qha84s" path="res://scenes/GameUI/game_ui.tscn" id="18_qycdi"]
-[ext_resource type="Texture2D" uid="uid://cht6vw8k22pyd" path="res://sprites/Lepen.jpg" id="19_lepen"]
-[ext_resource type="Texture2D" uid="uid://bcrmvmwt7rg6k" path="res://sprites/Glux.jpg" id="20_glux"]
-[ext_resource type="Texture2D" uid="uid://bfxgr53wjcmlx" path="res://sprites/Melenchon.jpg" id="21_melenchon"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_a8y0u"]
 
@@ -123,9 +120,6 @@ avoidance_strength = 1.25
 blocked_throttle_multiplier = 0.35
 prefer_right_pass = true
 driver_id = "lepen"
-driver_name = "LePen"
-car_number = 1
-portrait = ExtResource("19_lepen")
 
 [node name="Glux" parent="CARS" unique_id=253328537 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.969608, 0, 5)
@@ -142,10 +136,6 @@ avoidance_strength = 1.3
 blocked_throttle_multiplier = 0.35
 prefer_right_pass = false
 driver_id = "glux"
-driver_name = "Glux"
-car_number = 2
-portrait = ExtResource("20_glux")
-car_color = Color(0.380392, 0.796078, 0.545098, 1)
 
 [node name="Melenchon" parent="CARS" unique_id=432373778 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.219608, 0, 5)
@@ -162,10 +152,6 @@ avoidance_strength = 1.2
 blocked_throttle_multiplier = 0.3
 prefer_right_pass = true
 driver_id = "melenchon"
-driver_name = "Melenchon"
-car_number = 3
-portrait = ExtResource("21_melenchon")
-car_color = Color(0.658824, 0.470588, 0.909804, 1)
 
 [node name="View" type="Node3D" parent="." unique_id=1807530472 node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
@@ -225,16 +211,16 @@ transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.344608, 0, 5)
 
 [node name="CpuSpawn1" type="Marker3D" parent="START_GRID" unique_id=1827936175]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.875, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -502.8237915, 0, 0)
 
 [node name="PlayerSpawn" type="Marker3D" parent="START_GRID" unique_id=1622328316]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -501.2460327, 0, 0)
 
 [node name="CpuSpawn2" type="Marker3D" parent="START_GRID" unique_id=48391389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.625, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -500.3861084, 0, 0)
 
 [node name="CpuSpawn3" type="Marker3D" parent="START_GRID" unique_id=761714149]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.875, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -498.8078003, 0, 0)
 
 [node name="RampSupport" type="StaticBody3D" parent="." unique_id=1680593542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511998, 0, 0)

@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://mfyv4x5lgree"]
 
 [ext_resource type="Script" uid="uid://c5d0oxajff85h" path="res://scripts/track.gd" id="1_eb6dy"]
 [ext_resource type="Environment" uid="uid://c3bs0wfxpri8g" path="res://scenes/main-environment.tres" id="1_q4t1r"]
@@ -18,9 +18,6 @@
 [ext_resource type="PackedScene" uid="uid://dn24yd7sv8g0w" path="res://scenes/traffic_light.tscn" id="16_ws3xf"]
 [ext_resource type="AudioStream" uid="uid://77d1clswvsf7" path="res://audio/race-start.ogg" id="17_race_start"]
 [ext_resource type="PackedScene" uid="uid://ca6fwu6qha84s" path="res://scenes/GameUI/game_ui.tscn" id="18_qycdi"]
-[ext_resource type="Texture2D" path="res://sprites/Lepen.jpg" id="19_lepen"]
-[ext_resource type="Texture2D" path="res://sprites/Glux.jpg" id="20_glux"]
-[ext_resource type="Texture2D" path="res://sprites/Melenchon.jpg" id="21_melenchon"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_a8y0u"]
 
@@ -82,6 +79,13 @@ _data = {
 }
 point_count = 12
 
+[sub_resource type="Environment" id="Environment_6xfsa"]
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 3
+ssao_enabled = true
+glow_enabled = true
+
 [node name="TRACK" type="Node3D" unique_id=1145999287]
 script = ExtResource("1_eb6dy")
 
@@ -110,11 +114,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.719608, 0, 5)
 
 [node name="LePen" parent="CARS" unique_id=834696391 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.469608, 0, 5)
-driver_id = "lepen"
-driver_name = "LePen"
-car_number = 1
-portrait = ExtResource("19_lepen")
-car_color = Color(1, 0.752941, 0.266667, 1)
 waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
 waypoint_look_ahead = 2
 lane_offset = -0.45
@@ -127,14 +126,10 @@ avoidance_spread_degrees = 25.0
 avoidance_strength = 1.25
 blocked_throttle_multiplier = 0.35
 prefer_right_pass = true
+driver_id = "lepen"
 
-[node name="Glux" parent="CARS" instance=ExtResource("7_cpu")]
+[node name="Glux" parent="CARS" unique_id=504739901 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.969608, 0, 5)
-driver_id = "glux"
-driver_name = "Glux"
-car_number = 2
-portrait = ExtResource("20_glux")
-car_color = Color(0.380392, 0.796078, 0.545098, 1)
 waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
 waypoint_look_ahead = 2
 lane_offset = 0.0
@@ -147,14 +142,10 @@ avoidance_spread_degrees = 25.0
 avoidance_strength = 1.3
 blocked_throttle_multiplier = 0.35
 prefer_right_pass = false
+driver_id = "glux"
 
-[node name="Melenchon" parent="CARS" instance=ExtResource("7_cpu")]
+[node name="Melenchon" parent="CARS" unique_id=284217851 instance=ExtResource("7_cpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.219608, 0, 5)
-driver_id = "melenchon"
-driver_name = "Melenchon"
-car_number = 3
-portrait = ExtResource("21_melenchon")
-car_color = Color(0.658824, 0.470588, 0.909804, 1)
 waypoint_generator_path = NodePath("../../PATH/WaypointGenerator")
 waypoint_look_ahead = 3
 lane_offset = 0.45
@@ -167,6 +158,7 @@ avoidance_spread_degrees = 28.0
 avoidance_strength = 1.2
 blocked_throttle_multiplier = 0.3
 prefer_right_pass = true
+driver_id = "melenchon"
 
 [node name="View" type="Node3D" parent="." unique_id=1807530472 node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
@@ -179,8 +171,9 @@ attributes = SubResource("CameraAttributesPhysical_a8y0u")
 current = true
 fov = 37.849285
 
-[node name="Sun" type="DirectionalLight3D" parent="." unique_id=385873465]
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1940918163]
 transform = Transform3D(-0.422618, -0.694272, 0.582564, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 0, 0)
+light_specular = 0.0
 shadow_enabled = true
 shadow_bias = 0.2
 shadow_normal_bias = 1.0
@@ -770,6 +763,9 @@ curve = SubResource("Curve3D_mdjv0")
 [node name="UI" type="CanvasLayer" parent="." unique_id=2062290784]
 
 [node name="GameUI" parent="UI" unique_id=239267494 instance=ExtResource("18_qycdi")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=264416833]
+environment = SubResource("Environment_6xfsa")
 
 [connection signal="body_entered" from="Finish" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]

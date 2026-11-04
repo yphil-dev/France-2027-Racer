@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://v3p8rgq343ru"]
 
 [ext_resource type="PackedScene" uid="uid://badoy1c127yhf" path="res://scenes/vehicle.tscn" id="1_vehicle"]
-[ext_resource type="Script" path="res://scripts/cpu_car.gd" id="2_cpu"]
+[ext_resource type="Script" uid="uid://duodf3xd6dp2k" path="res://scripts/cpu_car.gd" id="2_cpu"]
 
-[node name="CpuCar" instance=ExtResource("1_vehicle")]
+[node name="CpuCar" unique_id=1617850726 instance=ExtResource("1_vehicle")]
 script = ExtResource("2_cpu")
+waypoint_generator_path = NodePath("../PATH/WaypointGenerator")
+waypoint_look_ahead = 2
+lane_offset = 0.0
+cpu_steering_gain = 1.5
+cruise_throttle = 0.85
+corner_throttle = 0.5
+full_corner_angle = 0.8
+avoidance_distance = 3.0
+avoidance_spread_degrees = 25.0
+avoidance_strength = 1.25
+blocked_throttle_multiplier = 0.35
+prefer_right_pass = true

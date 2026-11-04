@@ -2,9 +2,9 @@ class_name VehicleSphere extends RigidBody3D
 
 @export var max_angular_velocity: float = 50.0
 
-# Car
-@export var car_name: String = "Soral"
-@export var car_number: int = 0
+# Driver identity is assigned by Vehicle from DriverRoster.
+var car_name: String = "Driver"
+var car_number: int = -1
 
 func _ready() -> void:
 	# Ensure contact monitor is on if you still rely on _on_sphere_body_entered

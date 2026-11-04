@@ -3,7 +3,7 @@ extends Node3D
 signal lap_completed(car: VehicleSphere, lap_number: int)
 signal car_finished(car: VehicleSphere, lap_number: int)
 
-@export var target_laps: int = 2
+@export var target_laps: int = 1
 
 var _verified_by_car: Dictionary = {}
 var _laps_by_car: Dictionary = {}
@@ -30,8 +30,6 @@ func _on_finish_body_entered(body: Node3D) -> void:
 	var car := body as VehicleSphere
 	if _finished_cars.get(car, false):
 		return
-
-	print("Finish entered by: ", car.car_name)
 
 	if not _verified_by_car.get(car, false):
 		print("%s passed the finish line, but the lap was not verified." % car.car_name)

@@ -13,13 +13,14 @@ class_name Vehicle extends Node3D
 @export var air_input_decay: float = 2.0
 
 @export_category("Driver")
-@export var driver_id: String = "driver"
-@export var driver_name: String = "Driver"
-@export var car_number: int = 0
-@export var portrait: Texture2D
+@export var driver_id: String = ""
+
+var driver_name: String = "Driver"
+var car_number: int = -1
+var portrait: Texture2D
+var car_color: Color = Color.WHITE
 
 @export_category("Appearance")
-@export var car_color: Color = Color(1.0, 0.752941, 0.266667, 1.0)
 @export var body_material: Material
 
 @export_category("Race")
@@ -93,12 +94,23 @@ func _enter_tree() -> void:
 	add_to_group("race_vehicles")
 
 func _ready() -> void:
+	var profile := DriverRoster.get_profile(driver_id)
+	if not profile.is_empty():
+		driver_name = profile["display_name"]
+		car_number = profile["car_number"]
+		portrait = profile["portrait"]
+		car_color = profile["car_color"]
+
 	sphere.car_name = driver_name
 	sphere.car_number = car_number
 
 	if vehicle_body is GeometryInstance3D and body_material != null:
-		vehicle_body.material_override = body_material
-		vehicle_body.set_instance_shader_parameter("car_color", car_color)
+		# Clone the material unique to this vehicle node container instance
+		var unique_material = body_material.duplicate()
+		vehicle_body.material_override = unique_material
+
+		# Update the shader parameters safely
+		unique_material.set_shader_parameter("car_color", car_color)
 
 func _physics_process(delta):
 
