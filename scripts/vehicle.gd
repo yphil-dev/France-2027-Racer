@@ -171,8 +171,8 @@ func effect_engine(delta):
 # Fix: Turn off trails entirely when airborne, otherwise trace on ground slip
 func effect_trails():
 	if not raycast.is_colliding():
-		if trail_left != null: trail_left.emitting = false
-		if trail_right != null: trail_right.emitting = false
+		# if trail_left != null: trail_left.emitting = false
+		# if trail_right != null: trail_right.emitting = false
 		screech_sound.volume_db = -80.0
 		return
 

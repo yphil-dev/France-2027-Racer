@@ -21,6 +21,5 @@ func race_completed(numLaps) -> void:
 
 func lap_completed(numLap) -> void:
 	var lcd: LapCompleteData = LapCompleteData.new(self, _lap_time)
-	print("Lap %d completed!" % numLap)
 	print("Lap completed! ", lcd)
 	EventHub.emitOnLapCompleted(lcd)
