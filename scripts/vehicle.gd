@@ -12,6 +12,10 @@ class_name Vehicle extends Node3D
 @export var drive_torque: float = 100.0
 @export var air_input_decay: float = 2.0
 
+@export_category("Appearance")
+@export var car_color: Color = Color(1.0, 0.752941, 0.266667, 1.0)
+@export var body_material: Material
+
 # Nodes
 
 # ─── KEY CHANGE: Explicitly typed as your new VehicleSphere class ───
@@ -68,6 +72,11 @@ var calculated_lean: float
 func get_vehicle_position() -> Vector3: return vehicle_model.global_position
 
 # Functions
+
+func _ready() -> void:
+	if vehicle_body is GeometryInstance3D and body_material != null:
+		vehicle_body.material_override = body_material
+		vehicle_body.set_instance_shader_parameter("car_color", car_color)
 
 func _physics_process(delta):
 

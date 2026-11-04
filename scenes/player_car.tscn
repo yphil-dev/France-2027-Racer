@@ -5,3 +5,4 @@
 
 [node name="PlayerCar" instance=ExtResource("1_vehicle")]
 script = ExtResource("2_player")
+car_color = Color(1, 0, 0, 1)

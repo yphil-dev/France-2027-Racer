@@ -7,6 +7,13 @@
 [ext_resource type="AudioStream" uid="uid://j6x2is8pyt8y" path="res://audio/engine.ogg" id="5_kcati"]
 [ext_resource type="AudioStream" uid="uid://io4pmr3lo1dy" path="res://audio/impact.ogg" id="6_v3p7b"]
 [ext_resource type="Script" uid="uid://cxaw38i2l08wt" path="res://scripts/sphere.gd" id="7_vuxys"]
+[ext_resource type="Shader" path="res://shaders/vehicle_palette.gdshader" id="8_palette"]
+[ext_resource type="Texture2D" path="res://models/Textures/colormap.png" id="9_colormap"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vehicle_palette"]
+shader = ExtResource("8_palette")
+shader_parameter/palette_texture = ExtResource("9_colormap")
+shader_parameter/color_tolerance = 0.08
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfk12"]
 transparency = 1
@@ -60,6 +67,7 @@ rough = true
 
 [node name="Vehicle" type="Node3D" unique_id=1867641805]
 script = ExtResource("1_e2g1l")
+body_material = SubResource("ShaderMaterial_vehicle_palette")
 
 [node name="Ground" type="RayCast3D" parent="." unique_id=496963048]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -107,6 +115,7 @@ stream = ExtResource("6_v3p7b")
 [node name="Sphere" type="RigidBody3D" parent="." unique_id=1368519146]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 8
+collision_mask = 9
 mass = 1000.0
 physics_material_override = SubResource("PhysicsMaterial_eyo0u")
 gravity_scale = 1.5

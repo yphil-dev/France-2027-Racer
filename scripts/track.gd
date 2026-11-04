@@ -2,42 +2,44 @@ extends Node3D
 
 @export var target_laps: int = 1
 
-var _verification_count: int = 0
-var _verified: bool = false
-var _laps_completed: int = 0
+var _verified_by_car: Dictionary = {}
+var _laps_by_car: Dictionary = {}
+var _race_finished: bool = false
+var _winner: VehicleSphere
 
 func _ready() -> void:
 	print("START! Target laps set to: ", target_laps)
 
 func _on_verif_body_entered(body: Node3D) -> void:
-	if _verified:
+	if _race_finished or not body is VehicleSphere:
 		return
 
-	if body is VehicleSphere:
-		_verification_count += 1
-		print("Verification step: %d/1" % _verification_count)
+	var car := body as VehicleSphere
+	if _verified_by_car.get(car, false):
+		return
 
-		# CHANGED TO 1: Validates instantly after passing your single checkpoint
-		if _verification_count >= 1:
-			_verified = true
-			print("Lap verification complete! Head to the finish line.")
+	_verified_by_car[car] = true
+	print("Lap verification complete for %s! Head to the finish line." % car.car_name)
 
 func _on_finish_body_entered(body: Node3D) -> void:
-	if body is VehicleSphere:
-		print("Finish entered by: ", body.name)
+	if _race_finished or not body is VehicleSphere:
+		return
 
-		if _verified:
-			_laps_completed += 1
-			print("Lap completed! Total laps: %d" % _laps_completed)
+	var car := body as VehicleSphere
+	print("Finish entered by: ", car.car_name)
 
-			body.lap_completed(_laps_completed)
+	if not _verified_by_car.get(car, false):
+		print("%s passed the finish line, but the lap was not verified!" % car.car_name)
+		return
 
-			# Check for immediate race completion
-			if _laps_completed >= target_laps:
-				body.race_completed(_laps_completed)
+	var laps_completed := int(_laps_by_car.get(car, 0)) + 1
+	_laps_by_car[car] = laps_completed
+	_verified_by_car[car] = false
+	print("Lap completed by %s! Total laps: %d" % [car.car_name, laps_completed])
 
-			# Reset tracking variables ONLY if you decide to increase target_laps later
-			_verification_count = 0
-			_verified = false
-		else:
-			print("Passed finish line, but lap not verified yet!")
+	car.lap_completed(laps_completed)
+
+	if laps_completed >= target_laps:
+		_race_finished = true
+		_winner = car
+		car.race_completed(laps_completed)

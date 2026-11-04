@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 	_lap_time += delta
 
 func race_completed(numLaps) -> void:
-	print("Race completed! %s laps" % numLaps)
+	print("Race completed by %s! %s laps" % [car_name, numLaps])
 
 func lap_completed(numLap) -> void:
 	var lcd: LapCompleteData = LapCompleteData.new(self, _lap_time)
