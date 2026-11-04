@@ -37,7 +37,9 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-focus_mode = 1
+focus_neighbor_right = NodePath("../Marseille")
+focus_neighbor_bottom = NodePath("../Limoges")
+focus_mode = 2
 flat = true
 
 [node name="Preview" type="TextureRect" parent="TrackGrid/Paris"]
@@ -97,7 +99,9 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-focus_mode = 1
+focus_neighbor_left = NodePath("../Paris")
+focus_neighbor_bottom = NodePath("../Lyon")
+focus_mode = 2
 flat = true
 
 [node name="Preview" type="TextureRect" parent="TrackGrid/Marseille"]
@@ -157,7 +161,9 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-focus_mode = 1
+focus_neighbor_top = NodePath("../Paris")
+focus_neighbor_right = NodePath("../Lyon")
+focus_mode = 2
 flat = true
 
 [node name="Preview" type="TextureRect" parent="TrackGrid/Limoges"]
@@ -217,7 +223,9 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-focus_mode = 1
+focus_neighbor_left = NodePath("../Limoges")
+focus_neighbor_top = NodePath("../Marseille")
+focus_mode = 2
 flat = true
 
 [node name="Preview" type="TextureRect" parent="TrackGrid/Lyon"]
@@ -271,6 +279,16 @@ theme_override_font_sizes/font_size = 14
 text = "GENERATING PREVIEW..."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Transition" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
 
 [node name="PreviewViewport" type="SubViewport" parent="."]
 size = Vector2i(640, 360)
