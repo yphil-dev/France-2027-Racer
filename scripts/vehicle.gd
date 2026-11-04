@@ -129,10 +129,7 @@ func _physics_process(delta):
 
 # Override this in player/CPU subclasses to provide steering and throttle.
 func get_control_input() -> Vector2:
-	return Vector2(
-		Input.get_axis("left", "right"),
-		Input.get_axis("back", "forward")
-	)
+	return Vector2.ZERO
 
 # Apply controls when the vehicle is colliding with the ground.
 func handle_input(delta):

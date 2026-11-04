@@ -4,7 +4,7 @@
 [ext_resource type="Environment" uid="uid://c3bs0wfxpri8g" path="res://scenes/main-environment.tres" id="1_q4t1r"]
 [ext_resource type="PackedScene" uid="uid://dxa23770km15t" path="res://scenes/race_controller.tscn" id="2_trceg"]
 [ext_resource type="Script" uid="uid://b24bstassw26s" path="res://scripts/view.gd" id="5_0lrhn"]
-[ext_resource type="PackedScene" uid="uid://badoy1c127yhf" path="res://scenes/vehicle.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" path="res://scenes/player_car.tscn" id="7_o6xl0"]
 [ext_resource type="MeshLibrary" uid="uid://b6myd2b7l2o2j" path="res://models/Library/mesh-library.tres" id="8_eg7gk"]
 [ext_resource type="PackedScene" uid="uid://cvxh8c1e1dio2" path="res://models/city/trafficlight_C.gltf" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://cawjsdr1dhpuh" path="res://models/city/road_straight_crossing.gltf" id="9_85g3d"]
@@ -69,7 +69,7 @@ environment = ExtResource("1_q4t1r")
 [node name="View" type="Node3D" parent="." unique_id=1807530472 node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
 script = ExtResource("5_0lrhn")
-target = NodePath("../Vehicle")
+target = NodePath("../PlayerCar")
 
 [node name="Camera" type="Camera3D" parent="View" unique_id=1079798936]
 transform = Transform3D(0.9907036, -0.093486965, -0.098822445, 0.111520365, 0.9741522, 0.19644465, 0.07790327, -0.20563862, 0.97552264, -5.3638825, 9.236919, 45.04232)
@@ -120,7 +120,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.7772, -0.143123, -13.5596
 [node name="vehicle-truck-red" parent="." unique_id=1524379599 instance=ExtResource("11_wocnk")]
 transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034, -1.36138, -0.49090827, -23.486576)
 
-[node name="Vehicle" parent="." unique_id=1867641805 instance=ExtResource("7_o6xl0")]
+[node name="PlayerCar" parent="." unique_id=1867641805 instance=ExtResource("7_o6xl0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.719608, 0, 5)
 
 [node name="RampSupport" type="StaticBody3D" parent="." unique_id=1680593542]
