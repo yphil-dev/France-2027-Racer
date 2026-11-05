@@ -6,14 +6,14 @@ extends Node
 @export var loser: AudioStreamPlayer2D
 
 const SILENT_DB: float = -80.0
-const TARGET_DB: float = -12.0  # adjust to taste
+const TARGET_DB: float = -14.0  # adjust to taste
 
 var _fade_tween: Tween
 
 func _ready() -> void:
 	bar.volume_db = SILENT_DB
 
-func fade_in(duration: float = 0.2) -> void:
+func fade_in(duration: float = 2.4) -> void:
 	_kill_fade()
 	if not bar.playing:
 		bar.play()

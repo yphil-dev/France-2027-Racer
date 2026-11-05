@@ -6,7 +6,7 @@ extends Node3D
 @export_range(0.005, 0.05, 0.001) var surface_offset: float = 0.018
 @export_range(32, 512, 1) var chunk_segment_limit: int = 256
 @export_range(128, 4096, 1) var max_segments_per_tire: int = 1024
-@export_range(0.5, 5.0, 0.1) var maximum_strip_length: float = 1.5
+@export_range(0.5, 5.0, 0.1) var maximum_strip_length: float = 4.5
 @export_range(0.1, 2.0, 0.1) var forced_strip_gap: float = 0.6
 @export_range(0.2, 2.0, 0.05) var maximum_contact_gap: float = 0.75
 

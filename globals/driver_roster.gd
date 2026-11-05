@@ -23,16 +23,17 @@ const PROFILES: Dictionary = {
 		"car_number": 2,
 		"portrait": preload("res://sprites/Glux.jpg"),
 		"selection_portrait": preload("res://sprites/Glux-no-glasses.jpg"),
-		"car_color": Color(0.62, 0.04, 0.3, 1), # Dark Pink
+		"car_color": Color(1.0, 0.75, 0.8, 1), # Plain Pink
 	},
 	"melenchon": {
 		"display_name": "JL. Mélenchon",
 		"car_number": 3,
 		"portrait": preload("res://sprites/Melenchon.jpg"),
 		"selection_portrait": preload("res://sprites/Melenchon-no-glasses.jpg"),
-		"car_color": Color(0.28, 0.03, 0.48, 1), # Dark Purple
+		"car_color": Color(0.85, 0.08, 0.08, 1), # Red
 	},
 }
+
 
 static func has_driver(driver_id: String) -> bool:
 	return PROFILES.has(driver_id)
