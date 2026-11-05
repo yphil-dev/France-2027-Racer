@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://dkh30i5jluoih"]
+
+[ext_resource type="PackedScene" uid="uid://75ntljj6aml6" path="res://models/city/streetlight.gltf" id="1_skuyu"]
+
+[node name="StreetLights-row" type="Node3D" unique_id=1599734660]
+
+[node name="streetlight2" parent="." unique_id=1838108597 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.18244, -0.07203579, 5.11321)
+
+[node name="streetlight3" parent="." unique_id=1018605870 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.18244, -0.07203579, 6.9488564)
+
+[node name="streetlight4" parent="." unique_id=753376153 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.18244, -0.07203579, 8.633241)
+
+[node name="streetlight5" parent="." unique_id=73481847 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.182441, -0.07203579, 10.468887)
+
+[node name="streetlight6" parent="." unique_id=626672527 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.182439, -0.07203579, -1.9602022)
+
+[node name="streetlight7" parent="." unique_id=1631380491 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.18244, -0.07203579, -0.12455559)
+
+[node name="streetlight8" parent="." unique_id=1415327655 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.18244, -0.07203579, 1.5598288)
+
+[node name="streetlight9" parent="." unique_id=2140636022 instance=ExtResource("1_skuyu")]
+transform = Transform3D(-2.5520601, 0, -2.2310819e-07, 0, 2.5520601, 0, 2.2310819e-07, 0, -2.5520601, 15.18244, -0.07203579, 3.3954754)
+
+[node name="streetlight10" parent="." unique_id=2001757681 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, 3.395475)
+
+[node name="streetlight11" parent="." unique_id=1424856509 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, 1.5598285)
+
+[node name="streetlight12" parent="." unique_id=34312926 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, -0.12455559)
+
+[node name="streetlight13" parent="." unique_id=250359832 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, -1.960202)
+
+[node name="streetlight14" parent="." unique_id=1050635060 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, 10.468887)
+
+[node name="streetlight15" parent="." unique_id=1527478274 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, 8.633241)
+
+[node name="streetlight16" parent="." unique_id=471927679 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, 6.9488564)
+
+[node name="streetlight17" parent="." unique_id=1309552467 instance=ExtResource("1_skuyu")]
+transform = Transform3D(2.5520601, 0, 0, 0, 2.5520601, 0, 0, 0, 2.5520601, 7.2455587, -0.07203579, 5.1132097)
