@@ -17,10 +17,25 @@ extends Vehicle
 @export_range(0.0, 1.0, 0.05) var blocked_throttle_multiplier: float = 0.35
 @export var prefer_right_pass: bool = true
 
+@export_category("CPU Recovery")
+@export_range(1.0, 10.0, 0.5) var no_progress_timeout: float = 4.0
+@export_range(0.5, 4.0, 0.1) var wedged_timeout: float = 1.2
+@export_range(0.05, 1.0, 0.05) var wedged_velocity_threshold: float = 0.2
+@export_range(0.2, 2.0, 0.1) var recovery_reverse_duration: float = 0.8
+@export_range(0.1, 1.0, 0.05) var recovery_reverse_throttle: float = 0.45
+@export_range(0.5, 5.0, 0.1) var recovery_guidance_duration: float = 2.5
+@export_range(1, 8, 1) var recovery_window_behind: int = 3
+@export_range(1, 12, 1) var recovery_window_ahead: int = 6
+
 var behavior_id: String = ""
 var waypoint_generator: AIWaypointGenerator
 var _current_waypoint_index: int = -1
 var _can_drive: bool = false
+var _last_progress_waypoint: int = -1
+var _no_progress_time: float = 0.0
+var _wedged_time: float = 0.0
+var _reverse_time_remaining: float = 0.0
+var _guidance_time_remaining: float = 0.0
 
 func configure_behavior(p_behavior_id: String) -> void:
 	var profile := CpuBehaviorRoster.get_profile(p_behavior_id)
@@ -56,6 +71,7 @@ func _ready() -> void:
 		return
 
 	_current_waypoint_index = _find_nearest_waypoint()
+	_last_progress_waypoint = _current_waypoint_index
 	_can_drive = true
 	print("CPU car %s ready at waypoint %d" % [sphere.car_name, _current_waypoint_index])
 
@@ -64,9 +80,11 @@ func get_control_input() -> Vector2:
 		return Vector2.ZERO
 
 	_advance_waypoint()
+	_update_recovery(get_physics_process_delta_time())
 
 	var waypoint_count := waypoint_generator.waypoints.size()
-	var target_index := (_current_waypoint_index + waypoint_look_ahead) % waypoint_count
+	var active_look_ahead := 1 if _is_recovering() else waypoint_look_ahead
+	var target_index := (_current_waypoint_index + active_look_ahead) % waypoint_count
 	var target := waypoint_generator.waypoints[target_index].get_lane_point(lane_offset)
 
 	var target_direction := target - sphere.global_position
@@ -80,15 +98,81 @@ func get_control_input() -> Vector2:
 	current_forward = current_forward.normalized()
 
 	var angle: float = current_forward.signed_angle_to(target_direction, Vector3.UP)
-	var steering := clampf(-angle * cpu_steering_gain, -1.0, 1.0)
+	var path_steering := clampf(-angle * cpu_steering_gain, -1.0, 1.0)
+	var steering := path_steering
 	var corner_amount := clampf(absf(angle) / full_corner_angle, 0.0, 1.0)
 	var throttle := lerpf(cruise_throttle, corner_throttle, corner_amount)
+
+	if _reverse_time_remaining > 0.0:
+		return Vector2(-path_steering, -recovery_reverse_throttle)
+	if _guidance_time_remaining > 0.0:
+		throttle = minf(throttle, corner_throttle)
 
 	var avoidance := _get_avoidance(current_forward)
 	steering = clampf(steering + avoidance.x * avoidance_strength, -1.0, 1.0)
 	throttle *= lerpf(1.0, blocked_throttle_multiplier, avoidance.y)
 
 	return Vector2(steering, throttle)
+
+func _update_recovery(delta: float) -> void:
+	if _current_waypoint_index != _last_progress_waypoint:
+		_last_progress_waypoint = _current_waypoint_index
+		_no_progress_time = 0.0
+		_wedged_time = 0.0
+		_reverse_time_remaining = 0.0
+		_guidance_time_remaining = 0.0
+		return
+
+	if _reverse_time_remaining > 0.0:
+		_reverse_time_remaining = maxf(0.0, _reverse_time_remaining - delta)
+		return
+	if _guidance_time_remaining > 0.0:
+		_guidance_time_remaining = maxf(0.0, _guidance_time_remaining - delta)
+		return
+
+	_no_progress_time += delta
+	var horizontal_velocity := sphere.linear_velocity
+	horizontal_velocity.y = 0.0
+	if absf(linear_speed) > 0.25 and horizontal_velocity.length() < wedged_velocity_threshold:
+		_wedged_time += delta
+	else:
+		_wedged_time = 0.0
+
+	var is_wedged := _wedged_time >= wedged_timeout
+	if _no_progress_time >= no_progress_timeout or is_wedged:
+		_begin_recovery(is_wedged)
+
+func _begin_recovery(reverse_first: bool) -> void:
+	_current_waypoint_index = _find_local_recovery_waypoint()
+	_last_progress_waypoint = _current_waypoint_index
+	_no_progress_time = 0.0
+	_wedged_time = 0.0
+	_reverse_time_remaining = recovery_reverse_duration if reverse_first else 0.0
+	_guidance_time_remaining = recovery_guidance_duration
+	print("CPU recovery: %s reacquired waypoint %d%s." % [
+		driver_name,
+		_current_waypoint_index,
+		" after becoming wedged" if reverse_first else " after losing progress",
+	])
+
+func _is_recovering() -> bool:
+	return _reverse_time_remaining > 0.0 or _guidance_time_remaining > 0.0
+
+func _find_local_recovery_waypoint() -> int:
+	var waypoint_count := waypoint_generator.waypoints.size()
+	var nearest_index := _current_waypoint_index
+	var nearest_distance := INF
+
+	for offset in range(-recovery_window_behind, recovery_window_ahead + 1):
+		var candidate_index := posmod(_current_waypoint_index + offset, waypoint_count)
+		var distance := sphere.global_position.distance_squared_to(
+			waypoint_generator.waypoints[candidate_index].center
+		)
+		if distance < nearest_distance:
+			nearest_distance = distance
+			nearest_index = candidate_index
+
+	return nearest_index
 
 func _get_avoidance(current_forward: Vector3) -> Vector2:
 	var spread := deg_to_rad(avoidance_spread_degrees)
