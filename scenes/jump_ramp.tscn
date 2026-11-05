@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://e1553jj8qfvc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6xfsa"]
+size = Vector3(4.0273438, 0.25878906, 5.4257813)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g6usw"]
+albedo_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_g6usw"]
+data = PackedVector3Array(-2.0137, 0.1294, 2.7129, 2.0137, 0.1294, 2.7129, -2.0137, -0.1294, 2.7129, 2.0137, 0.1294, 2.7129, 2.0137, -0.1294, 2.7129, -2.0137, -0.1294, 2.7129, 2.0137, 0.1294, -2.7129, -2.0137, 0.1294, -2.7129, 2.0137, -0.1294, -2.7129, -2.0137, 0.1294, -2.7129, -2.0137, -0.1294, -2.7129, 2.0137, -0.1294, -2.7129, 2.0137, 0.1294, 2.7129, 2.0137, 0.1294, -2.7129, 2.0137, -0.1294, 2.7129, 2.0137, 0.1294, -2.7129, 2.0137, -0.1294, -2.7129, 2.0137, -0.1294, 2.7129, -2.0137, 0.1294, -2.7129, -2.0137, 0.1294, 2.7129, -2.0137, -0.1294, -2.7129, -2.0137, 0.1294, 2.7129, -2.0137, -0.1294, 2.7129, -2.0137, -0.1294, -2.7129, 2.0137, 0.1294, 2.7129, -2.0137, 0.1294, 2.7129, 2.0137, 0.1294, -2.7129, -2.0137, 0.1294, 2.7129, -2.0137, 0.1294, -2.7129, 2.0137, 0.1294, -2.7129, -2.0137, -0.1294, 2.7129, 2.0137, -0.1294, 2.7129, -2.0137, -0.1294, -2.7129, 2.0137, -0.1294, 2.7129, 2.0137, -0.1294, -2.7129, -2.0137, -0.1294, -2.7129)
+
+[node name="JumpRamp" type="StaticBody3D" unique_id=11557879]
+transform = Transform3D(0.9538923, -0.30014935, 0, 0.30014935, 0.9538923, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="JumpRamp" type="MeshInstance3D" parent="." unique_id=1217700106]
+transform = Transform3D(1, 2.9802322e-08, 0, -2.9802322e-08, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_g6usw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=352427533]
+transform = Transform3D(1, 2.9802322e-08, 0, -2.9802322e-08, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_g6usw")

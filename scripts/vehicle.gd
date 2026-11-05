@@ -32,14 +32,14 @@ var car_color: Color = Color.WHITE
 # Vehicle elements
 
 @onready var vehicle_model = $Container
-@onready var vehicle_body = get_node_or_null("Container/Model/body")
+@onready var vehicle_body = _find_visible_model_part("body")
 
 # (Optional) wheels
 
-@onready var wheel_fl = get_node_or_null("Container/Model/wheel-front-left")
-@onready var wheel_fr = get_node_or_null("Container/Model/wheel-front-right")
-@onready var wheel_bl = get_node_or_null("Container/Model/wheel-back-left")
-@onready var wheel_br = get_node_or_null("Container/Model/wheel-back-right")
+@onready var wheel_fl = _find_visible_model_part("wheel-front-left")
+@onready var wheel_fr = _find_visible_model_part("wheel-front-right")
+@onready var wheel_bl = _find_visible_model_part("wheel-back-left")
+@onready var wheel_br = _find_visible_model_part("wheel-back-right")
 
 # Effects
 
@@ -87,6 +87,21 @@ func set_driving_enabled(enabled: bool) -> void:
 
 # Functions
 
+func _find_visible_model_part(part_name: String) -> MeshInstance3D:
+	var container := get_node_or_null("Container")
+	if container == null:
+		return null
+
+	var fallback: MeshInstance3D
+	for node in container.find_children(part_name, "MeshInstance3D", true, false):
+		var mesh_part := node as MeshInstance3D
+		if fallback == null:
+			fallback = mesh_part
+		if mesh_part.is_visible_in_tree():
+			return mesh_part
+
+	return fallback
+
 func _enter_tree() -> void:
 	add_to_group("race_vehicles")
 
@@ -106,8 +121,11 @@ func _ready() -> void:
 		var imported_material := body_mesh.get_active_material(0) as StandardMaterial3D
 		if imported_material != null:
 			var unique_material := imported_material.duplicate() as StandardMaterial3D
-			unique_material.albedo_texture = VehiclePaletteTextures.get_texture(car_color)
-			unique_material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+			if imported_material.albedo_texture != null:
+				unique_material.albedo_texture = VehiclePaletteTextures.get_texture(car_color)
+				unique_material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+			else:
+				unique_material.albedo_color = car_color
 			unique_material.metallic = 0.05
 			unique_material.roughness = 0.48
 			body_mesh.set_surface_override_material(0, unique_material)

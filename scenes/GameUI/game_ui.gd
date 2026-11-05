@@ -6,6 +6,9 @@ class_name GameUI
 @onready var result_shade: ColorRect = $ResultShade
 @onready var live_container: MarginContainer = $MarginContainer
 @onready var list: VBoxContainer = $MarginContainer/VBoxContainer
+@onready var classification_countdown: Control = $ClassificationCountdown
+@onready var classification_label: Label = $ClassificationCountdown/Label
+@onready var classification_timer: ProgressBar = $ClassificationCountdown/Timer
 @onready var race_again: Button = $RaceAgain
 @onready var race_again_shade: ColorRect = $RaceAgain/Shade
 @onready var race_again_label: Label = $RaceAgain/Label
@@ -23,9 +26,16 @@ var _pending_standings: Array = []
 var _reorder_running: bool = false
 var _results_active: bool = false
 var _restarting: bool = false
+var _controller: RaceController
+var _classification_duration: float = 0.0
+var _classification_countdown_active: bool = false
 
 func setup(controller: RaceController, initial_standings: Array[CarRaceState]) -> void:
 	_cards_by_vehicle.clear()
+	_controller = controller
+	_classification_duration = 0.0
+	_classification_countdown_active = false
+	classification_countdown.hide()
 
 	var card_nodes := list.get_children()
 	for index in initial_standings.size():
@@ -39,6 +49,8 @@ func setup(controller: RaceController, initial_standings: Array[CarRaceState]) -
 
 	if not controller.standings_updated.is_connected(_on_standings_updated):
 		controller.standings_updated.connect(_on_standings_updated)
+	if not controller.classification_started.is_connected(_on_classification_started):
+		controller.classification_started.connect(_on_classification_started)
 	if not controller.race_finished.is_connected(_on_race_finished):
 		controller.race_finished.connect(_on_race_finished)
 	if not race_again.pressed.is_connected(_restart_race):
@@ -52,6 +64,24 @@ func setup(controller: RaceController, initial_standings: Array[CarRaceState]) -
 
 	race_again.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_apply_initial_standings(initial_standings)
+
+func _process(_delta: float) -> void:
+	if not _classification_countdown_active or _controller == null:
+		return
+
+	var remaining := maxf(0.0, _controller.classification_time_remaining)
+	var progress := 0.0
+	if _classification_duration > 0.0:
+		progress = remaining / _classification_duration * 100.0
+	classification_timer.value = progress
+	classification_label.text = "RACE OVER IN %d" % ceili(remaining)
+
+func _on_classification_started(duration: float) -> void:
+	_classification_duration = duration
+	_classification_countdown_active = true
+	classification_timer.value = 100.0
+	classification_label.text = "RACE OVER IN %d" % ceili(duration)
+	classification_countdown.show()
 
 func _apply_initial_standings(current_standings: Array) -> void:
 	for index in current_standings.size():
@@ -130,6 +160,8 @@ func _animate_reorder(current_standings: Array) -> void:
 
 func _on_race_finished(final_standings: Array) -> void:
 	_results_active = true
+	_classification_countdown_active = false
+	classification_countdown.hide()
 	var result_rects := QuadrantLayout.get_rects(size)
 	result_background.show()
 	result_shade.show()

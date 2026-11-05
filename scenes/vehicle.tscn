@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://2in1jtv5bh0y" path="res://audio/skid.ogg" id="4_mcce1"]
 [ext_resource type="AudioStream" uid="uid://j6x2is8pyt8y" path="res://audio/engine.ogg" id="5_kcati"]
 [ext_resource type="AudioStream" uid="uid://io4pmr3lo1dy" path="res://audio/impact.ogg" id="6_v3p7b"]
+[ext_resource type="PackedScene" uid="uid://bq24mhk38sk8x" path="res://scenes/CARS/vehicle_blue_taxi.tscn" id="7_p2hth"]
 [ext_resource type="Script" uid="uid://cxaw38i2l08wt" path="res://scripts/sphere.gd" id="7_vuxys"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfk12"]
@@ -70,6 +71,7 @@ debug_shape_custom_color = Color(0.898039, 0, 0, 1)
 [node name="Container" type="Node3D" parent="." unique_id=546976745]
 
 [node name="Model" parent="Container" unique_id=2133669704 instance=ExtResource("2_vuxys")]
+visible = false
 
 [node name="TrailLeft" type="GPUParticles3D" parent="Container" unique_id=1350774766]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.05, -0.35)
@@ -104,6 +106,8 @@ autoplay = true
 
 [node name="ImpactSound" type="AudioStreamPlayer3D" parent="Container" unique_id=1542612165]
 stream = ExtResource("6_v3p7b")
+
+[node name="BlueTaxi" parent="Container" unique_id=609296354 instance=ExtResource("7_p2hth")]
 
 [node name="Sphere" type="RigidBody3D" parent="." unique_id=1368519146]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

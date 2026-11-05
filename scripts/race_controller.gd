@@ -5,6 +5,7 @@ class_name RaceController
 signal race_started
 signal standings_updated(standings: Array)
 signal car_finished(state: CarRaceState)
+signal classification_started(duration: float)
 signal race_finished(standings: Array)
 
 @export_range(0.1, 2.0, 0.1) var blink_interval: float = 0.5
@@ -155,6 +156,7 @@ func _on_track_car_finished(car: VehicleSphere, lap_number: int) -> void:
 		state.winner = true
 		_classification_active = true
 		classification_time_remaining = classification_window
+		classification_started.emit(classification_window)
 		print("Winner: %s. Classification closes in %.0f seconds." % [
 			state.vehicle.driver_name,
 			classification_window,
