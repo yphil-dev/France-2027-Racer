@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://b34e2pvbemfac" path="res://models/vehicle-truck-red.glb" id="11_wocnk"]
 [ext_resource type="PackedScene" uid="uid://b3q38jkp02je8" path="res://scenes/block_02.tscn" id="11_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://dn24yd7sv8g0w" path="res://scenes/traffic_light.tscn" id="16_ws3xf"]
+[ext_resource type="PackedScene" uid="uid://e1553jj8qfvc" path="res://scenes/jump_ramp.tscn" id="17_mp5su"]
 [ext_resource type="AudioStream" uid="uid://77d1clswvsf7" path="res://audio/race-start.ogg" id="17_race_start"]
 [ext_resource type="PackedScene" uid="uid://ca6fwu6qha84s" path="res://scenes/GameUI/game_ui.tscn" id="18_qycdi"]
 
@@ -155,16 +156,16 @@ transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.344608, 0, 5)
 
 [node name="GridSlot1" type="Marker3D" parent="START_GRID" unique_id=1827936175]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.875, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7683592, 0, -1.318572)
 
 [node name="GridSlot2" type="Marker3D" parent="START_GRID" unique_id=1622328316]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5183592, 0, -1.318572)
 
 [node name="GridSlot3" type="Marker3D" parent="START_GRID" unique_id=48391389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.625, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26835918, 0, -1.318572)
 
 [node name="GridSlot4" type="Marker3D" parent="START_GRID" unique_id=761714149]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.875, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9816408, 0, -1.318572)
 
 [node name="RampSupport" type="StaticBody3D" parent="." unique_id=1680593542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511998, 0, 0)
@@ -196,7 +197,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
 [node name="Finish" type="Area3D" parent="." unique_id=989885447]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.850459, 0, 3.3290129)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.850459, 0, 6.3784456)
 collision_layer = 0
 collision_mask = 9
 
@@ -235,6 +236,9 @@ curve = SubResource("Curve3D_mdjv0")
 [node name="UI" type="CanvasLayer" parent="." unique_id=2062290784]
 
 [node name="GameUI" parent="UI" unique_id=239267494 instance=ExtResource("18_qycdi")]
+
+[node name="JumpRamp" parent="." unique_id=11557879 instance=ExtResource("17_mp5su")]
+transform = Transform3D(-5.5605465e-08, 1.7496669e-08, -1.3335937, 0.40027723, 1.2721047, -1.7372737e-15, 1.2721047, -0.40027723, -5.829323e-08, 11.192327, 2.6029172, -5.144266)
 
 [connection signal="body_entered" from="Finish" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]
