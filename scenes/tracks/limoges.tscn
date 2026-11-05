@@ -78,6 +78,15 @@ tonemap_mode = 3
 ssao_enabled = true
 glow_enabled = true
 
+[sub_resource type="BoxMesh" id="BoxMesh_6xfsa"]
+size = Vector3(4.0273438, 0.25878906, 5.4257813)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g6usw"]
+albedo_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_g6usw"]
+data = PackedVector3Array(-2.0137, 0.1294, 2.7129, 2.0137, 0.1294, 2.7129, -2.0137, -0.1294, 2.7129, 2.0137, 0.1294, 2.7129, 2.0137, -0.1294, 2.7129, -2.0137, -0.1294, 2.7129, 2.0137, 0.1294, -2.7129, -2.0137, 0.1294, -2.7129, 2.0137, -0.1294, -2.7129, -2.0137, 0.1294, -2.7129, -2.0137, -0.1294, -2.7129, 2.0137, -0.1294, -2.7129, 2.0137, 0.1294, 2.7129, 2.0137, 0.1294, -2.7129, 2.0137, -0.1294, 2.7129, 2.0137, 0.1294, -2.7129, 2.0137, -0.1294, -2.7129, 2.0137, -0.1294, 2.7129, -2.0137, 0.1294, -2.7129, -2.0137, 0.1294, 2.7129, -2.0137, -0.1294, -2.7129, -2.0137, 0.1294, 2.7129, -2.0137, -0.1294, 2.7129, -2.0137, -0.1294, -2.7129, 2.0137, 0.1294, 2.7129, -2.0137, 0.1294, 2.7129, 2.0137, 0.1294, -2.7129, -2.0137, 0.1294, 2.7129, -2.0137, 0.1294, -2.7129, 2.0137, 0.1294, -2.7129, -2.0137, -0.1294, 2.7129, 2.0137, -0.1294, 2.7129, -2.0137, -0.1294, -2.7129, 2.0137, -0.1294, 2.7129, 2.0137, -0.1294, -2.7129, -2.0137, -0.1294, -2.7129)
+
 [node name="TRACK" type="Node3D" unique_id=1145999287]
 script = ExtResource("1_eb6dy")
 
@@ -143,15 +152,15 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="track-crossing" parent="." instance=ExtResource("19_crossing")]
+[node name="track-crossing" parent="." unique_id=1957860697 instance=ExtResource("19_crossing")]
 grid_map_path = NodePath("../GridMap")
 
-[node name="track-ramp-short-launch" parent="." instance=ExtResource("20_ramp_short")]
+[node name="track-ramp-short-launch" parent="." unique_id=343287022 instance=ExtResource("20_ramp_short")]
 grid_map_path = NodePath("../GridMap")
 length_scale = 0.37
 ramp_angle_degrees = 18.0
 
-[node name="track-ramp-short-receiving" parent="." instance=ExtResource("20_ramp_short")]
+[node name="track-ramp-short-receiving" parent="." unique_id=1604162569 instance=ExtResource("20_ramp_short")]
 grid_map_path = NodePath("../GridMap")
 source_ramp_cell = Vector3i(0, 0, -2)
 length_scale = 0.37
@@ -246,6 +255,34 @@ debug_custom_color = Color(1, 1, 1, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=264416833]
 environment = SubResource("Environment_6xfsa")
+
+[node name="RAMPS" type="Node3D" parent="." unique_id=668943600]
+
+[node name="JumpRamp" type="StaticBody3D" parent="RAMPS" unique_id=394080620]
+transform = Transform3D(0.9538923, -0.30014935, 0, 0.30014935, 0.9538923, 0, 0, 0, 1, -5.742278, 1.4350604, -11.188733)
+
+[node name="JumpRamp" type="MeshInstance3D" parent="RAMPS/JumpRamp" unique_id=767854314]
+transform = Transform3D(1, 2.9802322e-08, 0, -2.9802322e-08, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_g6usw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RAMPS/JumpRamp" unique_id=967757132]
+transform = Transform3D(1, 2.9802322e-08, 0, -2.9802322e-08, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_g6usw")
+
+[node name="JumpRampWall" type="StaticBody3D" parent="RAMPS" unique_id=147741260]
+transform = Transform3D(-1.7148176e-08, 1.2243307, 0, -0.39230454, -5.3517194e-08, 0, 0, 0, 1, -6.502494, 0.28366268, -11.188733)
+
+[node name="Wall" type="MeshInstance3D" parent="RAMPS/JumpRampWall" unique_id=818877426]
+transform = Transform3D(1, 2.9802322e-08, 0, -2.9802322e-08, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_g6usw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RAMPS/JumpRampWall" unique_id=1254361725]
+transform = Transform3D(1, 2.9802322e-08, 0, -2.9802322e-08, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_g6usw")
 
 [connection signal="body_entered" from="Finish" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]
