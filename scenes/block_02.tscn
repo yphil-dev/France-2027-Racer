@@ -115,10 +115,10 @@ skeleton = NodePath("")
 transform = Transform3D(0.12578616, 0, 0, 0, 0.99999994, 0, 0, 0, 0.12578616, 0.27047613, 0.62507457, 0.034207817)
 
 [node name="building_B_withoutBase" parent="Bb" index="0" unique_id=783227103]
-transform = Transform3D(0.7071068, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071068, 0.59196854, 0, -1.6735306)
+transform = Transform3D(-0.5, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.5, -0.38355637, 0, -2.9448595)
 
 [node name="building_B_withoutBase2" type="MeshInstance3D" parent="Bb" unique_id=1527526631]
-transform = Transform3D(0.7071068, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071068, -0.55093, 0, -2.8164291)
+transform = Transform3D(-0.5, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.5, 0.42459488, 0, -1.5451002)
 mesh = SubResource("ArrayMesh_fscft")
 skeleton = NodePath("")
 

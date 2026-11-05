@@ -45,7 +45,7 @@ roughness = 0.9
 data = PackedVector3Array(-3.7196999, 0.5414, 0.0477, 3.7196999, 0.5414, 0.0477, -3.7196999, -0.5414, 0.0477, 3.7196999, 0.5414, 0.0477, 3.7196999, -0.5414, 0.0477, -3.7196999, -0.5414, 0.0477, 3.7196999, 0.5414, -0.0477, -3.7196999, 0.5414, -0.0477, 3.7196999, -0.5414, -0.0477, -3.7196999, 0.5414, -0.0477, -3.7196999, -0.5414, -0.0477, 3.7196999, -0.5414, -0.0477, 3.7196999, 0.5414, 0.0477, 3.7196999, 0.5414, -0.0477, 3.7196999, -0.5414, 0.0477, 3.7196999, 0.5414, -0.0477, 3.7196999, -0.5414, -0.0477, 3.7196999, -0.5414, 0.0477, -3.7196999, 0.5414, -0.0477, -3.7196999, 0.5414, 0.0477, -3.7196999, -0.5414, -0.0477, -3.7196999, 0.5414, 0.0477, -3.7196999, -0.5414, 0.0477, -3.7196999, -0.5414, -0.0477, 3.7196999, 0.5414, 0.0477, -3.7196999, 0.5414, 0.0477, 3.7196999, 0.5414, -0.0477, -3.7196999, 0.5414, 0.0477, -3.7196999, 0.5414, -0.0477, 3.7196999, 0.5414, -0.0477, -3.7196999, -0.5414, 0.0477, 3.7196999, -0.5414, 0.0477, -3.7196999, -0.5414, -0.0477, 3.7196999, -0.5414, 0.0477, 3.7196999, -0.5414, -0.0477, -3.7196999, -0.5414, -0.0477)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6xfsa"]
-size = Vector3(0.9194336, 1, 1)
+size = Vector3(2.0318604, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jy1fj"]
 albedo_color = Color(0.2592937, 0.2592937, 0.2592937, 1)
@@ -80,9 +80,6 @@ point_count = 12
 [node name="TRACK" type="Node3D" unique_id=1145999287]
 script = ExtResource("1_eb6dy")
 
-[node name="TrafficLight" parent="." unique_id=536095388 instance=ExtResource("16_ws3xf")]
-transform = Transform3D(4.2459884, 0, 0, 0, 4.2459884, 0, 0, 0, 4.2459884, 14.475473, 0, 4.113555)
-
 [node name="RaceStartAudio" type="AudioStreamPlayer3D" parent="." unique_id=383598524]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.475473, 3.4, 4.113555)
 stream = ExtResource("17_race_start")
@@ -92,24 +89,24 @@ max_distance = 60.0
 attenuation_filter_db = -8.0
 
 [node name="RaceController" parent="." unique_id=1837278698 instance=ExtResource("2_trceg")]
-traffic_light_path = NodePath("../TrafficLight")
+traffic_light_path = NodePath("../CITY/TrafficLight")
 start_audio_path = NodePath("../RaceStartAudio")
-
-[node name="Environment" type="WorldEnvironment" parent="." unique_id=1097254880]
-environment = ExtResource("1_q4t1r")
 
 [node name="View" type="Node3D" parent="." unique_id=1807530472]
 transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 3.5, 0, 5)
 script = ExtResource("5_0lrhn")
 
 [node name="Camera" type="Camera3D" parent="View" unique_id=1079798936]
-transform = Transform3D(0.9907036, -0.093486965, -0.098822445, 0.111520365, 0.9741522, 0.19644465, 0.07790327, -0.20563862, 0.97552264, -5.3638825, 9.236919, 45.04232)
+transform = Transform3D(0.98979473, 0.1026631, -0.098822564, -0.081733316, 0.9771023, 0.19644465, 0.11672738, -0.1863622, 0.97552264, -4.627725, 10.202277, 48.815178)
 attributes = SubResource("CameraAttributesPhysical_a8y0u")
 current = true
 fov = 37.849285
 
-[node name="Sun" type="DirectionalLight3D" parent="." unique_id=385873465]
-transform = Transform3D(-0.422618, -0.694272, 0.582564, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 0, 0)
+[node name="Environment" type="WorldEnvironment" parent="View" unique_id=1097254880]
+environment = ExtResource("1_q4t1r")
+
+[node name="Sun" type="DirectionalLight3D" parent="View" unique_id=385873465]
+transform = Transform3D(0.3420203, -0.7198457, 0.60402274, 0.5389851, 0.6768196, 0.501408, -0.7697511, 0.15406814, 0.619473, 1.0606599, 3.4474258, -4.923438)
 shadow_enabled = true
 shadow_bias = 0.2
 shadow_normal_bias = 1.0
@@ -137,7 +134,7 @@ mesh_library = ExtResource("8_eg7gk")
 physics_material = SubResource("PhysicsMaterial_tipki")
 cell_size = Vector3(9.99, 1, 9.99)
 data = {
-"cells": PackedInt32Array(65532, 65534, 655362, 65532, 65532, 655361, 65532, 65533, 1048577, 65533, 65532, 655361, 65534, 65532, 655361, 65535, 65532, 1441794, 65531, 65533, 1048576, 65531, 65532, 0, 65534, 1, 655365, 65534, 0, 655365, 65535, 2, 1048581, 65534, 65533, 1048581, 65535, 65533, 1048581, 65533, 65534, 5, 65534, 65535, 3, 65533, 65535, 655363, 65533, 65533, 1048579, 1, 1, 8, 65534, 2, 655363, 65535, 1, 2, 1, 65533, 1441797, 2, 65533, 3, 2, 65534, 1441795, 0, 65533, 1048584, 1, 65534, 1048579, 1, 2, 1441795, 0, 2, 1441797, 1, 0, 655365, 1, 65535, 655365, 0, 1, 655361, 0, 65534, 655361, 2, 65535, 655361, 2, 2, 655361, 65535, 65531, 655361, 65531, 65534, 655361, 65534, 65530, 655361, 65533, 65530, 655361, 65533, 65529, 655361, 65534, 65529, 655361, 65535, 65530, 655361, 65530, 65534, 655361, 65529, 65534, 655361, 65529, 65533, 655361, 65530, 65533, 655361, 65529, 65532, 655361, 65530, 65532, 655361, 1, 65530, 655361, 1, 65529, 655361, 0, 65529, 655361, 0, 65530, 655361, 3, 65530, 655361, 3, 65529, 655361, 4, 65529, 655361, 4, 65530, 655361, 2, 65529, 655361, 2, 65528, 655361, 3, 65528, 655361, 4, 65528, 655361, 1, 65528, 655361, 0, 65528, 655361, 65535, 65529, 655361, 65535, 65528, 655361, 65535, 65527, 655361, 0, 65527, 655361, 1, 65527, 655361, 2, 65527, 655361, 2, 65526, 655361, 1, 65526, 655361, 0, 65526, 655361, 65535, 65526, 655361, 65534, 65526, 655361, 65533, 65526, 655361, 65533, 65527, 655361, 65534, 65527, 655361, 65534, 65528, 655361, 65533, 65528, 655361)
+"cells": PackedInt32Array(65532, 65534, 655362, 65534, 1, 655365, 65534, 0, 655365, 65535, 2, 1048581, 65534, 65533, 1048581, 65535, 65533, 1048581, 65533, 65534, 5, 65534, 65535, 3, 65533, 65535, 655363, 65533, 65533, 1048579, 1, 1, 6, 65534, 2, 655363, 1, 65533, 1441797, 2, 65533, 3, 2, 65534, 1441795, 0, 65533, 1048582, 1, 65534, 1048579, 1, 2, 1441795, 0, 2, 1441797, 1, 0, 655365, 1, 65535, 655365, 0, 65534, 1441794, 65532, 65533, 1441800)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
@@ -149,7 +146,7 @@ visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.7772, -0.143123, -13.5596)
 
 [node name="vehicle-truck-red" parent="." unique_id=1524379599 instance=ExtResource("11_wocnk")]
-transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034, -1.36138, -0.49090827, -23.486576)
+transform = Transform3D(-0.913034, 0, 0.407884, 0, 1, 0, -0.407884, 0, -0.913034, -1.36138, -0.039310098, -23.486576)
 
 [node name="START_GRID" type="Node3D" parent="." unique_id=515674292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.344608, 0, 5)
@@ -184,480 +181,139 @@ transform = Transform3D(2.240331, 0, 0, 0, 1, 0, 0, 0, 3.792224, 11.43203, -0.19
 [node name="CITY" type="Node3D" parent="." unique_id=720431403]
 
 [node name="Block36" parent="CITY" unique_id=1222706620 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, -0.20210886, -0.71533203, 28.983559)
+transform = Transform3D(16.543726, 0, 2.8925967e-06, 0, 2.0809715, 0, -2.8925967e-06, 0, 16.543726, -0.75473213, -1.5479884, -31.046032)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block02" parent="CITY" unique_id=1961050755 instance=ExtResource("10_choun")]
-transform = Transform3D(-3.4750556e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -3.4750556e-07, -19.479633, -0.9876003, 11.333579)
+[node name="Block43" parent="CITY" unique_id=657435294 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(-8.271858, 0, -14.32729, 0, 2.0809715, 0, 14.32729, 0, -8.271858, 5.4149055, -1.5479884, -47.976185)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+
+[node name="Block44" parent="CITY" unique_id=2051942684 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(-8.271858, 0, -14.32729, 0, 2.0809715, 0, 14.32729, 0, -8.271858, 22.032234, -1.5479884, -43.337425)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+
+[node name="Block37" parent="CITY" unique_id=453696425 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(16.543726, 0, 2.8925967e-06, 0, 2.0809715, 0, -2.8925967e-06, 0, 16.543726, -43.289318, -1.5479884, 1.5140419)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+
+[node name="Block40" parent="CITY" unique_id=378141569 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(-6.036403, 0, 15.40314, 0, 2.0809715, 0, -15.40314, 0, -6.036403, -23.408346, -1.5479884, 18.528221)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+
+[node name="Block41" parent="CITY" unique_id=462970909 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(16.543726, 0, 2.8925967e-06, 0, 2.0809715, 0, -2.8925967e-06, 0, 16.543726, -1.8455276, -1.5479884, 6.9562187)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+
+[node name="Block38" parent="CITY" unique_id=543907432 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(0.57846653, 0, 16.53361, 0, 2.0809715, 0, -16.53361, 0, 0.57846653, -23.872505, -1.5479884, 3.8150778)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+
+[node name="Block42" parent="CITY" unique_id=879300420 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(-0.104665875, 0, -16.543396, 0, 2.0809715, 0, 16.543396, 0, -0.104665875, 22.316471, -1.5479884, 26.82632)
+mesh = SubResource("BoxMesh_6xfsa")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+
+[node name="Block39" parent="CITY" unique_id=1006765161 instance=ExtResource("11_ya4ey")]
+transform = Transform3D(16.543726, 0, 2.8925967e-06, 0, 2.0809715, 0, -2.8925967e-06, 0, 16.543726, -61.834427, -1.5479884, 33.678207)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
 [node name="Block03" parent="CITY" unique_id=1443011663 instance=ExtResource("10_choun")]
-transform = Transform3D(-3.4750556e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -3.4750556e-07, -3.7474566, -0.72009945, -3.8298182)
+transform = Transform3D(-7.086019e-07, 0, 16.21092, 0, 2.0391092, 0, -16.21092, 0, -7.086019e-07, -0.72983265, -1.6205614, -4.816817)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block10" parent="CITY" unique_id=657435294 instance=ExtResource("10_choun")]
-transform = Transform3D(7.9500003, 0, -2.842171e-14, 0, 0.99999994, 0, 2.842171e-14, 0, 7.9500003, 18.824284, -0.72009945, 11.001701)
+[node name="Block10" parent="CITY" unique_id=1367755078 instance=ExtResource("10_choun")]
+transform = Transform3D(14.244335, 0, -5.092432e-14, 0, 1.7917401, 0, 5.092432e-14, 0, 14.244335, -18.07555, -1.3990821, 30.287209)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block04" parent="CITY" unique_id=1416297409 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -3.7474566, -0.72009945, -11.221117)
+[node name="Block12" parent="CITY" unique_id=1637165824 instance=ExtResource("10_choun")]
+transform = Transform3D(14.244335, 0, -5.092432e-14, 0, 1.7917401, 0, 5.092432e-14, 0, 14.244335, 13.670948, -1.3990821, -29.971899)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block05" parent="CITY" unique_id=1447716458 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -3.8018055, -0.71533203, 3.7773008)
-skeleton = NodePath("../..")
-
-[node name="Block11" parent="CITY" unique_id=2112577531 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 3.1981945, -0.71533203, 3.7773008)
-skeleton = NodePath("../..")
-
-[node name="Block12" parent="CITY" unique_id=285498619 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(1.0425166e-06, 0, -7.9500003, 0, 0.99999994, 0, 7.9500003, 0, 1.0425166e-06, 3.1981945, -0.71533203, -4.222699)
-skeleton = NodePath("../..")
-
-[node name="Block09" parent="CITY" unique_id=933686556 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.8981384e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -7.8981384e-07, 19.191372, -0.71533203, 3.7773008)
-skeleton = NodePath("../..")
-
-[node name="Block06" parent="CITY" unique_id=1618900044 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-3.4750556e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -3.4750556e-07, -11.210325, -0.71533203, -10.994275)
-skeleton = NodePath("../..")
-
-[node name="Block07" parent="CITY" unique_id=1340013082 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-3.4750556e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -3.4750556e-07, -19.409544, -0.9650879, 4.6365843)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block08" parent="CITY" unique_id=1510391674 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-3.4750556e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -3.4750556e-07, -19.409544, -0.9209719, 19.03429)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block13" parent="CITY" unique_id=429037458 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -36.27839, -0.7561102, 13.333229)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block14" parent="CITY" unique_id=1818551348 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -42.975388, -0.71533203, 13.26314)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block15" parent="CITY" unique_id=1218640324 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -28.57768, -0.71533203, 13.26314)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block16" parent="CITY" unique_id=162106890 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -36.27839, -0.7561102, 21.13799)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block17" parent="CITY" unique_id=910598385 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -42.975388, -0.71533203, 21.067902)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block18" parent="CITY" unique_id=1799993262 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -28.57768, -0.71533203, 21.067902)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block19" parent="CITY" unique_id=1005893165 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -36.27839, -0.7561102, -1.5967369)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block20" parent="CITY" unique_id=1917364897 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -42.975388, -0.71533203, -1.6668262)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block21" parent="CITY" unique_id=285878438 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -28.57768, -0.71533203, -1.6668262)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block22" parent="CITY" unique_id=1283840674 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -36.27839, -0.7561102, 6.208025)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block23" parent="CITY" unique_id=1607154380 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -42.975388, -0.71533203, 6.1379356)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block24" parent="CITY" unique_id=219548225 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -28.57768, -0.71533203, 6.1379356)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block63" parent="CITY" unique_id=1121723698 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 35.488968, -0.7561102, 10.514568)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block64" parent="CITY" unique_id=1596607246 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 28.79197, -0.71533203, 10.444479)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block65" parent="CITY" unique_id=690719100 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 43.189674, -0.71533203, 10.444479)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block66" parent="CITY" unique_id=197718963 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 35.488968, -0.7561102, 18.31933)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block67" parent="CITY" unique_id=909959777 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 28.79197, -0.71533203, 18.24924)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block68" parent="CITY" unique_id=1571870244 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 43.189674, -0.71533203, 18.24924)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block25" parent="CITY" unique_id=337691707 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -14.95874, -0.7561102, 29.00692)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block26" parent="CITY" unique_id=1297997529 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -21.655739, -0.71533203, 28.93683)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block27" parent="CITY" unique_id=1154622951 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -7.258032, -0.71533203, 28.93683)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block28" parent="CITY" unique_id=1005347664 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -14.95874, -0.7561102, 36.811684)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block29" parent="CITY" unique_id=1865612861 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -21.655739, -0.71533203, 36.741592)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block30" parent="CITY" unique_id=2075043070 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -7.258032, -0.71533203, 36.741592)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block37" parent="CITY" unique_id=704921397 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 14.611307, -0.71533203, 21.067902)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block38" parent="CITY" unique_id=1765068193 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 28.230247, -0.7561102, 29.00692)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block39" parent="CITY" unique_id=342627252 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 21.533249, -0.71533203, 28.93683)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block40" parent="CITY" unique_id=1951527866 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 35.930954, -0.71533203, 28.93683)
+[node name="Block13" parent="CITY" unique_id=939517854 instance=ExtResource("10_choun")]
+transform = Transform3D(14.244335, 0, -5.092432e-14, 0, 1.7917401, 0, 5.092432e-14, 0, 14.244335, -17.080206, -1.3990821, -29.971899)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block41" parent="CITY" unique_id=2105263079 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 28.230247, -0.7561102, 36.811684)
+[node name="Block17" parent="CITY" unique_id=1771415147 instance=ExtResource("10_choun")]
+transform = Transform3D(14.244335, 0, -5.092432e-14, 0, 1.7917401, 0, 5.092432e-14, 0, 14.244335, -30.541101, -1.3990821, -24.284195)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block42" parent="CITY" unique_id=648589785 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 21.533249, -0.71533203, 36.741592)
+[node name="Block18" parent="CITY" unique_id=483486184 instance=ExtResource("10_choun")]
+transform = Transform3D(0.594225, 0, 14.2319355, 0, 1.7917401, 0, -14.2319355, 0, 0.594225, -38.3143, -1.3990821, -14.235921)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block43" parent="CITY" unique_id=349411561 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 35.930954, -0.71533203, 36.741592)
+[node name="Block14" parent="CITY" unique_id=1104451929 instance=ExtResource("10_choun")]
+transform = Transform3D(0.56386167, 0, -14.2331705, 0, 1.7917401, 0, 14.2331705, 0, 0.56386167, 22.37205, -1.3990821, -0.020771027)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block44" parent="CITY" unique_id=594350255 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, -3.1679134, -0.71533203, -44.751465)
+[node name="Block19" parent="CITY" unique_id=77706846 instance=ExtResource("10_choun")]
+transform = Transform3D(0.56386167, 0, -14.2331705, 0, 1.7917401, 0, 14.2331705, 0, 0.56386167, 31.139292, -1.3990821, -12.4099245)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block45" parent="CITY" unique_id=2078204996 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 10.451027, -1.0984545, -36.499023)
+[node name="Block21" parent="CITY" unique_id=584791940 instance=ExtResource("10_choun")]
+transform = Transform3D(0.56386167, 0, -14.2331705, 0, 1.7917401, 0, 14.2331705, 0, 0.56386167, 28.139292, -1.3990821, -26.409924)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block46" parent="CITY" unique_id=2121620913 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 3.7540283, -1.0576763, -36.569115)
+[node name="Block20" parent="CITY" unique_id=808710602 instance=ExtResource("10_choun")]
+transform = Transform3D(-14.23317, 0, -0.563861, 0, 1.7917401, 0, 0.563861, 0, -14.23317, 36.927094, -1.3990821, 2.086791)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block47" parent="CITY" unique_id=21116744 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 18.151733, -1.0576763, -36.569115)
+[node name="Block11" parent="CITY" unique_id=1128343854 instance=ExtResource("10_choun")]
+transform = Transform3D(-14.244335, 0, 1.2452793e-06, 0, 1.7917401, 0, -1.2452793e-06, 0, -14.244335, -4.8457804, -1.3990821, 30.287209)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block48" parent="CITY" unique_id=549488847 instance=ExtResource("10_choun")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 11.120165, -1.0984545, -28.787716)
+[node name="Block16" parent="CITY" unique_id=1127821110 instance=ExtResource("10_choun")]
+transform = Transform3D(-14.244335, 0, 1.2452793e-06, 0, 1.7917401, 0, -1.2452793e-06, 0, -14.244335, 8.710233, -1.3990821, 30.287209)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block49" parent="CITY" unique_id=1847517517 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 17.817163, -1.0576763, -28.717625)
+[node name="Block15" parent="CITY" unique_id=313311794 instance=ExtResource("10_choun")]
+transform = Transform3D(-14.244335, 0, 1.2452793e-06, 0, 1.7917401, 0, -1.2452793e-06, 0, -14.244335, 22.660656, -1.3990821, 12.541622)
 mesh = SubResource("BoxMesh_6xfsa")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
-[node name="Block50" parent="CITY" unique_id=769806024 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 3.4194584, -1.0576763, -28.717625)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block69" parent="CITY" unique_id=304740295 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 18.730875, -0.71533203, -44.751465)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block70" parent="CITY" unique_id=988924868 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 32.349815, -1.0984545, -36.499023)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block71" parent="CITY" unique_id=424273812 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 25.652817, -1.0576763, -36.569115)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block72" parent="CITY" unique_id=1827795369 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 40.05052, -1.0576763, -36.569115)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block73" parent="CITY" unique_id=1853357285 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 32.349815, -1.0984545, -28.69426)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block74" parent="CITY" unique_id=896727904 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-3.4750545e-07, 0, 7.9500003, 0, 0.99999994, 0, -7.9500003, 0, -3.4750545e-07, 25.412693, -1.0576763, -28.76435)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block75" parent="CITY" unique_id=23554925 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 40.05052, -1.0576763, -28.76435)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block76" parent="CITY" unique_id=652319031 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(5.6214986, 0, 5.6214995, 0, 0.99999994, 0, -5.6214995, 0, 5.6214986, -12.678201, -0.71533203, -35.950203)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block77" parent="CITY" unique_id=1120007178 instance=ExtResource("10_choun")]
-transform = Transform3D(5.6214986, 0, 5.6214995, 0, 0.99999994, 0, -5.6214995, 0, 5.6214986, -27.92198, -0.7561102, -31.93389)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block78" parent="CITY" unique_id=788392725 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(5.6214986, 0, 5.6214995, 0, 0.99999994, 0, -5.6214995, 0, 5.6214986, -23.136925, -0.71533203, -36.61982)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block79" parent="CITY" unique_id=1035095819 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(5.6214986, 0, 5.6214995, 0, 0.99999994, 0, -5.6214995, 0, 5.6214986, -33.31764, -0.71533203, -26.439106)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block80" parent="CITY" unique_id=2068426142 instance=ExtResource("10_choun")]
-transform = Transform3D(5.6214986, 0, 5.6214995, 0, 0.99999994, 0, -5.6214995, 0, 5.6214986, -33.44078, -0.7561102, -37.45269)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block81" parent="CITY" unique_id=97028276 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(5.6214986, 0, 5.6214995, 0, 0.99999994, 0, -5.6214995, 0, 5.6214986, -28.655727, -0.71533203, -42.138622)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block82" parent="CITY" unique_id=502764078 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(5.6214986, 0, 5.6214995, 0, 0.99999994, 0, -5.6214995, 0, 5.6214986, -38.83644, -0.71533203, -31.957907)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block51" parent="CITY" unique_id=1475950491 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 35.385307, -0.7561102, -20.767784)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block52" parent="CITY" unique_id=339205008 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 28.688309, -0.71533203, -20.837875)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block53" parent="CITY" unique_id=282744819 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 43.086014, -0.71533203, -20.837875)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block54" parent="CITY" unique_id=1009766105 instance=ExtResource("10_choun")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 35.385307, -0.7561102, -12.96302)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block55" parent="CITY" unique_id=200685605 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 28.688309, -0.71533203, -13.033112)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block56" parent="CITY" unique_id=1539608058 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(-7.9500003, 0, -6.9501107e-07, 0, 0.99999994, 0, 6.9501107e-07, 0, -7.9500003, 43.086014, -0.71533203, -13.033112)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block57" parent="CITY" unique_id=1062538938 instance=ExtResource("10_choun")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 36.054443, -0.7561102, 2.7713652)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block58" parent="CITY" unique_id=1335765764 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 42.751442, -0.71533203, 2.841456)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block59" parent="CITY" unique_id=1313442919 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 28.353737, -0.71533203, 2.8414574)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block60" parent="CITY" unique_id=240984967 instance=ExtResource("10_choun")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 36.054443, -0.7561102, -5.0333986)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block61" parent="CITY" unique_id=1704188050 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 42.751442, -0.71533203, -4.963308)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block62" parent="CITY" unique_id=1682719796 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 28.353737, -0.71533203, -4.9633064)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block31" parent="CITY" unique_id=347615825 instance=ExtResource("10_choun")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 7.4986005, -0.7561102, 36.71823)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block32" parent="CITY" unique_id=817715900 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 14.195599, -0.71533203, 36.78832)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block33" parent="CITY" unique_id=1636622917 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, -0.2021079, -0.71533203, 36.788322)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block34" parent="CITY" unique_id=772072225 instance=ExtResource("10_choun")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 7.4985995, -0.7561102, 28.913467)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
-
-[node name="Block35" parent="CITY" unique_id=1678940094 instance=ExtResource("11_ya4ey")]
-transform = Transform3D(7.9500003, 0, 1.3900221e-06, 0, 0.99999994, 0, -1.3900221e-06, 0, 7.9500003, 14.195599, -0.71533203, 28.983559)
-mesh = SubResource("BoxMesh_6xfsa")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
+[node name="TrafficLight" parent="CITY" unique_id=536095388 instance=ExtResource("16_ws3xf")]
+transform = Transform3D(4.2459884, 0, 0, 0, 4.2459884, 0, 0, 0, 4.2459884, 14.475473, 0, 4.113555)
 
 [node name="Finish" type="Area3D" parent="." unique_id=989885447]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.850459, 0, 3.3290129)

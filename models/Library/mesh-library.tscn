@@ -98,6 +98,12 @@ data = PackedVector3Array(4.9, 3, 5, 4.6, 3, -5, 4.9, 3, -5, 4.6, 3, -5, 4.9, 3,
 [sub_resource type="BoxShape3D" id="BoxShape3D_8vya0"]
 size = Vector3(9.024811, 0.0087890625, 10.000351)
 
+[sub_resource type="BoxMesh" id="BoxMesh_6xfsa"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oxy43"]
+albedo_color = Color(0.2231029, 0.2231029, 0.22310287, 1)
+
 [node name="Mesh-library" type="Node3D" unique_id=1987002224]
 
 [node name="decoration-empty" parent="." unique_id=1275800567 instance=ExtResource("1_8k04h")]
@@ -130,7 +136,6 @@ skeleton = NodePath("")
 shape = SubResource("ConcavePolygonShape3D_oxy43")
 
 [node name="track-straight" type="MeshInstance3D" parent="." unique_id=1305332622]
-visible = false
 mesh = ExtResource("5_oxy43")
 skeleton = NodePath("")
 
@@ -155,6 +160,7 @@ shape = SubResource("BoxShape3D_8vya0")
 
 [node name="track-half-ramp" type="MeshInstance3D" parent="." unique_id=776915030]
 transform = Transform3D(1, 0, 0, 0, 1.0675973, 0.17333359, 0, -0.3129708, 0.59127074, 0, 3.6827056, -2.1361337)
+visible = false
 mesh = ExtResource("5_oxy43")
 skeleton = NodePath("")
 
@@ -165,3 +171,8 @@ shape = SubResource("ConcavePolygonShape3D_qst2b")
 
 [node name="Floor" type="CollisionShape3D" parent="track-half-ramp/collision" unique_id=895714610]
 shape = SubResource("BoxShape3D_8vya0")
+
+[node name="Parking" type="MeshInstance3D" parent="." unique_id=2023896024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51250315, 0)
+mesh = SubResource("BoxMesh_6xfsa")
+surface_material_override/0 = SubResource("StandardMaterial3D_oxy43")
