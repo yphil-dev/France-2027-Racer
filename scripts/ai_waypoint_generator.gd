@@ -10,6 +10,8 @@ const AI_BOUNDARY_MASK: int = 1 << 4
 @export_range(0.0, 5.0, 0.1, "or_greater") var ray_height: float = 0.5
 @export_range(0.5, 20.0, 0.5, "or_greater") var fallback_half_width: float = 3.0
 @export var show_debug_lines: bool = true
+@export var show_debug_labels: bool = false
+@export_range(1.0, 30.0, 0.5, "or_greater") var debug_wide_threshold: float = 10.0
 
 @onready var boundary_builder: AIBoundaryBuilder = get_parent()
 @onready var track_path: Path3D = $"../TrackPath"
@@ -25,6 +27,8 @@ func _ready() -> void:
 	_generate_waypoints()
 	if show_debug_lines:
 		_create_debug_lines()
+		if show_debug_labels:
+			_create_debug_labels()
 
 	is_ready = true
 	waypoints_ready.emit()
@@ -136,6 +140,36 @@ func _create_debug_lines() -> void:
 	debug_instance.name = "WaypointDebugLines"
 	debug_instance.mesh = debug_mesh
 	add_child(debug_instance)
+
+func _create_debug_labels() -> void:
+	for waypoint in waypoints:
+		var label := Label3D.new()
+		var width := waypoint.left_edge.distance_to(waypoint.right_edge)
+		label.text = str(waypoint.index)
+		label.modulate = Color.WHITE
+
+		if not waypoint.is_valid():
+			var missing_sides: Array[String] = []
+			if not waypoint.left_valid:
+				missing_sides.append("L")
+			if not waypoint.right_valid:
+				missing_sides.append("R")
+			label.text += "\nMISS %s" % "".join(missing_sides)
+			label.modulate = Color(1.0, 0.15, 0.1, 1.0)
+		elif width > debug_wide_threshold:
+			label.text += "\nW %.1f" % width
+			label.modulate = Color(1.0, 0.55, 0.05, 1.0)
+
+		label.name = "WaypointLabel%03d" % waypoint.index
+		label.position = to_local(waypoint.center + Vector3.UP * 0.45)
+		label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		label.no_depth_test = true
+		label.fixed_size = false
+		label.font_size = 32
+		label.outline_size = 4
+		label.outline_modulate = Color.BLACK
+		label.pixel_size = 0.02
+		add_child(label)
 
 func _debug_material(color: Color) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
