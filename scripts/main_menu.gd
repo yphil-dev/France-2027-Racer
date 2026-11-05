@@ -101,6 +101,7 @@ func _initialize_selection() -> void:
 
 	_select_button(0)
 	selectable_buttons[0].grab_focus()
+	AudioPlayer.fade_in(2.5)
 	_play_intro()
 	_unlock_startup_hover.call_deferred()
 
@@ -238,6 +239,8 @@ func _launch_track(index: int) -> void:
 	_selected_index = index
 	for button in selectable_buttons:
 		button.disabled = true
+
+	AudioPlayer.fade_out_and_stop(1.0)
 
 	loading_labels[index].text = "STARTING..."
 	loading_labels[index].show()

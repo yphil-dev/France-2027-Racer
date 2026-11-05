@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://c5e64mpylh1ge" path="res://models/vehicle-truck-purple.glb" id="10_p3c1o"]
 [ext_resource type="PackedScene" uid="uid://b34e2pvbemfac" path="res://models/vehicle-truck-red.glb" id="11_wocnk"]
 [ext_resource type="PackedScene" uid="uid://b3q38jkp02je8" path="res://scenes/block_02.tscn" id="11_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://kcq5e3lxvei6" path="res://models/Eiffel.glb" id="14_wtwip"]
 [ext_resource type="PackedScene" uid="uid://dn24yd7sv8g0w" path="res://scenes/traffic_light.tscn" id="16_ws3xf"]
 [ext_resource type="AudioStream" uid="uid://77d1clswvsf7" path="res://audio/race-start.ogg" id="17_race_start"]
 [ext_resource type="PackedScene" uid="uid://ca6fwu6qha84s" path="res://scenes/GameUI/game_ui.tscn" id="18_qycdi"]
@@ -314,6 +315,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jy1fj")
 
 [node name="TrafficLight" parent="CITY" unique_id=536095388 instance=ExtResource("16_ws3xf")]
 transform = Transform3D(4.2459884, 0, 0, 0, 4.2459884, 0, 0, 0, 4.2459884, 14.475473, 0, 4.113555)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CITY" unique_id=662604082]
+
+[node name="Eiffel" parent="CITY" unique_id=1159753705 instance=ExtResource("14_wtwip")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 31)
 
 [node name="Finish" type="Area3D" parent="." unique_id=989885447]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.850459, 0, 3.3290129)
