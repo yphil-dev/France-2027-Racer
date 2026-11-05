@@ -6,6 +6,8 @@ extends Node3D
 @export_range(0.005, 0.05, 0.001) var surface_offset: float = 0.018
 @export_range(32, 512, 1) var chunk_segment_limit: int = 256
 @export_range(128, 4096, 1) var max_segments_per_tire: int = 1024
+@export_range(0.5, 5.0, 0.1) var maximum_strip_length: float = 1.5
+@export_range(0.1, 2.0, 0.1) var forced_strip_gap: float = 0.6
 @export_range(0.2, 2.0, 0.05) var maximum_contact_gap: float = 0.75
 
 const TIRE_COUNT: int = 4
@@ -15,7 +17,7 @@ var _tire_states: Array[Dictionary] = []
 
 func _ready() -> void:
 	_material = StandardMaterial3D.new()
-	_material.albedo_color = Color(0.015, 0.012, 0.01, 0.72)
+	_material.albedo_color = Color(0.035, 0.03, 0.025, 0.38)
 	_material.roughness = 1.0
 	_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	_material.cull_mode = BaseMaterial3D.CULL_DISABLED
@@ -40,6 +42,12 @@ func add_contact(
 	var local_normal := (global_basis.inverse() * global_normal).normalized()
 	var local_contact := to_local(global_contact + global_normal * surface_offset)
 
+	if bool(state["waiting_for_gap"]):
+		var gap_origin := state["gap_origin"] as Vector3
+		if gap_origin.distance_to(local_contact) < forced_strip_gap:
+			return
+		state["waiting_for_gap"] = false
+
 	if not bool(state["active"]):
 		_begin_strip(state, local_contact, local_normal)
 		return
@@ -59,12 +67,21 @@ func add_contact(
 
 	points.append(local_contact)
 	normals.append(local_normal)
+	strip["length"] = float(strip["length"]) + distance
 	state["chunk_segments"] = int(state["chunk_segments"]) + 1
 	state["total_segments"] = int(state["total_segments"]) + 1
 	_rebuild_current_chunk(state)
 
-	if int(state["chunk_segments"]) >= chunk_segment_limit:
+	var strip_complete := float(strip["length"]) >= maximum_strip_length
+	var chunk_complete := int(state["chunk_segments"]) >= chunk_segment_limit
+	if chunk_complete:
 		_prepare_next_chunk(state)
+	if strip_complete:
+		state["active"] = false
+		state["current_strip"] = {}
+		state["waiting_for_gap"] = true
+		state["gap_origin"] = local_contact
+	elif chunk_complete:
 		_begin_strip(state, local_contact, local_normal)
 
 func stop_tire(tire_index: int) -> void:
@@ -73,6 +90,7 @@ func stop_tire(tire_index: int) -> void:
 	var state := _tire_states[tire_index]
 	state["active"] = false
 	state["current_strip"] = {}
+	state["waiting_for_gap"] = false
 
 func stop_all() -> void:
 	for tire_index in _tire_states.size():
@@ -84,6 +102,8 @@ func _new_tire_state(tire_index: int) -> Dictionary:
 		"active": false,
 		"strips": [],
 		"current_strip": {},
+		"waiting_for_gap": false,
+		"gap_origin": Vector3.ZERO,
 		"chunk_segments": 0,
 		"total_segments": 0,
 		"chunk_index": 0,
@@ -98,6 +118,7 @@ func _begin_strip(state: Dictionary, point: Vector3, normal: Vector3) -> void:
 	var strip := {
 		"points": [point],
 		"normals": [normal],
+		"length": 0.0,
 	}
 	var strips := state["strips"] as Array
 	strips.append(strip)

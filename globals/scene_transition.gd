@@ -59,7 +59,6 @@ func transition_to_track(
 	_preview.modulate = Color.WHITE
 	_preview.position = start_rect.position
 	_preview.size = start_rect.size
-	_play_confirmation_beep()
 
 	var viewport_size := get_viewport().get_visible_rect().size
 	var expand_tween := create_tween()
@@ -140,7 +139,7 @@ func quit_game() -> void:
 	await tween.finished
 	get_tree().quit()
 
-func _play_confirmation_beep() -> void:
+func play_selection_beep() -> void:
 	_confirmation_sound.stop()
 	_confirmation_sound.play()
 

@@ -122,6 +122,8 @@ func _focus_driver(index: int) -> void:
 	if _selecting:
 		return
 
+	if index != _selected_index:
+		SceneTransition.play_selection_beep()
 	_selected_index = index
 	for button_index in driver_buttons.size():
 		_animate_button(button_index, button_index == _selected_index)
@@ -166,6 +168,7 @@ func _select_driver(index: int) -> void:
 		return
 
 	_selecting = true
+	SceneTransition.play_selection_beep()
 	_disable_buttons()
 	RaceSelection.select_driver(DriverRoster.DRIVER_IDS[index])
 

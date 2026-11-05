@@ -1,13 +1,17 @@
 [gd_scene format=3 uid="uid://dn24yd7sv8g0w"]
 
 [ext_resource type="PackedScene" uid="uid://cvxh8c1e1dio2" path="res://models/city/trafficlight_C.gltf" id="1_uttgq"]
-[ext_resource type="Script" path="res://scripts/traffic_light.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://3af5w0bi1y42" path="res://scripts/traffic_light.gd" id="2_script"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_green"]
 albedo_color = Color(0.02, 1, 0.05, 1)
 emission_enabled = true
 emission = Color(0.02, 1, 0.05, 1)
 emission_energy_multiplier = 12.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6xfsa"]
+height = 0.23925781
+radial_segments = 12
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_orange"]
 albedo_color = Color(1, 0.3, 0.01, 1)
@@ -20,10 +24,6 @@ albedo_color = Color(1, 0.01, 0.01, 1)
 emission_enabled = true
 emission = Color(1, 0.01, 0.01, 1)
 emission_energy_multiplier = 12.0
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_6xfsa"]
-height = 0.23925781
-radial_segments = 12
 
 [node name="TrafficLight" unique_id=536095388 instance=ExtResource("1_uttgq")]
 script = ExtResource("2_script")

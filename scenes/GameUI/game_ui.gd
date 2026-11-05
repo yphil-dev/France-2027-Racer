@@ -74,13 +74,13 @@ func _process(_delta: float) -> void:
 	if _classification_duration > 0.0:
 		progress = remaining / _classification_duration * 100.0
 	classification_timer.value = progress
-	classification_label.text = "RACE OVER IN %d" % ceili(remaining)
+	classification_label.text = str(ceili(remaining))
 
 func _on_classification_started(duration: float) -> void:
 	_classification_duration = duration
 	_classification_countdown_active = true
 	classification_timer.value = 100.0
-	classification_label.text = "RACE OVER IN %d" % ceili(duration)
+	classification_label.text = str(ceili(duration))
 	classification_countdown.show()
 
 func _apply_initial_standings(current_standings: Array) -> void:
@@ -165,6 +165,7 @@ func _on_race_finished(final_standings: Array) -> void:
 	var result_rects := QuadrantLayout.get_rects(size)
 	result_background.show()
 	result_shade.show()
+	AudioPlayer.play_result(_did_player_win(final_standings))
 
 	var background_tween := create_tween()
 	background_tween.set_parallel(true)
@@ -211,6 +212,13 @@ func _on_race_finished(final_standings: Array) -> void:
 
 	live_container.hide()
 
+func _did_player_win(final_standings: Array) -> bool:
+	for state_value in final_standings:
+		var state := state_value as CarRaceState
+		if state.vehicle is PlayerCar:
+			return state.winner
+	return false
+
 func _show_race_again() -> void:
 	_layout_race_again()
 	race_again.modulate = Color(1, 1, 1, 0)
@@ -252,6 +260,7 @@ func _restart_race() -> void:
 		return
 
 	_restarting = true
+	SceneTransition.play_selection_beep()
 	race_again.disabled = true
 
 	if _action_tween != null and _action_tween.is_valid():

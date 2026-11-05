@@ -134,7 +134,8 @@ func _play_intro() -> void:
 		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 
 func _unlock_startup_hover() -> void:
-	await get_tree().create_timer(0.8).timeout
+	var intro_end := INTRO_DURATION + INTRO_STAGGER * (selectable_buttons.size() - 1)
+	await get_tree().create_timer(intro_end + 0.1).timeout
 	_startup_hover_locked = false
 
 func _hover_button(index: int) -> void:
@@ -146,6 +147,8 @@ func _select_button(index: int) -> void:
 	if _launching:
 		return
 
+	if index != _selected_index:
+		SceneTransition.play_selection_beep()
 	_selected_index = index
 	for button_index in selectable_buttons.size():
 		_animate_button(button_index, button_index == _selected_index)
@@ -272,6 +275,7 @@ func _open_options() -> void:
 		return
 
 	_launching = true
+	SceneTransition.play_selection_beep()
 	for button in selectable_buttons:
 		button.disabled = true
 

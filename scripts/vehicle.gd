@@ -12,6 +12,14 @@ class_name Vehicle extends Node3D
 @export var drive_torque: float = 100.0
 @export var air_input_decay: float = 2.0
 
+@export_category("Skidmarks")
+@export var skidmarks_enabled: bool = true
+@export_range(0.05, 1.0, 0.05) var rear_skid_threshold: float = 0.3
+@export_range(0.1, 1.0, 0.05) var severe_lateral_ratio: float = 0.5
+@export_range(0.1, 1.0, 0.05) var skidmark_minimum_speed: float = 0.2
+@export_range(0.05, 0.5, 0.01) var wheel_ray_start_offset: float = 0.18
+@export_range(0.2, 1.0, 0.05) var wheel_ray_length: float = 0.5
+
 @export_category("Driver")
 @export var driver_id: String = ""
 
@@ -45,6 +53,9 @@ var car_color: Color = Color.WHITE
 
 @onready var trail_left = get_node_or_null("Container/TrailLeft")
 @onready var trail_right = get_node_or_null("Container/TrailRight")
+@onready var skidmark_emitter: Node = $SkidmarkEmitter
+@onready var rear_light_left: SpotLight3D = $Container/Lights/RearLights/Left
+@onready var rear_light_right: SpotLight3D = $Container/Lights/RearLights/Right
 
 # Sounds
 
@@ -162,6 +173,7 @@ func _physics_process(delta):
 	colliding = raycast.is_colliding()
 
 	var target_speed = input.z * (max_forward_speed if input.z >= 0.0 else max_reverse_speed)
+	var braking_now := _is_decelerating(target_speed)
 
 	if (target_speed < 0 and linear_speed > 0.01):
 		linear_speed = lerp(linear_speed, 0.0, delta * braking)
@@ -186,7 +198,9 @@ func _physics_process(delta):
 	effect_engine(delta)
 	effect_body(delta)
 	effect_wheels(delta)
-	effect_trails()
+	effect_brake_lights(braking_now)
+	var drift_intensity := effect_trails()
+	effect_skidmarks(drift_intensity)
 
 # Override this in player/CPU subclasses to provide steering and throttle.
 func get_control_input() -> Vector2:
@@ -228,6 +242,18 @@ func effect_body(delta):
 
 		vehicle_body.position = vehicle_body.position.lerp(Vector3(0, 0.2, 0), delta * 5)
 
+func _is_decelerating(target_speed: float) -> bool:
+	if not driving_enabled or not colliding or absf(linear_speed) <= 0.05:
+		return false
+
+	var movement_direction := signf(linear_speed)
+	var requested_speed_along_motion := target_speed * movement_direction
+	return requested_speed_along_motion < absf(linear_speed) - 0.05
+
+func effect_brake_lights(enabled: bool) -> void:
+	rear_light_left.visible = enabled
+	rear_light_right.visible = enabled
+
 func effect_wheels(delta):
 
 	# Rotate wheels based on acceleration
@@ -256,24 +282,76 @@ func effect_engine(delta):
 
 	engine_sound.pitch_scale = lerp(engine_sound.pitch_scale, target_pitch, delta * 2.0)
 
-func effect_trails():
+func effect_trails() -> float:
 	if not raycast.is_colliding():
 		# if trail_left != null: trail_left.emitting = false
 		# if trail_right != null: trail_right.emitting = false
 		screech_sound.volume_db = -80.0
-		return
+		return 0.0
 
-	var drift_intensity = abs(linear_speed - acceleration) + (abs(calculated_lean) * 2.0)
-	var should_emit = drift_intensity > 0.25
+	var turn_intensity := absf(input.x) * absf(linear_speed)
+	var speed_change_intensity := absf(linear_speed - acceleration)
+	var drift_intensity := maxf(turn_intensity, speed_change_intensity)
+	var should_emit := absf(linear_speed) > 0.2 and drift_intensity > 0.2
 
 	if trail_left != null: trail_left.emitting = should_emit
 	if trail_right != null: trail_right.emitting = should_emit
 
-	var target_volume = -80.0
-	if should_emit: target_volume = remap(clamp(drift_intensity, 0.25, 2.0), 0.25, 2.0, -10.0, 0.0)
+	var target_volume := -80.0
+	if should_emit:
+		target_volume = remap(clampf(drift_intensity, 0.2, 1.0), 0.2, 1.0, -6.0, 2.0)
 
 	screech_sound.pitch_scale = lerp(screech_sound.pitch_scale, clamp(abs(linear_speed), 1.0, 3.0), 0.1)
 	screech_sound.volume_db = lerp(screech_sound.volume_db, target_volume, 10.0 * get_physics_process_delta_time())
+	return drift_intensity
+
+func effect_skidmarks(drift_intensity: float) -> void:
+	if not skidmarks_enabled or not driving_enabled or not raycast.is_colliding():
+		skidmark_emitter.stop_all()
+		return
+
+	var up: Vector3 = vehicle_model.global_basis.y.normalized()
+	var right: Vector3 = vehicle_model.global_basis.x.normalized()
+	var planar_velocity: Vector3 = sphere.linear_velocity - up * sphere.linear_velocity.dot(up)
+	var actual_speed: float = planar_velocity.length()
+	var lateral_speed: float = absf(planar_velocity.dot(right))
+	var lateral_ratio: float = lateral_speed / maxf(actual_speed, 0.1)
+	var moving_fast_enough := absf(linear_speed) >= skidmark_minimum_speed
+	var rear_marking := moving_fast_enough and (
+		drift_intensity >= rear_skid_threshold or lateral_ratio >= rear_skid_threshold
+	)
+	var hard_braking := input.z < -0.1 and linear_speed > skidmark_minimum_speed
+	var front_marking := rear_marking and (
+		hard_braking or lateral_ratio >= severe_lateral_ratio
+	)
+
+	_update_wheel_skidmark(0, wheel_fl, front_marking)
+	_update_wheel_skidmark(1, wheel_fr, front_marking)
+	_update_wheel_skidmark(2, wheel_bl, rear_marking)
+	_update_wheel_skidmark(3, wheel_br, rear_marking)
+
+func _update_wheel_skidmark(
+	tire_index: int,
+	wheel: MeshInstance3D,
+	marking: bool
+) -> void:
+	if not marking or wheel == null:
+		skidmark_emitter.stop_tire(tire_index)
+		return
+
+	var up: Vector3 = vehicle_model.global_basis.y.normalized()
+	var origin: Vector3 = wheel.global_position + up * wheel_ray_start_offset
+	var destination: Vector3 = origin - up * wheel_ray_length
+	var query := PhysicsRayQueryParameters3D.create(origin, destination, 1)
+	query.exclude = [sphere.get_rid()]
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty():
+		skidmark_emitter.stop_tire(tire_index)
+		return
+
+	skidmark_emitter.add_contact(tire_index, hit.position, hit.normal)
 
 # Align vehicle with normal
 
@@ -288,9 +366,16 @@ func align_with_y(xform, new_y):
 
 func _on_sphere_body_entered(_body: Node) -> void:
 
-	if vehicle_body == null: return
+	if vehicle_body == null or not driving_enabled or impact_sound.playing:
+		return
 
-	if not impact_sound.playing:
-		var impact_velocity := absf(linear_velocity.dot(vehicle_body.global_basis.z))
-		impact_sound.volume_db = clampf(remap(impact_velocity, 0.0, 6.0, -20.0, 0.0), -20.0, 0.0)
-		impact_sound.play()
+	var impact_velocity := maxf(linear_velocity.length(), sphere.linear_velocity.length())
+	if impact_velocity < 1.0:
+		return
+
+	impact_sound.volume_db = clampf(
+		remap(impact_velocity, 1.0, 8.0, -10.0, 2.0),
+		-10.0,
+		2.0
+	)
+	impact_sound.play()

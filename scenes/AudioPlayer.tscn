@@ -4,12 +4,14 @@
 [ext_resource type="AudioStream" uid="uid://du2eytk12x1tq" path="res://audio/bar.ogg" id="1_hs2ye"]
 [ext_resource type="AudioStream" uid="uid://fb4s0vdlya0q" path="res://audio/honk.ogg" id="3_og8rt"]
 [ext_resource type="AudioStream" uid="uid://cg8f03avau4i5" path="res://audio/victory.ogg" id="4_nn5wq"]
+[ext_resource type="AudioStream" path="res://audio/loser.ogg" id="5_loser"]
 
-[node name="Node" type="Node" unique_id=1631168489 node_paths=PackedStringArray("bar", "honk", "victory")]
+[node name="Node" type="Node" unique_id=1631168489 node_paths=PackedStringArray("bar", "honk", "victory", "loser")]
 script = ExtResource("1_3qxq0")
 bar = NodePath("Bar")
 honk = NodePath("Honk")
 victory = NodePath("Victory")
+loser = NodePath("Loser")
 
 [node name="Bar" type="AudioStreamPlayer2D" parent="." unique_id=862922100]
 stream = ExtResource("1_hs2ye")
@@ -20,3 +22,6 @@ volume_db = -12.156
 
 [node name="Victory" type="AudioStreamPlayer2D" parent="." unique_id=957770245]
 stream = ExtResource("4_nn5wq")
+
+[node name="Loser" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_loser")

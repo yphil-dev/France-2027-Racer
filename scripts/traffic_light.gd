@@ -22,3 +22,8 @@ func show_start() -> void:
 	green_light.visible = true
 	orange_light.visible = false
 	red_light.visible = false
+
+func set_red_enabled(enabled: bool) -> void:
+	green_light.visible = false
+	orange_light.visible = false
+	red_light.visible = enabled

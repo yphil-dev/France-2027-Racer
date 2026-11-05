@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://th7fc4elxylt" path="res://scenes/CITY/street_lights_single_row.tscn" id="16_tbvl8"]
 [ext_resource type="PackedScene" uid="uid://dn24yd7sv8g0w" path="res://scenes/traffic_light.tscn" id="16_ws3xf"]
 [ext_resource type="PackedScene" uid="uid://e1553jj8qfvc" path="res://scenes/jump_ramp.tscn" id="17_mp5su"]
-[ext_resource type="AudioStream" uid="uid://77d1clswvsf7" path="res://audio/race-start.ogg" id="17_race_start"]
 [ext_resource type="PackedScene" uid="uid://ca6fwu6qha84s" path="res://scenes/GameUI/game_ui.tscn" id="18_qycdi"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_a8y0u"]
@@ -83,17 +82,8 @@ script = ExtResource("1_eb6dy")
 [node name="TrafficLight" parent="." unique_id=536095388 instance=ExtResource("16_ws3xf")]
 transform = Transform3D(4.2459884, 0, 0, 0, 4.2459884, 0, 0, 0, 4.2459884, 14.475473, 0, 4.113555)
 
-[node name="RaceStartAudio" type="AudioStreamPlayer3D" parent="." unique_id=383598524]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.475473, 3.4, 4.113555)
-stream = ExtResource("17_race_start")
-volume_db = 3.0
-unit_size = 1.5
-max_distance = 60.0
-attenuation_filter_db = -8.0
-
 [node name="RaceController" parent="." unique_id=1837278698 instance=ExtResource("2_trceg")]
 traffic_light_path = NodePath("../TrafficLight")
-start_audio_path = NodePath("../RaceStartAudio")
 
 [node name="Environment" type="WorldEnvironment" parent="." unique_id=1097254880]
 environment = ExtResource("1_q4t1r")

@@ -90,28 +90,28 @@ layout_mode = 0
 offset_left = 4.0
 offset_top = 396.0
 offset_right = 157.0
-offset_bottom = 440.0
+offset_bottom = 462.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="ClassificationCountdown"]
 layout_mode = 0
 offset_right = 153.0
-offset_bottom = 22.0
+offset_bottom = 44.0
 mouse_filter = 2
-theme_override_colors/font_color = Color(1, 0.22, 0.25, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 12
-text = "RACE OVER IN 15"
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 36
+text = "15"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Timer" type="ProgressBar" parent="ClassificationCountdown"]
 layout_mode = 0
 offset_left = 38.5
-offset_top = 27.0
+offset_top = 49.0
 offset_right = 114.5
-offset_bottom = 39.0
+offset_bottom = 61.0
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_countdown_background")
 theme_override_styles/fill = SubResource("StyleBoxFlat_countdown_fill")
