@@ -73,7 +73,7 @@ point_count = 16
 [sub_resource type="Curve3D" id="Curve3D_gjccx"]
 closed = true
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 7.973587, -0.072021484, 3.7618968, 0, 0, 0, 0, 0, 0, 7.973587, -0.072021484, 15.86539, -6.1744156, 0, 0.08196831, 6.1744156, 0, -0.08196831, 15.006695, -0.072021484, 22.16807, 0, 0, 0, 0, 0, 0, 21.876247, -0.072021484, 15.129366, 0, 0, 0, 0, 0, 0, 21.794468, -0.072021484, -1.3084865, 11.428497, 0, 0, -11.428497, 0, 0, 11.712244, 2.0184326, -7.577151, 0, 0, 0, 0, 0, 0, 0.36801147, 2.1245117, -1.8809485, 0, 0, 0, 0, 0, 0, 0.12266922, 2.125, 14.720463, 0, 0, 0, 0, 0, 0, -7.728245, 2.125, 14.802244, 0, 0, 0, 0, 0, 0, -7.8918037, 2.124878, 5.806405, 1.1853256, 0, 0.5071332, -1.1853256, 0, -0.5071332, -11.08124, -0.072021484, 1.0631461, 0, 0, 0, 0, 0, 0, -15.252037, 2.125, -0.3271217, 0, 0, 0, 0, 0, 0, -15.170258, 0.15234375, -15.292928, 0, 0, 0, 0, 0, 0, 7.4829025, -0.072021484, -15.456489),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 7.973587, -0.072021484, 3.7618968, 0, 0, 0, 0, 0, 0, 7.973587, -0.072021484, 15.86539, -6.1744156, 0, 0.08196831, 6.1744156, 0, -0.08196831, 15.006695, -0.072021484, 22.16807, 0, 0, 0, 0, 0, 0, 21.876247, -0.072021484, 15.129366, 0, 0, 0, 0, 0, 0, 21.794468, -0.072021484, -1.3084865, 11.428497, 0, 0, -11.428497, 0, 0, 11.712244, 2.0184326, -7.577151, 0, 0, 0, 0, 0, 0, 0.36801147, 2.1245117, -1.8809485, 0, 0, 0, 0, 0, 0, 0.12266922, 2.125, 15.56, 0, 0, 0, 0, 0, 0, -7.728245, 2.125, 15.72, 0, 0, 0, 0, 0, 0, -7.8918037, 2.124878, 5.806405, 1.1853256, 0, 0.5071332, -1.1853256, 0, -0.5071332, -11.08124, -0.072021484, 1.0631461, 0, 0, 0, 0, 0, 0, -15.252037, 2.125, -0.3271217, 0, 0, 0, 0, 0, 0, -15.170258, 0.15234375, -15.292928, 0, 0, 0, 0, 0, 0, 8.2, -0.072021484, -16.75),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 14
@@ -206,7 +206,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38812256, 0.24408382, 0.323
 shape = SubResource("BoxShape3D_6xfsa")
 
 [node name="Verif" type="Area3D" parent="." unique_id=1020220827]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 8.166649, 0, 17.601187)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 15.220726, 0, 18.607046)
 collision_layer = 0
 collision_mask = 9
 
@@ -217,10 +217,12 @@ shape = SubResource("BoxShape3D_6xfsa")
 [node name="PATH" type="Node3D" parent="." unique_id=2089517924]
 script = ExtResource("2_boundaries")
 segment_spacing = 2.0
-wall_height = 6.0
+wall_height = 4.0
+align_height_to_track_path = true
 
 [node name="WaypointGenerator" type="Node3D" parent="PATH" unique_id=522382213]
 script = ExtResource("3_waypoints")
+show_debug_labels = true
 
 [node name="TrackPath" type="Path3D" parent="PATH" unique_id=685077812]
 visible = false
@@ -230,15 +232,15 @@ curve = SubResource("Curve3D_mp5su")
 curve = SubResource("Curve3D_k4lmh")
 debug_custom_color = Color(1, 1, 1, 1)
 
+[node name="InteriorWall" type="Path3D" parent="PATH" unique_id=110701888]
+curve = SubResource("Curve3D_gjccx")
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=2062290784]
 
 [node name="GameUI" parent="UI" unique_id=239267494 instance=ExtResource("18_qycdi")]
 
 [node name="JumpRamp" parent="." unique_id=11557879 instance=ExtResource("17_mp5su")]
 transform = Transform3D(-5.5605465e-08, 1.7496669e-08, -1.3335937, 0.40027723, 1.2721047, -1.7372737e-15, 1.2721047, -0.40027723, -5.829323e-08, 11.192327, 2.6029172, -5.144266)
-
-[node name="Path3D" type="Path3D" parent="." unique_id=110701888]
-curve = SubResource("Curve3D_gjccx")
 
 [connection signal="body_entered" from="Finish" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]
