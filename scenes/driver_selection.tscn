@@ -115,7 +115,7 @@ alignment = 1
 [node name="One" type="Button" parent="LapSelector/Bar/Buttons"]
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
-focus_neighbor_top = NodePath("../../../../DriverGrid/Glucksman")
+focus_neighbor_top = NodePath("../../../../DriverGrid/Melenchon")
 focus_neighbor_bottom = NodePath("../../../../TimeSelector/Day")
 focus_neighbor_right = NodePath("../Two")
 theme_override_styles/focus = SubResource("StyleBox_focus_left")
@@ -127,7 +127,7 @@ text = "1"
 [node name="Two" type="Button" parent="LapSelector/Bar/Buttons"]
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
-focus_neighbor_top = NodePath("../../../../DriverGrid/Glucksman")
+focus_neighbor_top = NodePath("../../../../DriverGrid/Melenchon")
 focus_neighbor_bottom = NodePath("../../../../TimeSelector/Day")
 theme_override_styles/focus = SubResource("StyleBox_focus_middle")
 theme_override_styles/normal = SubResource("StyleBox_button_middle")
@@ -140,7 +140,7 @@ text = "2"
 [node name="Three" type="Button" parent="LapSelector/Bar/Buttons"]
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
-focus_neighbor_top = NodePath("../../../../DriverGrid/Melenchon")
+focus_neighbor_top = NodePath("../../../../DriverGrid/Glucksman")
 focus_neighbor_bottom = NodePath("../../../../TimeSelector/Night")
 theme_override_styles/focus = SubResource("StyleBox_focus_right")
 theme_override_styles/normal = SubResource("StyleBox_button_right")
@@ -232,7 +232,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_neighbor_right = NodePath("../LePen")
-focus_neighbor_bottom = NodePath("../Glucksman")
+focus_neighbor_bottom = NodePath("../Melenchon")
 focus_mode = 2
 flat = true
 
@@ -287,7 +287,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Soral")
-focus_neighbor_bottom = NodePath("../Melenchon")
+focus_neighbor_bottom = NodePath("../Glucksman")
 focus_mode = 2
 flat = true
 
@@ -341,9 +341,9 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-focus_neighbor_top = NodePath("../Soral")
-focus_neighbor_bottom = NodePath("../../LapSelector/Bar/Buttons/One")
-focus_neighbor_right = NodePath("../Melenchon")
+focus_neighbor_left = NodePath("../Melenchon")
+focus_neighbor_top = NodePath("../LePen")
+focus_neighbor_bottom = NodePath("../../LapSelector/Bar/Buttons/Three")
 focus_mode = 2
 flat = true
 
@@ -397,9 +397,9 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../Glucksman")
-focus_neighbor_top = NodePath("../LePen")
-focus_neighbor_bottom = NodePath("../../LapSelector/Bar/Buttons/Three")
+focus_neighbor_top = NodePath("../Soral")
+focus_neighbor_bottom = NodePath("../../LapSelector/Bar/Buttons/One")
+focus_neighbor_right = NodePath("../Glucksman")
 focus_mode = 2
 flat = true
 

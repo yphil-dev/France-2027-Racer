@@ -68,6 +68,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		SceneTransition.transition_to_menu()
 
 func _ready() -> void:
+	driver_grid.move_child(driver_buttons[3], 2)
+
 	for index in driver_buttons.size():
 		var profile := DriverRoster.get_profile(DriverRoster.DRIVER_IDS[index])
 		portraits[index].texture = profile["selection_portrait"]
@@ -126,7 +128,7 @@ func _layout_cards() -> void:
 	var grid_size := QuadrantLayout.get_grid_size(available_size)
 	var total_height := grid_size.y + 160.0
 	driver_grid.position = Vector2((size.x - grid_size.x) * 0.5, (size.y - total_height) * 0.5 + 20.0)
-	driver_badge.position = driver_grid.position + Vector2(grid_size.x - 44.0, -20.0)
+	driver_badge.position = driver_grid.position + Vector2(grid_size.x + 8.0, -14.0)
 	driver_badge.size = Vector2(64.0, 64.0)
 	driver_grid.size = grid_size
 	driver_grid.custom_minimum_size = grid_size
