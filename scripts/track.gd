@@ -10,8 +10,19 @@ var _laps_by_car: Dictionary = {}
 var _finished_cars: Dictionary = {}
 
 func _ready() -> void:
+	if OS.has_feature("web"):
+		_adjust_web_exposure()
 	target_laps = RaceSelection.selected_laps
 	print("START! Target laps set to: ", target_laps)
+
+func _adjust_web_exposure() -> void:
+	for node in find_children("*", "WorldEnvironment", true, false):
+		var world_environment := node as WorldEnvironment
+		if world_environment.environment == null:
+			continue
+		var local_environment := world_environment.environment.duplicate() as Environment
+		local_environment.tonemap_exposure *= 2.0 / 3.0
+		world_environment.environment = local_environment
 
 func _on_verif_body_entered(body: Node3D) -> void:
 	if not body is VehicleSphere:
