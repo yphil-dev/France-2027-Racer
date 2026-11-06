@@ -18,7 +18,7 @@ jobs:
     name: Export and publish Web build
     runs-on: ubuntu-24.04
     container:
-      image: barichello/godot-ci:4.7.2-stable
+      image: barichello/godot-ci:4.7.2
 
     steps:
       - name: Check out repository
