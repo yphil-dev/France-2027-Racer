@@ -54,8 +54,7 @@ var car_color: Color = Color.WHITE
 @onready var trail_left = get_node_or_null("Container/TrailLeft")
 @onready var trail_right = get_node_or_null("Container/TrailRight")
 @onready var skidmark_emitter: Node = $SkidmarkEmitter
-@onready var rear_light_left: SpotLight3D = $Container/Lights/RearLights/Left
-@onready var rear_light_right: SpotLight3D = $Container/Lights/RearLights/Right
+var rear_lamp_material: StandardMaterial3D
 
 # Sounds
 
@@ -141,6 +140,18 @@ func _ready() -> void:
 			unique_material.roughness = 0.48
 			body_mesh.set_surface_override_material(0, unique_material)
 
+		for surface_index in body_mesh.mesh.get_surface_count():
+			if body_mesh.mesh.surface_get_name(surface_index) != "Glow-red":
+				continue
+			var lamp_material := body_mesh.get_active_material(surface_index) as StandardMaterial3D
+			if lamp_material != null:
+				rear_lamp_material = lamp_material.duplicate() as StandardMaterial3D
+				rear_lamp_material.albedo_color = Color(0.24, 0.015, 0.015)
+				rear_lamp_material.emission = Color(1.0, 0.015, 0.01)
+				rear_lamp_material.emission_energy_multiplier = 3.0
+				body_mesh.set_surface_override_material(surface_index, rear_lamp_material)
+			break
+
 func _physics_process(delta):
 
 	handle_input(delta)
@@ -173,7 +184,6 @@ func _physics_process(delta):
 	colliding = raycast.is_colliding()
 
 	var target_speed = input.z * (max_forward_speed if input.z >= 0.0 else max_reverse_speed)
-	var braking_now := _is_decelerating(target_speed)
 
 	if (target_speed < 0 and linear_speed > 0.01):
 		linear_speed = lerp(linear_speed, 0.0, delta * braking)
@@ -198,7 +208,7 @@ func _physics_process(delta):
 	effect_engine(delta)
 	effect_body(delta)
 	effect_wheels(delta)
-	effect_brake_lights(braking_now)
+	effect_brake_lights(input.z <= 0.1)
 	var drift_intensity := effect_trails()
 	effect_skidmarks(drift_intensity)
 
@@ -242,17 +252,9 @@ func effect_body(delta):
 
 		vehicle_body.position = vehicle_body.position.lerp(Vector3(0, 0.2, 0), delta * 5)
 
-func _is_decelerating(target_speed: float) -> bool:
-	if not driving_enabled or not colliding or absf(linear_speed) <= 0.05:
-		return false
-
-	var movement_direction := signf(linear_speed)
-	var requested_speed_along_motion := target_speed * movement_direction
-	return requested_speed_along_motion < absf(linear_speed) - 0.05
-
 func effect_brake_lights(enabled: bool) -> void:
-	rear_light_left.visible = enabled
-	rear_light_right.visible = enabled
+	if rear_lamp_material != null:
+		rear_lamp_material.emission_enabled = enabled
 
 func effect_wheels(delta):
 
