@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://bxa25sbhk2qtb"]
-
-[ext_resource type="PackedScene" uid="uid://bslbu73hgivdf" path="res://models/Block01.glb" id="1_crfo5"]
-
-[node name="Block012" unique_id=965472530 instance=ExtResource("1_crfo5")]

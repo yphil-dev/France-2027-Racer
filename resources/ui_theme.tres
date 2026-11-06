@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=2 format=3]
+[gd_resource type="Theme" format=3 uid="uid://cm4x7m72ugug"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_result_badge"]
 bg_color = Color(0.94, 0.93, 0.88, 1)
@@ -11,7 +11,6 @@ corner_radius_top_left = 32
 corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
-anti_aliasing = true
 
 [resource]
 IconBadge/base_type = &"Panel"
