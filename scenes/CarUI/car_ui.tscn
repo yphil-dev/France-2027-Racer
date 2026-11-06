@@ -14,6 +14,26 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_result_badge"]
+bg_color = Color(0.94, 0.93, 0.88, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.3, 0.32, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_live_badge"]
+bg_color = Color(0.94, 0.93, 0.88, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
 [node name="CarUI" type="PanelContainer"]
 custom_minimum_size = Vector2(153, 88)
 mouse_filter = 2
@@ -71,12 +91,62 @@ theme_override_colors/font_color = Color(1, 0.9, 0.25, 1)
 theme_override_font_sizes/font_size = 16
 text = "00:00.00"
 
-[node name="StatusLabel" type="Label" parent="Margin/HBox/Info"]
+[node name="StatusRow" type="HBoxContainer" parent="Margin/HBox/Info"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="StatusBadge" type="Panel" parent="Margin/HBox/Info/StatusRow"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_live_badge")
+
+[node name="StatusIcon" type="TextureRect" parent="Margin/HBox/Info/StatusRow/StatusBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusLabel" type="Label" parent="Margin/HBox/Info/StatusRow"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.82, 0.85, 0.92, 1)
 theme_override_font_sizes/font_size = 10
 text = "Lap 0"
 clip_text = true
+
+[node name="ResultBadge" type="Panel" parent="."]
+visible = false
+top_level = true
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+z_index = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_result_badge")
+
+[node name="ResultIcon" type="TextureRect" parent="ResultBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="BestLabel" type="Label" parent="Margin/HBox/Info"]
 layout_mode = 2

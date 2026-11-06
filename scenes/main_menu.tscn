@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://cy382kcvapi4g"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://splash-screen.png" id="2_background"]
+[ext_resource type="Script" uid="uid://b5hs2dxnvsr6n" path="res://scripts/main_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://byqqbebrbr4l2" path="res://splash-screen.png" id="2_background"]
+[ext_resource type="Texture2D" path="res://sprites/potato_rock_logo_rounded.png" id="3_bqqt6"]
+[ext_resource type="Script" uid="uid://dbomi426cl1d6" path="res://scripts/potato_rock_button.gd" id="4_wu84c"]
+[ext_resource type="Texture2D" uid="uid://hrrr76pejbwi" path="res://sprites/laps-loop.svg" id="5_laps"]
+[ext_resource type="Texture2D" uid="uid://j3r1bh7d6b6d" path="res://sprites/steering-wheel.png" id="6_wheel"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=459776246]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1548637862]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +28,7 @@ texture = ExtResource("2_background")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="BackgroundShade" type="ColorRect" parent="."]
+[node name="BackgroundShade" type="ColorRect" parent="." unique_id=575082289]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +38,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.3)
 
-[node name="TrackGrid" type="GridContainer" parent="."]
+[node name="TrackGrid" type="GridContainer" parent="." unique_id=1645744087]
 layout_mode = 0
 offset_right = 100.0
 offset_bottom = 100.0
@@ -42,17 +46,16 @@ theme_override_constants/h_separation = 32
 theme_override_constants/v_separation = 24
 columns = 2
 
-[node name="Paris" type="Button" parent="TrackGrid"]
+[node name="Paris" type="Button" parent="TrackGrid" unique_id=707157219]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_neighbor_right = NodePath("../Marseille")
 focus_neighbor_bottom = NodePath("../Limoges")
-focus_mode = 2
 flat = true
 
-[node name="Preview" type="TextureRect" parent="TrackGrid/Paris"]
+[node name="Preview" type="TextureRect" parent="TrackGrid/Paris" unique_id=1519345237]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,7 +66,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Shade" type="ColorRect" parent="TrackGrid/Paris"]
+[node name="Shade" type="ColorRect" parent="TrackGrid/Paris" unique_id=172201067]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,15 +76,15 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.2)
 
-[node name="CityLabel" type="Label" parent="TrackGrid/Paris"]
+[node name="CityLabel" type="Label" parent="TrackGrid/Paris" unique_id=1648883024]
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -72.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
@@ -90,31 +93,29 @@ text = "PARIS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoadingLabel" type="Label" parent="TrackGrid/Paris"]
+[node name="LoadingLabel" type="Label" parent="TrackGrid/Paris" unique_id=267279539]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.8, 0.82, 0.88, 1)
 theme_override_font_sizes/font_size = 14
 text = "GENERATING PREVIEW..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Marseille" type="Button" parent="TrackGrid"]
+[node name="Marseille" type="Button" parent="TrackGrid" unique_id=1859771612]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Paris")
 focus_neighbor_bottom = NodePath("../Lyon")
-focus_mode = 2
 flat = true
 
-[node name="Preview" type="TextureRect" parent="TrackGrid/Marseille"]
+[node name="Preview" type="TextureRect" parent="TrackGrid/Marseille" unique_id=1244435436]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,7 +126,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Shade" type="ColorRect" parent="TrackGrid/Marseille"]
+[node name="Shade" type="ColorRect" parent="TrackGrid/Marseille" unique_id=610411994]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,15 +136,15 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.2)
 
-[node name="CityLabel" type="Label" parent="TrackGrid/Marseille"]
+[node name="CityLabel" type="Label" parent="TrackGrid/Marseille" unique_id=1917561088]
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -72.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
@@ -152,21 +153,20 @@ text = "MARSEILLE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoadingLabel" type="Label" parent="TrackGrid/Marseille"]
+[node name="LoadingLabel" type="Label" parent="TrackGrid/Marseille" unique_id=1901362745]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.8, 0.82, 0.88, 1)
 theme_override_font_sizes/font_size = 14
 text = "GENERATING PREVIEW..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Limoges" type="Button" parent="TrackGrid"]
+[node name="Limoges" type="Button" parent="TrackGrid" unique_id=106822650]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -174,10 +174,9 @@ size_flags_vertical = 3
 focus_neighbor_top = NodePath("../Paris")
 focus_neighbor_right = NodePath("../Lyon")
 focus_neighbor_bottom = NodePath("../../Options")
-focus_mode = 2
 flat = true
 
-[node name="Preview" type="TextureRect" parent="TrackGrid/Limoges"]
+[node name="Preview" type="TextureRect" parent="TrackGrid/Limoges" unique_id=16404306]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -188,7 +187,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Shade" type="ColorRect" parent="TrackGrid/Limoges"]
+[node name="Shade" type="ColorRect" parent="TrackGrid/Limoges" unique_id=2119047485]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -198,15 +197,15 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.2)
 
-[node name="CityLabel" type="Label" parent="TrackGrid/Limoges"]
+[node name="CityLabel" type="Label" parent="TrackGrid/Limoges" unique_id=39570125]
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -72.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
@@ -215,21 +214,20 @@ text = "LIMOGES"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoadingLabel" type="Label" parent="TrackGrid/Limoges"]
+[node name="LoadingLabel" type="Label" parent="TrackGrid/Limoges" unique_id=1076296667]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.8, 0.82, 0.88, 1)
 theme_override_font_sizes/font_size = 14
 text = "GENERATING PREVIEW..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Lyon" type="Button" parent="TrackGrid"]
+[node name="Lyon" type="Button" parent="TrackGrid" unique_id=1700040413]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -237,10 +235,9 @@ size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Limoges")
 focus_neighbor_top = NodePath("../Marseille")
 focus_neighbor_bottom = NodePath("../../Options")
-focus_mode = 2
 flat = true
 
-[node name="Preview" type="TextureRect" parent="TrackGrid/Lyon"]
+[node name="Preview" type="TextureRect" parent="TrackGrid/Lyon" unique_id=1536931630]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -251,7 +248,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Shade" type="ColorRect" parent="TrackGrid/Lyon"]
+[node name="Shade" type="ColorRect" parent="TrackGrid/Lyon" unique_id=228817101]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -261,15 +258,15 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.2)
 
-[node name="CityLabel" type="Label" parent="TrackGrid/Lyon"]
+[node name="CityLabel" type="Label" parent="TrackGrid/Lyon" unique_id=1923965175]
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -72.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
@@ -278,31 +275,29 @@ text = "LYON"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoadingLabel" type="Label" parent="TrackGrid/Lyon"]
+[node name="LoadingLabel" type="Label" parent="TrackGrid/Lyon" unique_id=2065170953]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.8, 0.82, 0.88, 1)
 theme_override_font_sizes/font_size = 14
 text = "GENERATING PREVIEW..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Options" type="Button" parent="."]
+[node name="Options" type="Button" parent="." unique_id=2016133167]
 clip_contents = true
 layout_mode = 0
 offset_right = 240.0
 offset_bottom = 56.0
 focus_neighbor_left = NodePath("../TrackGrid/Limoges")
 focus_neighbor_top = NodePath("../TrackGrid/Lyon")
-focus_mode = 2
 flat = true
 
-[node name="Shade" type="ColorRect" parent="Options"]
+[node name="Shade" type="ColorRect" parent="Options" unique_id=1233481440]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -312,35 +307,67 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.55)
 
-[node name="Portrait" type="TextureRect" parent="Options"]
+[node name="WheelIcon" type="TextureRect" parent="Options" unique_id=1414649629]
 layout_mode = 0
-offset_left = 8.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 44.0
+offset_bottom = 44.0
+mouse_filter = 2
+texture = ExtResource("6_wheel")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait" type="TextureRect" parent="Options" unique_id=388672804]
+layout_mode = 0
+offset_left = 55.0
 offset_top = 8.0
-offset_right = 48.0
+offset_right = 95.0
 offset_bottom = 48.0
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="Options"]
+[node name="LapIcon" type="TextureRect" parent="Options" unique_id=1312269755]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 12.0
+offset_right = 157.0
+offset_bottom = 44.0
+mouse_filter = 2
+texture = ExtResource("5_laps")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Options" unique_id=649597507]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 52.0
-offset_right = -6.0
+offset_left = 160.0
+offset_right = -18.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 22
-text = "CHANGE DRIVER"
+text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PreviewViewport" type="SubViewport" parent="."]
+[node name="PreviewViewport" type="SubViewport" parent="." unique_id=1703163077]
+own_world_3d = true
 size = Vector2i(640, 360)
 render_target_update_mode = 0
-own_world_3d = true
+
+[node name="PotatoRockButton" type="TextureButton" parent="." unique_id=156208025]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 555.0
+offset_right = 138.0
+offset_bottom = 651.0
+tooltip_text = "Plop"
+action_mode = 0
+texture_normal = ExtResource("3_bqqt6")
+script = ExtResource("4_wu84c")

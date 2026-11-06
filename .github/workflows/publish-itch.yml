@@ -1,0 +1,43 @@
+name: Publish Web build to itch.io
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: 4.7.2
+  ITCH_TARGET: yphil/france-2017-racer:html5
+
+jobs:
+  publish-web:
+    name: Export and publish Web build
+    runs-on: ubuntu-24.04
+    container:
+      image: barichello/godot-ci:4.7.2-stable
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Godot export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates
+          mv "/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable" \
+             "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+
+      - name: Export Web build
+        run: |
+          mkdir -p export/web
+          godot --headless --verbose --export-release "Web" export/web/index.html
+
+      - name: Publish to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          test -n "$BUTLER_API_KEY"
+          butler push export/web "$ITCH_TARGET"

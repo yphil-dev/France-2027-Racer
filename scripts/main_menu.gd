@@ -98,6 +98,7 @@ func _initialize_selection() -> void:
 
 	var selected_profile := DriverRoster.get_profile(RaceSelection.selected_driver_id)
 	selected_driver_portrait.texture = selected_profile["portrait"]
+	selection_labels[4].text = str(RaceSelection.selected_laps)
 
 	_select_button(0)
 	selectable_buttons[0].grab_focus()

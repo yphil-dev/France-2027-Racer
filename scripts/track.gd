@@ -10,6 +10,7 @@ var _laps_by_car: Dictionary = {}
 var _finished_cars: Dictionary = {}
 
 func _ready() -> void:
+	target_laps = RaceSelection.selected_laps
 	print("START! Target laps set to: ", target_laps)
 
 func _on_verif_body_entered(body: Node3D) -> void:

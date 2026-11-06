@@ -11,7 +11,7 @@ class_name GameUI
 @onready var classification_timer: ProgressBar = $ClassificationCountdown/Timer
 @onready var race_again: Button = $RaceAgain
 @onready var race_again_shade: ColorRect = $RaceAgain/Shade
-@onready var race_again_label: Label = $RaceAgain/Label
+@onready var race_again_label: TextureRect = $RaceAgain/Icon
 
 const RESULT_TWEEN_DURATION: float = 1.1
 const BACKGROUND_FADE_DURATION: float = 0.8
