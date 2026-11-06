@@ -14,19 +14,6 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_result_badge"]
-bg_color = Color(0.94, 0.93, 0.88, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.3, 0.3, 0.32, 1)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-anti_aliasing = true
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_live_badge"]
 bg_color = Color(0.94, 0.93, 0.88, 1)
 corner_radius_top_left = 16
@@ -131,7 +118,7 @@ offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2
 z_index = 10
-theme_override_styles/panel = SubResource("StyleBoxFlat_result_badge")
+theme_type_variation = &"IconBadge"
 
 [node name="ResultIcon" type="TextureRect" parent="ResultBadge"]
 layout_mode = 1

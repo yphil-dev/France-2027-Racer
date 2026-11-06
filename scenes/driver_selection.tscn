@@ -4,43 +4,37 @@
 [ext_resource type="Texture2D" path="res://splash-screen.png" id="2_background"]
 [ext_resource type="Texture2D" path="res://sprites/laps-loop.svg" id="3_laps"]
 [ext_resource type="Texture2D" path="res://sprites/steering-wheel.png" id="4_wheel"]
+[ext_resource type="Texture2D" path="res://sprites/day-sun.svg" id="5_sun"]
+[ext_resource type="Texture2D" path="res://sprites/night-moon.svg" id="6_moon"]
+[ext_resource type="Texture2D" path="res://sprites/day-sun-neutral.svg" id="7_sun_neutral"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_lap_bar"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.08, 0.08, 0.08, 0.72)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.92, 0.91, 0.86, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="StyleBoxEmpty" id="StyleBox_lap_bar"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_lap_button"]
+[sub_resource type="StyleBoxFlat" id="StyleBox_button_left"]
 bg_color = Color(0.24, 0.24, 0.24, 1)
 corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_lap_focus"]
-bg_color = Color(0.35, 0.31, 0.12, 1)
-corner_radius_top_left = 3
+[sub_resource type="StyleBoxFlat" id="StyleBox_button_middle"]
+bg_color = Color(0.24, 0.24, 0.24, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_button_right"]
+bg_color = Color(0.24, 0.24, 0.24, 1)
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_focus_left"]
+bg_color = Color(0.35, 0.31, 0.12, 1)
+corner_radius_top_left = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_lap_no_outline"]
+[sub_resource type="StyleBoxFlat" id="StyleBox_focus_middle"]
 bg_color = Color(0.35, 0.31, 0.12, 1)
-corner_radius_top_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_focus_right"]
+bg_color = Color(0.35, 0.31, 0.12, 1)
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
 
 [node name="DriverSelection" type="Control"]
 layout_mode = 3
@@ -73,10 +67,25 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.3)
 
-[node name="DriverIcon" type="TextureRect" parent="."]
+[node name="DriverBadge" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 44.0
-offset_bottom = 44.0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+z_index = 5
+theme_type_variation = &"IconBadge"
+
+[node name="Icon" type="TextureRect" parent="DriverBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("4_wheel")
 expand_mode = 1
@@ -94,57 +103,128 @@ columns = 2
 layout_mode = 0
 theme_override_constants/separation = 6
 
-[node name="LapIcon" type="TextureRect" parent="LapSelector"]
-custom_minimum_size = Vector2(44, 44)
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 2
-texture = ExtResource("3_laps")
-expand_mode = 1
-stretch_mode = 5
-
 [node name="Bar" type="PanelContainer" parent="LapSelector"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_lap_bar")
 
 [node name="Buttons" type="HBoxContainer" parent="LapSelector/Bar"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="One" type="Button" parent="LapSelector/Bar/Buttons"]
-custom_minimum_size = Vector2(70, 44)
+custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../../../DriverGrid/Glucksman")
+focus_neighbor_bottom = NodePath("../../../../TimeSelector/Day")
 focus_neighbor_right = NodePath("../Two")
-theme_override_styles/focus = SubResource("StyleBox_lap_no_outline")
-theme_override_styles/normal = SubResource("StyleBox_lap_button")
-theme_override_styles/hover = SubResource("StyleBox_lap_focus")
-theme_override_styles/pressed = SubResource("StyleBox_lap_focus")
+theme_override_styles/focus = SubResource("StyleBox_focus_left")
+theme_override_styles/normal = SubResource("StyleBox_button_left")
+theme_override_styles/hover = SubResource("StyleBox_focus_left")
+theme_override_styles/pressed = SubResource("StyleBox_focus_left")
 text = "1"
 
 [node name="Two" type="Button" parent="LapSelector/Bar/Buttons"]
-custom_minimum_size = Vector2(70, 44)
+custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../../../DriverGrid/Glucksman")
-theme_override_styles/focus = SubResource("StyleBox_lap_no_outline")
-theme_override_styles/normal = SubResource("StyleBox_lap_button")
-theme_override_styles/hover = SubResource("StyleBox_lap_focus")
-theme_override_styles/pressed = SubResource("StyleBox_lap_focus")
+focus_neighbor_bottom = NodePath("../../../../TimeSelector/Day")
+theme_override_styles/focus = SubResource("StyleBox_focus_middle")
+theme_override_styles/normal = SubResource("StyleBox_button_middle")
+theme_override_styles/hover = SubResource("StyleBox_focus_middle")
+theme_override_styles/pressed = SubResource("StyleBox_focus_middle")
 focus_neighbor_left = NodePath("../One")
 focus_neighbor_right = NodePath("../Three")
 text = "2"
 
 [node name="Three" type="Button" parent="LapSelector/Bar/Buttons"]
-custom_minimum_size = Vector2(70, 44)
+custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../../../DriverGrid/Melenchon")
-theme_override_styles/focus = SubResource("StyleBox_lap_no_outline")
-theme_override_styles/normal = SubResource("StyleBox_lap_button")
-theme_override_styles/hover = SubResource("StyleBox_lap_focus")
-theme_override_styles/pressed = SubResource("StyleBox_lap_focus")
+focus_neighbor_bottom = NodePath("../../../../TimeSelector/Night")
+theme_override_styles/focus = SubResource("StyleBox_focus_right")
+theme_override_styles/normal = SubResource("StyleBox_button_right")
+theme_override_styles/hover = SubResource("StyleBox_focus_right")
+theme_override_styles/pressed = SubResource("StyleBox_focus_right")
 focus_neighbor_left = NodePath("../Two")
 text = "3"
+
+[node name="TimeSelector" type="HBoxContainer" parent="."]
+layout_mode = 0
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Day" type="Button" parent="TimeSelector"]
+custom_minimum_size = Vector2(96, 40)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../LapSelector/Bar/Buttons/One")
+focus_neighbor_right = NodePath("../Night")
+theme_override_styles/focus = SubResource("StyleBox_focus_left")
+theme_override_styles/normal = SubResource("StyleBox_button_left")
+theme_override_styles/hover = SubResource("StyleBox_focus_left")
+theme_override_styles/pressed = SubResource("StyleBox_focus_left")
+icon = ExtResource("7_sun_neutral")
+icon_alignment = 1
+
+[node name="Night" type="Button" parent="TimeSelector"]
+custom_minimum_size = Vector2(96, 40)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../LapSelector/Bar/Buttons/Three")
+focus_neighbor_left = NodePath("../Day")
+theme_override_styles/focus = SubResource("StyleBox_focus_right")
+theme_override_styles/normal = SubResource("StyleBox_button_right")
+theme_override_styles/hover = SubResource("StyleBox_focus_right")
+theme_override_styles/pressed = SubResource("StyleBox_focus_right")
+icon = ExtResource("6_moon")
+icon_alignment = 1
+
+[node name="LapBadge" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+z_index = 5
+theme_type_variation = &"IconBadge"
+
+[node name="Icon" type="TextureRect" parent="LapBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_laps")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TimeBadge" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+z_index = 5
+theme_type_variation = &"IconBadge"
+
+[node name="Icon" type="TextureRect" parent="TimeBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_sun")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Soral" type="Button" parent="DriverGrid"]
 clip_contents = true

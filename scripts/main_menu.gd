@@ -1,6 +1,8 @@
 extends Control
 
 const DRIVER_SELECTION_SCENE := "res://scenes/driver_selection.tscn"
+const DAY_ICON: Texture2D = preload("res://sprites/day-sun.svg")
+const NIGHT_ICON: Texture2D = preload("res://sprites/night-moon.svg")
 
 const TRACK_SCENES: Array[String] = [
 	"res://scenes/tracks/paris.tscn",
@@ -23,6 +25,7 @@ const OPTIONS_MARGIN := Vector2(32, 28)
 @onready var track_grid: GridContainer = $TrackGrid
 @onready var options_button: Button = $Options
 @onready var selected_driver_portrait: TextureRect = $Options/Portrait
+@onready var selected_time_icon: TextureRect = $Options/TimeIcon
 @onready var preview_viewport: SubViewport = $PreviewViewport
 @onready var track_buttons: Array[Button] = [
 	$TrackGrid/Paris,
@@ -99,6 +102,7 @@ func _initialize_selection() -> void:
 	var selected_profile := DriverRoster.get_profile(RaceSelection.selected_driver_id)
 	selected_driver_portrait.texture = selected_profile["portrait"]
 	selection_labels[4].text = str(RaceSelection.selected_laps)
+	selected_time_icon.texture = NIGHT_ICON if RaceSelection.night_enabled else DAY_ICON
 
 	_select_button(0)
 	selectable_buttons[0].grab_focus()

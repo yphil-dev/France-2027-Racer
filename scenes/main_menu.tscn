@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dbomi426cl1d6" path="res://scripts/potato_rock_button.gd" id="4_wu84c"]
 [ext_resource type="Texture2D" uid="uid://hrrr76pejbwi" path="res://sprites/laps-loop.svg" id="5_laps"]
 [ext_resource type="Texture2D" uid="uid://j3r1bh7d6b6d" path="res://sprites/steering-wheel.png" id="6_wheel"]
+[ext_resource type="Texture2D" path="res://sprites/day-sun.svg" id="7_day"]
 
 [node name="MainMenu" type="Control" unique_id=459776246]
 layout_mode = 3
@@ -330,9 +331,9 @@ stretch_mode = 5
 
 [node name="LapIcon" type="TextureRect" parent="Options" unique_id=1312269755]
 layout_mode = 0
-offset_left = 125.0
+offset_left = 105.0
 offset_top = 12.0
-offset_right = 157.0
+offset_right = 137.0
 offset_bottom = 44.0
 mouse_filter = 2
 texture = ExtResource("5_laps")
@@ -344,8 +345,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 160.0
-offset_right = -18.0
+offset_left = 140.0
+offset_right = -58.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -355,6 +356,17 @@ theme_override_font_sizes/font_size = 22
 text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TimeIcon" type="TextureRect" parent="Options"]
+layout_mode = 0
+offset_left = 194.0
+offset_top = 12.0
+offset_right = 226.0
+offset_bottom = 44.0
+mouse_filter = 2
+texture = ExtResource("7_day")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="PreviewViewport" type="SubViewport" parent="." unique_id=1703163077]
 own_world_3d = true

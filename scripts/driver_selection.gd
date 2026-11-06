@@ -6,12 +6,19 @@ const SELECTED_SHADE := Color(0, 0, 0, 0.04)
 const NORMAL_SHADE := Color(0, 0, 0, 0.28)
 const SELECTED_LABEL_COLOR := Color(1, 0.88, 0.2, 1)
 const NORMAL_LABEL_COLOR := Color.WHITE
+const DAY_ICON: Texture2D = preload("res://sprites/day-sun.svg")
+const NIGHT_ICON: Texture2D = preload("res://sprites/night-moon.svg")
 const INTRO_DURATION: float = 0.8
 const INTRO_STAGGER: float = 0.14
 
 @onready var driver_grid: GridContainer = $DriverGrid
-@onready var driver_icon: TextureRect = $DriverIcon
+@onready var driver_badge: Panel = $DriverBadge
+@onready var lap_badge: Panel = $LapBadge
+@onready var time_badge: Panel = $TimeBadge
+@onready var time_badge_icon: TextureRect = $TimeBadge/Icon
 @onready var lap_selector: VBoxContainer = $LapSelector
+@onready var time_selector: HBoxContainer = $TimeSelector
+@onready var time_buttons: Array[Button] = [$TimeSelector/Day, $TimeSelector/Night]
 @onready var lap_buttons: Array[Button] = [
 	$LapSelector/Bar/Buttons/One,
 	$LapSelector/Bar/Buttons/Two,
@@ -77,7 +84,18 @@ func _ready() -> void:
 		lap_buttons[index].focus_entered.connect(_focus_lap.bind(index))
 		lap_buttons[index].mouse_entered.connect(_hover_lap.bind(index))
 		lap_buttons[index].mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	lap_buttons[RaceSelection.selected_laps - 1].add_theme_color_override("font_color", SELECTED_LABEL_COLOR)
+	var selected_lap_button := lap_buttons[RaceSelection.selected_laps - 1]
+	for color_name in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		selected_lap_button.add_theme_color_override(color_name, SELECTED_LABEL_COLOR)
+	for index in time_buttons.size():
+		time_buttons[index].pressed.connect(_select_time_of_day.bind(index == 1))
+		time_buttons[index].focus_entered.connect(_focus_time)
+		time_buttons[index].mouse_entered.connect(_hover_time.bind(index))
+		time_buttons[index].mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	var selected_time := 1 if RaceSelection.night_enabled else 0
+	time_badge_icon.texture = NIGHT_ICON if RaceSelection.night_enabled else DAY_ICON
+	for color_name in ["icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_focus_color"]:
+		time_buttons[selected_time].add_theme_color_override(color_name, SELECTED_LABEL_COLOR)
 
 	resized.connect(_layout_cards)
 	_initialize.call_deferred()
@@ -103,21 +121,27 @@ func _layout_cards() -> void:
 	if not is_node_ready():
 		return
 
-	var available_size := Vector2(size.x, maxf(size.y - 190.0, 0.0))
+	var available_size := Vector2(size.x, maxf(size.y - 250.0, 0.0))
 	var card_size := QuadrantLayout.get_card_size(available_size)
 	var grid_size := QuadrantLayout.get_grid_size(available_size)
 	var total_height := grid_size.y + 160.0
-	driver_grid.position = Vector2((size.x - grid_size.x) * 0.5, (size.y - total_height) * 0.5 + 50.0)
-	driver_icon.position = driver_grid.position - Vector2(0.0, 48.0)
-	driver_icon.size = Vector2(44.0, 44.0)
+	driver_grid.position = Vector2((size.x - grid_size.x) * 0.5, (size.y - total_height) * 0.5 + 20.0)
+	driver_badge.position = driver_grid.position + Vector2(grid_size.x - 44.0, -20.0)
+	driver_badge.size = Vector2(64.0, 64.0)
 	driver_grid.size = grid_size
 	driver_grid.custom_minimum_size = grid_size
 
 	for button in driver_buttons:
 		button.custom_minimum_size = card_size
 
-	lap_selector.position = Vector2((size.x - 260.0) * 0.5, driver_grid.position.y + grid_size.y + 12.0)
-	lap_selector.size = Vector2(260.0, 104.0)
+	lap_selector.position = Vector2((size.x - 192.0) * 0.5, driver_grid.position.y + grid_size.y + 20.0)
+	lap_selector.size = Vector2(192.0, 36.0)
+	lap_badge.position = lap_selector.position + Vector2(200.0, -14.0)
+	lap_badge.size = Vector2(64.0, 64.0)
+	time_selector.position = lap_selector.position + Vector2(0.0, 76.0)
+	time_selector.size = Vector2(192.0, 40.0)
+	time_badge.position = time_selector.position + Vector2(200.0, -14.0)
+	time_badge.size = Vector2(64.0, 64.0)
 
 func _play_intro() -> void:
 	for index in driver_buttons.size():
@@ -219,8 +243,27 @@ func _select_laps(laps: int) -> void:
 	RaceSelection.selected_laps = laps
 	SceneTransition.transition_to_menu()
 
+func _focus_time() -> void:
+	if not _selecting:
+		SceneTransition.play_selection_beep()
+
+func _hover_time(index: int) -> void:
+	if not _selecting and not _startup_hover_locked:
+		time_buttons[index].grab_focus()
+
+func _select_time_of_day(night: bool) -> void:
+	if _selecting:
+		return
+	_selecting = true
+	SceneTransition.play_selection_beep()
+	_disable_buttons()
+	RaceSelection.night_enabled = night
+	SceneTransition.transition_to_menu()
+
 func _disable_buttons() -> void:
 	for button in driver_buttons:
 		button.disabled = true
 	for button in lap_buttons:
+		button.disabled = true
+	for button in time_buttons:
 		button.disabled = true

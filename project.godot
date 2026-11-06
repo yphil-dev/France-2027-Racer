@@ -36,7 +36,6 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [editor]
 
@@ -46,6 +45,10 @@ movie_writer/mjpeg_quality=1.0
 [filesystem]
 
 import/fbx/enabled=false
+
+[gui]
+
+theme/custom="res://resources/ui_theme.tres"
 
 [input]
 
