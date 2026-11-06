@@ -55,6 +55,8 @@ var car_color: Color = Color.WHITE
 @onready var trail_right = get_node_or_null("Container/TrailRight")
 @onready var skidmark_emitter: Node = $SkidmarkEmitter
 var rear_lamp_material: StandardMaterial3D
+var _rear_lamp_hold_remaining: float = 0.0
+const REAR_LAMP_HOLD_DURATION: float = 0.4
 
 # Sounds
 
@@ -184,6 +186,11 @@ func _physics_process(delta):
 	colliding = raycast.is_colliding()
 
 	var target_speed = input.z * (max_forward_speed if input.z >= 0.0 else max_reverse_speed)
+	var rear_lamps_on := input.z <= 0.1 or (linear_speed > 0.05 and target_speed < linear_speed - 0.05)
+	if rear_lamps_on:
+		_rear_lamp_hold_remaining = REAR_LAMP_HOLD_DURATION
+	else:
+		_rear_lamp_hold_remaining = maxf(0.0, _rear_lamp_hold_remaining - delta)
 
 	if (target_speed < 0 and linear_speed > 0.01):
 		linear_speed = lerp(linear_speed, 0.0, delta * braking)
@@ -208,7 +215,7 @@ func _physics_process(delta):
 	effect_engine(delta)
 	effect_body(delta)
 	effect_wheels(delta)
-	effect_brake_lights(input.z <= 0.1)
+	effect_brake_lights(rear_lamps_on or _rear_lamp_hold_remaining > 0.0)
 	var drift_intensity := effect_trails()
 	effect_skidmarks(drift_intensity)
 
